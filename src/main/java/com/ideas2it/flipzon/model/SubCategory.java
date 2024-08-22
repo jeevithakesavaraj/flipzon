@@ -14,7 +14,7 @@ import lombok.Data;
  * @author Gokul
  */
 @Entity
-@Table
+@Table(name = "subcategory")
 @Builder
 @Data
 public class SubCategory {

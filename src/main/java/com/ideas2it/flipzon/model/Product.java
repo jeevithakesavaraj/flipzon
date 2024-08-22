@@ -18,9 +18,9 @@ import lombok.Data;
  * @author Gokul
  */
 @Entity
-@Table
 @Builder
 @Data
+@Table(name = "product")
 public class Product {
 
     @Id

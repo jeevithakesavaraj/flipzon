@@ -18,7 +18,7 @@ import lombok.Data;
  * @author Gokul
  */
 @Entity
-@Table
+@Table(name = "brand")
 @Data
 public class Brand {
 
