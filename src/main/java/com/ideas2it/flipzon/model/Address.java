@@ -3,8 +3,6 @@ package com.ideas2it.flipzon.model;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,10 +32,4 @@ public class Address {
     private String city;
 
     private String pinCode;
-
-    @Enumerated(EnumType.STRING)
-    private AddressType addressType;
-
-    @ManyToMany(mappedBy = "addresses")
-    private Set<Address> addresses;
 }
