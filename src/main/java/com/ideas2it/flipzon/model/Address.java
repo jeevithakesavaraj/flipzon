@@ -28,8 +28,8 @@ public class Address {
 
     private String pinCode;
 
-//    @Enumerated(EnumType.STRING)
-//    private AddressType addressType;
+    @Enumerated(EnumType.STRING)
+    private AddressType addressType;
 
     @ManyToMany(mappedBy = "addresses")
     private Set<Address> addresses;
