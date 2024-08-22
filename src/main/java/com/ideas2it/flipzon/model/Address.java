@@ -32,4 +32,7 @@ public class Address {
     private String city;
 
     private String pinCode;
+
+    @ManyToMany(mappedBy = "addresses")
+    private Set<Customer> customers;
 }

@@ -29,6 +29,7 @@ public class User {
     private String password;
 
     private String phoneNumber;
+
     @ManyToMany
     @JoinTable(
             name = "user_role",
