@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 /**
  * <p>
  * Address class represents the address of user.
@@ -26,10 +28,9 @@ public class Address {
 
     private String pinCode;
 
-    @Enumerated(EnumType.STRING)
-    private AddressType addressType;
+//    @Enumerated(EnumType.STRING)
+//    private AddressType addressType;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToMany(mappedBy = "addresses")
+    private Set<Address> addresses;
 }
