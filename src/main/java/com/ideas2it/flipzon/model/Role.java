@@ -11,7 +11,13 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
 
-
+/**
+ * <p>
+ * Role class represents the role within the system.
+ * </p>
+ *
+ * @author Gowthamraj
+ */
 @Entity
 @Data
 @Table(name = "role")

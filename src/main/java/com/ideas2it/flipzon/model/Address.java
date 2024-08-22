@@ -13,7 +13,7 @@ import lombok.Data;
 
 /**
  * <p>
- * Address class represents the address of user.
+ * Address class represents the address of an user.
  * </p>
  *
  * @author Gowthamraj

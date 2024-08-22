@@ -14,7 +14,13 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
 
-
+/**
+ * <p>
+ * Class Customer represents a customer in the system.
+ * </p>
+ *
+ * @author Gowthamraj
+ */
 @Entity
 @Data
 @Table
@@ -35,4 +41,6 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "address_id")
     )
     private Set<Address> addresses;
+
+    private boolean isDeleted;
 }

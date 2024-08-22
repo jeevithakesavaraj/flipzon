@@ -12,6 +12,14 @@ import lombok.*;
 
 import java.util.Set;
 
+/**
+ * <p>
+ * The User Entity represents a user in the system and each user has their
+ * basic information.
+ * </p>
+ *
+ * @author Gowthamraj
+ */
 @Entity
 @Data
 @Builder
