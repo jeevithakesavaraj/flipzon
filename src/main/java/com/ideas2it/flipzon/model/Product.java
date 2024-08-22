@@ -1,7 +1,14 @@
 package com.ideas2it.flipzon.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * <p>
@@ -29,14 +36,14 @@ public class Product {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "brand_id")
     private Brand brand;
 }

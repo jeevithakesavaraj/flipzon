@@ -6,30 +6,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * <p>
- *     Brand class represents the available brands.
+ * Wishlist class represents where user(customer) can add and remove the products as per their wish.
  * </p>
  *
- * @author Gokul
+ * @author JeevithaKesavaraj
  */
 @Entity
-@Table
 @Data
-public class Brand {
-
+@Builder
+public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private String name;
-
-    private boolean isActive;
-
-    @OneToMany(mappedBy = "brand")
+    @OneToMany
+    @JoinColumn(name = "wishlist_id")
     private Set<Product> products;
+
+    @OneToOne(mappedBy = "wishlist")
+    private User user;
 }

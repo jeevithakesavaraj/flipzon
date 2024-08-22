@@ -1,11 +1,20 @@
 package com.ideas2it.flipzon.model;
 
-import jakarta.persistence.*;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -35,7 +44,15 @@ public class User {
 
     private boolean isActive;
 
-    @ManyToMany
+    @OneToOne
+    @JoinColumn(name = "wishlist_id")
+    private Wishlist wishlist;
+
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_address",
             joinColumns = @JoinColumn(name = "user_id"),

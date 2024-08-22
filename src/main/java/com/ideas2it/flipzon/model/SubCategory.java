@@ -1,9 +1,10 @@
 package com.ideas2it.flipzon.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.Set;
+
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * <p>
@@ -27,8 +28,9 @@ public class SubCategory {
     private boolean isActive;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "subCategory")
     private Set<Product> products;
 }

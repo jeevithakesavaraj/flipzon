@@ -6,30 +6,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * <p>
- *     Brand class represents the available brands.
+ * Cart class represents where user can add and remove the products if user wants to buy the products
  * </p>
  *
- * @author Gokul
+ * @author JeevithaKesavaraj
  */
 @Entity
-@Table
 @Data
-public class Brand {
-
+@Builder
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private String name;
-
-    private boolean isActive;
-
-    @OneToMany(mappedBy = "brand")
+    @OneToMany
+    @JoinColumn(name = "cart_id")
     private Set<Product> products;
+
+    @OneToOne(mappedBy = "cart")
+    private User user;
 }
