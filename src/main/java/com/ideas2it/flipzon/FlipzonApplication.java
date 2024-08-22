@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FlipzonApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(FlipzonApplication.class, args);
+		System.out.println("Worked");
 	}
 
 }
