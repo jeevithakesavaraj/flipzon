@@ -37,4 +37,6 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    private boolean isDeleted;
 }

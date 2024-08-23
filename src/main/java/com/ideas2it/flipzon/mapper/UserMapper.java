@@ -1,33 +1,65 @@
 package com.ideas2it.flipzon.mapper;
 
+import java.util.Set;
+
 import com.ideas2it.flipzon.dto.UserDto;
+import com.ideas2it.flipzon.model.Role;
 import com.ideas2it.flipzon.model.User;
 
 /**
  * <p>
- * UserMapper is responsible for converting between User entities and UserDto objects.
- * It helps in mapping entity objects to DTOs and vice versa.
+ *  UserMapper converts all details from Entity to Dto and Vice versa.
  * </p>
  *
  * @author Gowthamraj
  */
 public class UserMapper {
+
     /**
-     * <p>
-     * Maps User entity to an UserDto.
-     * </p>
+     * Converts a User entity to a UserDto.
      *
-     * @param user The Employee entity to map.
-     * @return The mapped EmployeeDto object.
+     * @param user The User entity to convert.
+     * @return The corresponding UserDto.
      */
     public static UserDto convertEntityToDto(User user) {
-        return User.builder()
+        return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .phoneNumber(user.getPhoneNumber())
-                .roles(Set<Role> roles);
+                .role_id(getPrimaryRoleId(user.getRoles()))
+                .build();
+    }
+
+    /**
+     * Converts a UserDto to a User entity.
+     *
+     * @param userDto The UserDto to convert.
+     * @return The corresponding User entity.
+     */
+    public static User covertDtoToEntity(UserDto userDto) {
+       // Role role = roleService.getRoleById(userDto.getRole_id());
+      //  userDto.getRoles().add(role);
+        return User.builder()
+                .id(userDto.getId())
+                .name(userDto.getName())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .phoneNumber(userDto.getPhoneNumber())
+                .roles(userDto.getRoles())
+                .build();
+    }
+
+    /**
+     * Helper method to get the primary role ID from a set of roles.
+     *
+     * @param roles The set of roles assigned to the user.
+     * @return The primary role ID, or 0 if no roles exist.
+     */
+    private static long getPrimaryRoleId(Set<Role> roles) {
+        return roles != null && !roles.isEmpty()
+                ? roles.iterator().next().getId()
+                : 0;
     }
 }
-

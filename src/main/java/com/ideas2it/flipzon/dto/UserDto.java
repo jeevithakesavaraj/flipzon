@@ -1,7 +1,11 @@
 package com.ideas2it.flipzon.dto;
 
+import java.util.Set;
+
 import lombok.Builder;
 import lombok.Data;
+
+import com.ideas2it.flipzon.model.Role;
 
 /**
  * <p>
@@ -24,4 +28,8 @@ public class UserDto {
     private String password;
 
     private String phoneNumber;
+
+    private long role_id;
+
+    private Set<Role> roles;
 }

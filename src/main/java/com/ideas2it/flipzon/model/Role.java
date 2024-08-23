@@ -33,4 +33,5 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
+    private boolean isDeleted;
 }
