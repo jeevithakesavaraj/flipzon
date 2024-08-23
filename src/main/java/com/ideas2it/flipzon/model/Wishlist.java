@@ -23,6 +23,10 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
     @OneToMany(mappedBy = "wishlist")
     private Set<Product> products;
 }
