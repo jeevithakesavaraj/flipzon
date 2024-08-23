@@ -30,4 +30,10 @@ public class Customer {
     private Set<Address> addresses;
 
     private boolean isDeleted;
+
+    @OneToOne(mappedBy = "customer")
+    private Cart cart;
+
+    @OneToOne(mappedBy = "customer")
+    private Wishlist wishlist;
 }
