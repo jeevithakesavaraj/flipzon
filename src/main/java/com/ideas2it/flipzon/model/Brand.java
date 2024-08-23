@@ -12,6 +12,13 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * <p>
+ * Brand class represents the brand of the products.
+ * </p>
+ *
+ * @author Gokul
+ */
 @Entity
 @Table
 @Builder

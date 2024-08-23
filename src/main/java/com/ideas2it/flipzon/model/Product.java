@@ -4,6 +4,15 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
+/**
+ * <p>
+ * Product class represents the products.
+ * </p>
+ *
+ * @author Gokul
+ */
 @Entity
 @Table
 @Builder
@@ -26,8 +35,9 @@ public class Product {
     @Column
     private boolean isDeleted;
 
-//    @OneToMany(mappedBy = "wishlist")
-//    private Wishlist wishlist;
+    @ManyToOne
+    @JoinColumn(name = "wishlist_id")
+    private Wishlist wishlist;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
@@ -41,7 +51,9 @@ public class Product {
     @JoinColumn(name = "subcategory_id")
     private Category subcategory;
 
-    @ManyToOne
-    @JoinColumn(name = "orderItems_id")
-    private OrderItems orderItems;
+    @OneToMany(mappedBy = "product")
+    private Set<CartItem> products;
+
+    @OneToMany(mappedBy = "product")
+    private Set<OrderItem> orderItems;
 }
