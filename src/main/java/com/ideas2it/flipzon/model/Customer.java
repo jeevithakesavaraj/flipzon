@@ -26,8 +26,7 @@ public class Customer {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany
-    @JoinColumn(name = "address_id")
+    @OneToMany(mappedBy = "customer")
     private Set<Address> addresses;
 
     private boolean isDeleted;
