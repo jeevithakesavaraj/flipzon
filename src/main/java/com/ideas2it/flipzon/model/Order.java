@@ -27,9 +27,8 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne
-    @JoinColumn(name = "order_items_id")
-    private OrderItems orderItems;
+    @OneToMany(mappedBy = "order")
+    private Set<OrderItem> orderItems;
 
     @OneToOne
     @JoinColumn(name = "payment_id")
