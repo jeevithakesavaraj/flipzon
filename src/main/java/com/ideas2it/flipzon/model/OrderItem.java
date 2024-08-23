@@ -35,7 +35,7 @@ public class OrderItem {
     private int quantity;
 
     @Column
-    private double orderedProductsPrice;
+    private double orderedProductPrice;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
