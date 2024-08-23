@@ -32,6 +32,5 @@ public class BrandMapper {
                 .name(brandDto.getName())
                 .build();
     }
-
 }
 
