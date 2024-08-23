@@ -4,6 +4,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * <p>
+ * Delivery class represents the details of the delivery partner.
+ * </p>
+ *
+ * @author Gowthamraj
+ */
 @Entity
 @Data
 @Table
