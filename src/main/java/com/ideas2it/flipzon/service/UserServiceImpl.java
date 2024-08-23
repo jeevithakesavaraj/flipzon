@@ -16,4 +16,6 @@ public class UserServiceImpl implements UserService {
         User user = userDao.save(UserMapper.covertDtoToEntity(userDto));
         return UserMapper.convertEntityToDto(user);
     }
+
+    public UserDto getAllUsers(User)
 }
