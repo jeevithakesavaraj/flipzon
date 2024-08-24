@@ -1,8 +1,12 @@
 package com.ideas2it.flipzon.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.dto.RoleDto;
+import com.ideas2it.flipzon.mapper.RoleMapper;
+import com.ideas2it.flipzon.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +17,16 @@ import com.ideas2it.flipzon.model.User;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private RoleService roleService;
+
     @Autowired
     private UserDao userDao;
 
     public UserDto createUser(UserDto userDto) {
+        RoleDto roleDto = roleService.getRoleById(userDto.getRole_id());
+        userDto.getRoles().add(RoleMapper.convertDtoToEntity(roleDto));
         User user = userDao.save(UserMapper.covertDtoToEntity(userDto));
         return UserMapper.convertEntityToDto(user);
     }

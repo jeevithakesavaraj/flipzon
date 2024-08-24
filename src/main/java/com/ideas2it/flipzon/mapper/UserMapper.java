@@ -1,9 +1,6 @@
 package com.ideas2it.flipzon.mapper;
 
-import java.util.Set;
-
 import com.ideas2it.flipzon.dto.UserDto;
-import com.ideas2it.flipzon.model.Role;
 import com.ideas2it.flipzon.model.User;
 
 /**
@@ -14,7 +11,6 @@ import com.ideas2it.flipzon.model.User;
  * @author Gowthamraj
  */
 public class UserMapper {
-
     /**
      * Converts a User entity to a UserDto.
      *
@@ -28,7 +24,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .phoneNumber(user.getPhoneNumber())
-                .role_id(getPrimaryRoleId(user.getRoles()))
+                .role_id()
                 .build();
     }
 
@@ -39,15 +35,12 @@ public class UserMapper {
      * @return The corresponding User entity.
      */
     public static User covertDtoToEntity(UserDto userDto) {
-       // Role role = roleService.getRoleById(userDto.getRole_id());
-      //  userDto.getRoles().add(role);
         return User.builder()
                 .id(userDto.getId())
                 .name(userDto.getName())
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
                 .phoneNumber(userDto.getPhoneNumber())
-                .roles(userDto.getRoles())
                 .build();
     }
 
@@ -57,9 +50,9 @@ public class UserMapper {
      * @param roles The set of roles assigned to the user.
      * @return The primary role ID, or 0 if no roles exist.
      */
-    private static long getPrimaryRoleId(Set<Role> roles) {
-        return roles != null && !roles.isEmpty()
-                ? roles.iterator().next().getId()
-                : 0;
-    }
+//    private static long getPrimaryRoleId(Set<Role> roles) {
+//        return roles != null && !roles.isEmpty()
+//                ? roles.iterator().next().getId()
+//                : 0;
+//    }
 }
