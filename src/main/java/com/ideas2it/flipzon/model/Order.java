@@ -35,9 +35,6 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
-    private Set<OrderItem> orderItems;
-
     @OneToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;
