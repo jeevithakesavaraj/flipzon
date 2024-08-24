@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.flipzon.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,9 @@ public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao;
 
     @Override
-    public RoleDto addRole(RoleDto roleDto) {
+    public RoleDto addRoles() {
+        Role.builder().name(UserRole.ADMIN);
+
         Role savedRole = roleDao.save(RoleMapper.convertDtoToEntity(roleDto));
         return RoleMapper.convertEntityToDto(savedRole);
     }
