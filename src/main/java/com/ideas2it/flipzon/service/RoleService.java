@@ -1,66 +1,37 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.flipzon.model.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ideas2it.flipzon.dto.RoleDto;
+import com.ideas2it.flipzon.dao.RoleDao;
+import com.ideas2it.flipzon.model.Role;
 
 /**
  * <p>
- * This interface has method declaration for add, get, update, delete the role.
+ * This class implements role service which have methods for add, get, update and delete the role
  * </p>
  *
  * @author Jeevithakesavaraj
  */
 
 @Service
-public interface RoleService {
+public class RoleService {
 
-    /**
-     * <p>
-     * Add role details
-     * </p>
-     *
-     * @param roleDto   {@link RoleDto}
-     * @return RoleDto   saved role detail
-     */
-    RoleDto addRole(RoleDto roleDto);
+    @Autowired
+    private RoleDao roleDao;
 
-    /**
-     * <p>
-     * Get list of roles
-     * </p>
-     *
-     * @return  List<RoleDto>   list of roles {@link RoleDto}
-     */
-    List<RoleDto> getRoles();
+    public void addRoles() {
+        List<Role> roles = new ArrayList<>();
+        if (!roleDao.existsByName(UserRole.ADMIN)) {
+            roles.add(Role.builder().name(UserRole.ADMIN).build());
+            roles.add(Role.builder().name(UserRole.CUSTOMER).build());
+            roles.add(Role.builder().name(UserRole.DELIVERYPARTNER).build());
+            roleDao.saveAll(roles);
+        }
+    }
 
-    /**
-     * <p>
-     * Get role by Id
-     * </p>
-     *
-     * @param id    Id of the role
-     * @return RoleDto  searched role detail
-     */
-    RoleDto getRoleById(long id);
-
-    /**
-     * <p>
-     * Update role details by Id
-     * </p>
-     *
-     * @param roleDto   {@link RoleDto}
-     * @return RoleDto   updated role detail
-     */
-    RoleDto updateRole(RoleDto roleDto);
-
-    /**
-     * <p>
-     * Delete role by id
-     * </p>
-     * @param id    Id of the role which we have to delete
-     */
-    void deleteRole(long id);
 }
