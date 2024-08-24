@@ -12,7 +12,7 @@ import com.ideas2it.flipzon.model.Role;
 
 /**
  * <p>
- * This class implements role service which have methods for add, get, update and delete the role
+ * This class implements role service which have methods for add, get the role
  * </p>
  *
  * @author Jeevithakesavaraj
@@ -24,6 +24,11 @@ public class RoleService {
     @Autowired
     private RoleDao roleDao;
 
+    /**
+     * <p>
+     * Add the roles
+     * </p>
+     */
     public void addRoles() {
         List<Role> roles = new ArrayList<>();
         if (!roleDao.existsByName(UserRole.ADMIN)) {
@@ -32,6 +37,17 @@ public class RoleService {
             roles.add(Role.builder().name(UserRole.DELIVERYPARTNER).build());
             roleDao.saveAll(roles);
         }
+    }
+
+    /**
+     * <p>
+     * Get the role by name
+     * </p>
+     * @param userRole    {@link UserRole}
+     * @return  Role     Role which we have searched
+     */
+    public Role getRoleByName(UserRole userRole) {
+        return roleDao.findByName(userRole);
     }
 
 }
