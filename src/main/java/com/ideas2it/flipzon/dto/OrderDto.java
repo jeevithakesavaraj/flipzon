@@ -1,11 +1,7 @@
 package com.ideas2it.flipzon.dto;
 
-import java.util.Set;
-
 import lombok.Builder;
 import lombok.Data;
-
-import com.ideas2it.flipzon.model.OrderItem;
 
 /**
  * <p>
@@ -23,5 +19,5 @@ public class OrderDto {
     private double totalPrice;
     private long payment_id;
     private long address_id;
-    private Set<OrderItem> orderItems;
+
 }

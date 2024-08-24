@@ -23,8 +23,6 @@ public class ProductDto {
 
     private String brandId;
 
-    private String categoryId;
-
-//    private String parentId;
+    private String category;
 
 }

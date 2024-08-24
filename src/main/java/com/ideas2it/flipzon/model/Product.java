@@ -39,12 +39,6 @@ public class Product {
     private String name;
 
     @Column
-    private double price;
-
-    @Column
-    private int quantity;
-
-    @Column
     private boolean isDeleted;
 
     @ManyToOne
@@ -59,13 +53,11 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "subcategory_id")
-    private Category subcategory;
+    private String subcategory;
 
     @OneToMany(mappedBy = "product")
-    private Set<CartItem> products;
+    private Set<CartItem> cartItems;
 
     @OneToMany(mappedBy = "product")
-    private Set<OrderItem> orderItems;
+    private Set<Stock> stocks;
 }

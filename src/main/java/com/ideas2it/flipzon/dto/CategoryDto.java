@@ -1,8 +1,12 @@
 package com.ideas2it.flipzon.dto;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import com.ideas2it.flipzon.model.Category;
 
 /**
  * Data transfer object of category Entity
@@ -17,5 +21,7 @@ public class CategoryDto {
 
     private String name;
 
-    private String subcategoryId;
+//    private long parentId;
+
+    private String subcategory;
 }

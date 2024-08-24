@@ -40,13 +40,14 @@ public class Category {
     @Column
     private boolean isDeleted;
 
-    @OneToMany(mappedBy = "category")
-    private Set<Product> product;
+//    @OneToMany(mappedBy = "category")
+//    private Set<Product> product;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "parent_id")
+//    private Category parent;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Category parent;
-
-    @OneToMany(mappedBy = "parent")
-    private Set<Category> subcategories;
+//    @OneToMany(mappedBy = "parent")
+    @Column
+    private String subcategory;
 }
