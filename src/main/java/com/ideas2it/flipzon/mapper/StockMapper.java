@@ -18,6 +18,7 @@ public class StockMapper {
         return StockDto.builder()
                 .id(stock.getId())
                 .price(stock.getPrice())
+                .product(stock.getProduct())
                 .initialQuantity(stock.getInitialQuantity())
                 .currentQuantity(stock.getCurrentQuantity())
                 .build();

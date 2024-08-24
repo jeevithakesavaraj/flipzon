@@ -21,7 +21,7 @@ public class BrandServiceImpl implements BrandService{
 
     @Override
     public BrandDto addBrand (BrandDto brandDto) {
-        if (brandDao.existsByName(brandDto.getName())) {
+        if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             throw new MyException("Brand name already present : " + brandDto.getName());
         }
         return BrandMapper.convertEntityToDto(brandDao.save(BrandMapper.convertDtoToEntity(brandDto)));
@@ -47,9 +47,9 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public BrandDto updateBrand(BrandDto brandDto) {
         Brand brand = brandDao.findByIdAndIsDeletedFalse(brandDto.getId());
-        if (null != brand) {
+        if (null == brand) {
             throw new MyException("Brand not present in this Id :" + brandDto.getId());
-        } else if (brandDao.existsByName(brandDto.getName())) {
+        } else if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             throw new MyException("Brand name already present : " + brandDto.getName());
         }
         return BrandMapper.convertEntityToDto(brandDao.saveAndFlush(BrandMapper.convertDtoToEntity(brandDto)));
@@ -57,10 +57,10 @@ public class BrandServiceImpl implements BrandService{
 
     @Override
     public BrandDto retrieveBrandById(long id) {
-        Brand brand = brandDao.findByIdAndIsDeletedTrue(id);
-        if (null != brand) {
+        Brand brand = brandDao.findByIdAndIsDeletedFalse(id);
+        if (null == brand) {
             throw new MyException("Brand not present in this Id :" + id);
         }
-        return BrandMapper.convertEntityToDto(brandDao.findByIdAndIsDeletedFalse(id));
+        return BrandMapper.convertEntityToDto(brand);
     }
 }

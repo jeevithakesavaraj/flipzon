@@ -42,7 +42,7 @@ public class Product {
     private boolean isDeleted;
 
     @ManyToOne
-    @JoinColumn(name = "wishlist_id")
+    @JoinColumn(name = "wishlistId")
     private Wishlist wishlist;
 
     @ManyToOne

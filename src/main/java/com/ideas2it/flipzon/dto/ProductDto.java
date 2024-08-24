@@ -19,10 +19,9 @@ public class ProductDto {
 
     private double price;
 
-    private int quantity;
+    private long brandId;
 
-    private String brandId;
+    private long categoryId;
 
-    private String category;
-
+    private String subcategory;
 }

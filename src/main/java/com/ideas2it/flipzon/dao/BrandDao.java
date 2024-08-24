@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface BrandDao extends JpaRepository<Brand, Long> {
 
-    boolean existsByName(String name);
+    boolean existsByNameAndIsDeletedFalse(String name);
 
     Brand findByIdAndIsDeletedFalse(long id);
 

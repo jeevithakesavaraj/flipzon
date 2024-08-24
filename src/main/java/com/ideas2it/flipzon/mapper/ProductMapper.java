@@ -18,9 +18,9 @@ public class ProductMapper {
         return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
-                .brandId(product.getBrand().getName())
-                .category(product.getCategory().getName())
-                .category(product.getSubcategory())
+                .brandId(product.getBrand().getId())
+                .categoryId(product.getCategory().getId())
+                .subcategory(product.getCategory().getSubcategory())
                 .build();
     }
 

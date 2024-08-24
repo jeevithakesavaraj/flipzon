@@ -38,5 +38,6 @@ public class Brand {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "brand")
-    private Set<Product> product;
+    private Set<Product> products;
+
 }

@@ -15,7 +15,7 @@ import com.ideas2it.flipzon.model.Category;
 @Repository
 public interface CategoryDao extends JpaRepository<Category, Long> {
 
-    boolean existsByName(String name);
+    boolean existsByNameAndIsDeletedFalse(String name);
 
     Category findByIdAndIsDeletedFalse(long id);
 

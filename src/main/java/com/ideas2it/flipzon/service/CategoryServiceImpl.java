@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public CategoryDto addCategory (CategoryDto categoryDto) {
-        if (categoryDao.existsByName(categoryDto.getName())) {
+        if (categoryDao.existsByNameAndIsDeletedFalse(categoryDto.getName())) {
             throw new MyException("Category name already present : " + categoryDto.getName());
         }
         return CategoryMapper.convertEntityToDto(categoryDao.save(CategoryMapper.convertDtoToEntity(categoryDto)));
@@ -58,21 +58,19 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(categoryDto.getId());
-        if (null != category) {
+        if (null == category) {
             throw new MyException("Category not present in this Id :" + categoryDto.getId());
-        } else if (categoryDao.existsByName(categoryDto.getName())) {
-            throw new MyException("Category name already present : " + categoryDto.getName());
         }
         return CategoryMapper.convertEntityToDto(categoryDao.saveAndFlush(CategoryMapper.convertDtoToEntity(categoryDto)));
     }
 
     @Override
     public CategoryDto retrieveCategoryById(long id) {
-        Category category = categoryDao.findByIdAndIsDeletedTrue(id);
-        if (null != category) {
+        Category category = categoryDao.findByIdAndIsDeletedFalse(id);
+        if (null == category) {
             throw new MyException("Category not present in this Id :" + id);
         }
-        return CategoryMapper.convertEntityToDto(categoryDao.findByIdAndIsDeletedFalse(id));
+        return CategoryMapper.convertEntityToDto(category);
     }
 
 //    @Override
