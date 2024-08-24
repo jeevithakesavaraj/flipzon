@@ -19,5 +19,4 @@ public class OrderDto {
     private double totalPrice;
     private long payment_id;
     private long address_id;
-
 }

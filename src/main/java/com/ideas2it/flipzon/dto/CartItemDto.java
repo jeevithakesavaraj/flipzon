@@ -17,4 +17,5 @@ public class CartItemDto {
     private long id;
     private long cartId;
     private long product_id;
+    private int quantity;
 }
