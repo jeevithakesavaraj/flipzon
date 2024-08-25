@@ -24,4 +24,12 @@ public class UserService {
             userDao.save(user);
         }
     }
+
+    public  boolean checkByEmail(String email) {
+        return userDao.existsByEmail(email);
+    }
+
+    public void createUser(User user) {
+        userDao.save(user);
+    }
 }

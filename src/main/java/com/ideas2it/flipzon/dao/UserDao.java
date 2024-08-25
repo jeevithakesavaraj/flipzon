@@ -10,4 +10,6 @@ import java.util.List;
 public interface UserDao extends JpaRepository<User, Long> {
 
     boolean existsByName(String name);
+
+    boolean existsByEmail(String email);
 }

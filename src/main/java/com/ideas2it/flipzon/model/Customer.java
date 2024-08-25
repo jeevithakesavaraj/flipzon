@@ -1,15 +1,9 @@
 package com.ideas2it.flipzon.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,8 +31,8 @@ public class Customer {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "customer")
-    private Set<Address> addresses;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Address> addresses = new HashSet<>();
 
     private boolean isDeleted;
 

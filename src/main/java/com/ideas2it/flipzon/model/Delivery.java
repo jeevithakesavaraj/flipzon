@@ -36,6 +36,4 @@ public class Delivery {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Order order;
-
-    private boolean isDeleted;
 }
