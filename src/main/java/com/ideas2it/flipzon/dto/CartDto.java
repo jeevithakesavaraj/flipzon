@@ -5,8 +5,6 @@ import java.util.Set;
 import lombok.Data;
 import lombok.Builder;
 
-import com.ideas2it.flipzon.model.CartItem;
-
 /**
  * <p>
  *  CartDto represents cart details
@@ -18,7 +16,7 @@ import com.ideas2it.flipzon.model.CartItem;
 @Builder
 @Data
 public class CartDto {
-    private long id;
-    private long customerId;
-    private Set<CartItem> cartItems;
+    private Long cartId;
+    private Double totalPrice = 0.0;
+    private Set<ProductDto> products;
 }

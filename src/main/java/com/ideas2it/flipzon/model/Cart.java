@@ -37,5 +37,6 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private Set<CartItem> cartItems;
 
-    private double totalPrice;
+    private double totalPrice = 0.0;
+
 }

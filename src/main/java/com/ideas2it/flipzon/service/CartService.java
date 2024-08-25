@@ -16,19 +16,13 @@ public interface CartService {
 
     /**
      * <p>
-     * Add cart
+     * Add product to the cart
      * </p>
-     *
-     * @param cartDto {@link CartDto}
+     * @param cartId   Id of the cart where we have to add the product
+     * @param productId   Id of the product which have to add
+     * @param quantity    quantity of the product how much we want
+     * @return  CartDto {@link CartDto}
      */
-    void addCart(CartDto cartDto);
+    CartDto addProductToCart(Long cartId, Long productId, Integer quantity);
 
-    /**
-     * <p>
-     * Get cart by Id
-     * </p>
-     * @param id   Id of the cart
-     * @return CartDto {@link CartDto}
-     */
-    CartDto getCartById(long id);
 }
