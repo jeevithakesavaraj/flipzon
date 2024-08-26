@@ -16,6 +16,7 @@ import lombok.Data;
 public class OrderDto {
     private long id;
     private long customerId;
+    private long cart_id;
     private double totalPrice;
     private long payment_id;
     private long address_id;

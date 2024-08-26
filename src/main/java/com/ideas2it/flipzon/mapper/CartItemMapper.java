@@ -41,6 +41,8 @@ public class CartItemMapper {
                 .id(cartItem.getId())
                 .cartId(cartItem.getCart().getId())
                 .product_id(cartItem.getProduct().getId())
+                .quantity(cartItem.getQuantity())
+                .totalPrice(cartItem.getTotalPrice())
                 .build();
     }
 }

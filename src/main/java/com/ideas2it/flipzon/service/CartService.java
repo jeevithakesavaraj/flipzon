@@ -1,5 +1,8 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.List;
+
+import com.ideas2it.flipzon.model.Cart;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dto.CartDto;
@@ -14,15 +17,10 @@ import com.ideas2it.flipzon.dto.CartDto;
 @Service
 public interface CartService {
 
-    /**
-     * <p>
-     * Add product to the cart
-     * </p>
-     * @param cartId   Id of the cart where we have to add the product
-     * @param productId   Id of the product which have to add
-     * @param quantity    quantity of the product how much we want
-     * @return  CartDto {@link CartDto}
-     */
-    CartDto addProductToCart(Long cartId, Long productId, Integer quantity);
+    CartDto addCart(CartDto cartDto);
+
+    List<CartDto> getCarts();
+
+    Cart getCartById(long id);
 
 }
