@@ -1,9 +1,5 @@
 package com.ideas2it.flipzon.dto;
 
-import com.ideas2it.flipzon.model.Product;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -15,11 +11,11 @@ import lombok.Setter;
 @Setter
 public class StockDto {
 
-    private long id;
+    private Long id;
 
-    private double price;
+    private Double price;
 
-    private Product product;
+    private Long productId;
 
     private int initialQuantity;
 

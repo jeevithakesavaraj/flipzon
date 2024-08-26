@@ -19,8 +19,5 @@ public interface CategoryDao extends JpaRepository<Category, Long> {
 
     Category findByIdAndIsDeletedFalse(long id);
 
-    Category findByIdAndIsDeletedTrue(long id);
-
     List<Category> findByIsDeletedFalse();
-
 }

@@ -1,11 +1,11 @@
 package com.ideas2it.flipzon.mapper;
 
-
 import com.ideas2it.flipzon.dto.StockDto;
 import com.ideas2it.flipzon.model.Stock;
 
 /**
  * Object to Data Transfer Object and Dto to Object Conversion
+ * @author Gokul
  */
 public class StockMapper {
 
@@ -18,7 +18,7 @@ public class StockMapper {
         return StockDto.builder()
                 .id(stock.getId())
                 .price(stock.getPrice())
-                .product(stock.getProduct())
+                .productId(stock.getProduct().getId())
                 .initialQuantity(stock.getInitialQuantity())
                 .currentQuantity(stock.getCurrentQuantity())
                 .build();
@@ -34,7 +34,7 @@ public class StockMapper {
                 .id(stockDto.getId())
                 .price(stockDto.getPrice())
                 .initialQuantity(stockDto.getInitialQuantity())
-                .currentQuantity(stockDto.getCurrentQuantity())
+                .currentQuantity(stockDto.getInitialQuantity())
                 .build();
     }
 }

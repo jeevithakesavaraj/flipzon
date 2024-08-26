@@ -1,11 +1,11 @@
 package com.ideas2it.flipzon.mapper;
 
-
 import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.model.Product;
 
 /**
  * Object to Data Transfer Object and Dto to Object Conversion
+ * @author Gokul
  */
 public class ProductMapper {
 

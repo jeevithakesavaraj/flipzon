@@ -1,17 +1,16 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.ideas2it.flipzon.dao.BrandDao;
 import com.ideas2it.flipzon.dto.BrandDto;
 import com.ideas2it.flipzon.exception.MyException;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.BrandMapper;
 import com.ideas2it.flipzon.model.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 public class BrandServiceImpl implements BrandService{
@@ -30,8 +29,8 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public void deleteBrand(long id) {
         Brand brand = brandDao.findByIdAndIsDeletedFalse(id);
-        if (brand.isDeleted()) {
-            throw new MyException("Brand Already Deleted : " + id);
+        if (null == brand) {
+            throw new ResourceNotFoundException("Brand", "BrandId", id);
         }
         brand.setDeleted(true);
         brandDao.saveAndFlush(brand);
@@ -48,7 +47,7 @@ public class BrandServiceImpl implements BrandService{
     public BrandDto updateBrand(BrandDto brandDto) {
         Brand brand = brandDao.findByIdAndIsDeletedFalse(brandDto.getId());
         if (null == brand) {
-            throw new MyException("Brand not present in this Id :" + brandDto.getId());
+            throw new ResourceNotFoundException("Brand", "BrandId", brandDto.getId());
         } else if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             throw new MyException("Brand name already present : " + brandDto.getName());
         }
@@ -59,7 +58,7 @@ public class BrandServiceImpl implements BrandService{
     public BrandDto retrieveBrandById(long id) {
         Brand brand = brandDao.findByIdAndIsDeletedFalse(id);
         if (null == brand) {
-            throw new MyException("Brand not present in this Id :" + id);
+            throw new ResourceNotFoundException("Brand", "BrandId", id);
         }
         return BrandMapper.convertEntityToDto(brand);
     }

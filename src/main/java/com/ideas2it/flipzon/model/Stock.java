@@ -24,7 +24,7 @@ import lombok.Setter;
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column
     private double price;

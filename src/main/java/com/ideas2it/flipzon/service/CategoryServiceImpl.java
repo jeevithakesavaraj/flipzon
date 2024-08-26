@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import com.ideas2it.flipzon.dao.CategoryDao;
 import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.exception.MyException;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CategoryMapper;
 import com.ideas2it.flipzon.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService{
     public void deleteCategory(long id) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(id);
         if (category.isDeleted()) {
-            throw new MyException("Category Already Deleted : " + id);
+            throw new ResourceNotFoundException("Category", "Category ID", id);
         }
         category.setDeleted(true);
         categoryDao.saveAndFlush(category);
@@ -59,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService{
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(categoryDto.getId());
         if (null == category) {
-            throw new MyException("Category not present in this Id :" + categoryDto.getId());
+            throw new ResourceNotFoundException("Category", "Category ID", categoryDto.getId());
         }
         return CategoryMapper.convertEntityToDto(categoryDao.saveAndFlush(CategoryMapper.convertDtoToEntity(categoryDto)));
     }
@@ -68,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService{
     public CategoryDto retrieveCategoryById(long id) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(id);
         if (null == category) {
-            throw new MyException("Category not present in this Id :" + id);
+            throw new ResourceNotFoundException("Category", "Category ID", id);
         }
         return CategoryMapper.convertEntityToDto(category);
     }

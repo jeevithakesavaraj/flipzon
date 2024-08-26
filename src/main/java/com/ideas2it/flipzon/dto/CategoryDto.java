@@ -1,12 +1,8 @@
 package com.ideas2it.flipzon.dto;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import com.ideas2it.flipzon.model.Category;
 
 /**
  * Data transfer object of category Entity
@@ -17,7 +13,7 @@ import com.ideas2it.flipzon.model.Category;
 @Getter
 @Setter
 public class CategoryDto {
-    private long id;
+    private Long id;
 
     private String name;
 

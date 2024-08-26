@@ -5,6 +5,7 @@ import com.ideas2it.flipzon.model.Category;
 
 /**
  * Object to Data Transfer Object and Dto to Object Conversion
+ * @author Gokul
  */
 public class CategoryMapper {
 

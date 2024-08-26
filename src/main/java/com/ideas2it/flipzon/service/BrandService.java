@@ -1,8 +1,8 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.dto.BrandDto;
-
 import java.util.List;
+
+import com.ideas2it.flipzon.dto.BrandDto;
 
 /**
  * <p>

@@ -7,7 +7,6 @@ import lombok.Setter;
 
 /**
  * Data transfer object of Product Entity
- *
  * @author Gokul
  */
 
@@ -17,7 +16,7 @@ import lombok.Setter;
 @Setter
 public class BrandDto {
 
-    private long id;
+    private Long id;
 
     private String name;
 }

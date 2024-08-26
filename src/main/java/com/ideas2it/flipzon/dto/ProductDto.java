@@ -1,6 +1,9 @@
 package com.ideas2it.flipzon.dto;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Data transfer object of Product Entity
@@ -13,15 +16,15 @@ import lombok.*;
 @Setter
 public class ProductDto {
 
-    private long id;
+    private Long id;
 
     private String name;
 
     private double price;
 
-    private long brandId;
+    private Long brandId;
 
-    private long categoryId;
+    private Long categoryId;
 
     private String subcategory;
 }

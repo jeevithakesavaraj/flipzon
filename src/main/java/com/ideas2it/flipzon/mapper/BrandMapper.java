@@ -1,11 +1,11 @@
 package com.ideas2it.flipzon.mapper;
 
-
 import com.ideas2it.flipzon.dto.BrandDto;
 import com.ideas2it.flipzon.model.Brand;
 
 /**
  * Object to Data Transfer Object and Dto to Object Conversion
+ * @author Gokul
  */
 public class BrandMapper {
 
