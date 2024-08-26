@@ -1,20 +1,23 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.dto.LoginDto;
-import com.ideas2it.flipzon.model.*;
-import com.ideas2it.flipzon.util.JwtService;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import java.util.HashSet;
-import java.util.Set;
-
-import com.ideas2it.flipzon.mapper.UserMapper;
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.UserDto;
+import com.ideas2it.flipzon.dto.LoginDto;
+import com.ideas2it.flipzon.mapper.UserMapper;
+import com.ideas2it.flipzon.model.Customer;
+import com.ideas2it.flipzon.model.Delivery;
+import com.ideas2it.flipzon.model.Role;
+import com.ideas2it.flipzon.model.User;
+import com.ideas2it.flipzon.model.UserRole;
+import com.ideas2it.flipzon.util.JwtService;
 
 @Service
 public class LoginService {
@@ -36,6 +39,13 @@ public class LoginService {
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
 
+    /**
+     * <p>
+     * Sign Up for customer
+     * </p>
+     * @param userDto   {@link UserDto}
+     * @return  API response
+     */
     public APIResponse signUp(UserDto userDto) {
         APIResponse apiResponse = new APIResponse();
         Role role = roleService.getRoleByName(UserRole.CUSTOMER);
@@ -77,6 +87,14 @@ public class LoginService {
         return apiResponse;
     }
 
+    /**
+     * <p>
+     * Signup for delivery person
+     * </p>
+     *
+     * @param userDto {@link UserDto}
+     * @return  APIResponse
+     */
     public APIResponse deliverySignUp(UserDto userDto) {
         APIResponse apiResponse = new APIResponse();
         Role role = roleService.getRoleByName(UserRole.DELIVERYPARTNER);
@@ -119,6 +137,13 @@ public class LoginService {
         return apiResponse;
     }
 
+    /**
+     * <p>
+     * Login for user
+     * </p>
+     * @param loginDto   {@link LoginDto}
+     * @return APIResponse
+     */
     public APIResponse logIn(LoginDto loginDto) {
         APIResponse apiResponse = new APIResponse();
         User user = userService.getByEmail(loginDto.getEmail());
