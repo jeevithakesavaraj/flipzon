@@ -54,5 +54,6 @@ public class LoginService {
 
     public List<CustomerDto> getAllCustomers() {
         return customerService.getAllCustomers();
+
     }
 }

@@ -37,4 +37,5 @@ public class Address {
     private Customer customer;
 
     private boolean isDeleted;
+
 }
