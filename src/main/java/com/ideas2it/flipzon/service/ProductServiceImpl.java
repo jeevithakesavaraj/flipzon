@@ -7,10 +7,12 @@ import com.ideas2it.flipzon.dao.ProductDao;
 import com.ideas2it.flipzon.dto.BrandDto;
 import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.dto.SubcategoryDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.BrandMapper;
 import com.ideas2it.flipzon.mapper.CategoryMapper;
 import com.ideas2it.flipzon.mapper.ProductMapper;
+import com.ideas2it.flipzon.mapper.SubcategoryMapper;
 import com.ideas2it.flipzon.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,15 +26,17 @@ public class ProductServiceImpl implements ProductService {
     private BrandService brandService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private SubcategoryService subcategoryService;
 
     @Override
     public ProductDto addProduct(ProductDto productDto) {
         BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
         CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
+        SubcategoryDto subcategoryDto = subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId());
         Product product = ProductMapper.convertDtoToEntity(productDto);
         product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
         product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
-        product.setSubcategory(CategoryMapper.convertDtoToEntity(categoryDto).getSubcategory());
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 
@@ -61,10 +65,10 @@ public class ProductServiceImpl implements ProductService {
         }
         BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
         CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
+        SubcategoryDto subcategoryDto = subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId());
         product.setName(productDto.getName());
         product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
         product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
-        product.setSubcategory(CategoryMapper.convertDtoToEntity(categoryDto).getSubcategory());
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 

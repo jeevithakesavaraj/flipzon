@@ -2,13 +2,7 @@ package com.ideas2it.flipzon.model;
 
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +35,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<Product> product;
 
-    @Column
-    private String subcategory;
+    @OneToMany(mappedBy = "category")
+    private Set<Subcategory> subcategories;
 }

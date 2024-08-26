@@ -5,15 +5,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Data transfer object of category Entity
+ * Data transfer object of subcategory Entity
  *
  * @author Gokul
  */
 @Builder
 @Getter
 @Setter
-public class CategoryDto {
+public class SubcategoryDto {
     private Long id;
 
     private String name;
+
+    private Long categoryId;
+
 }

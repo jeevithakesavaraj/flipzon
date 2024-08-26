@@ -26,5 +26,5 @@ public class ProductDto {
 
     private Long categoryId;
 
-    private String subcategory;
+    private Long subcategoryId;
 }

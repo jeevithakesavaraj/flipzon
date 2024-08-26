@@ -22,14 +22,6 @@ public interface CategoryService {
      */
     CategoryDto addCategory(CategoryDto categoryDto);
 
-//    /**
-//     * Create a new subcategory and associate it with a parent category.
-//     * @param parentId The ID of the parent category.
-//     * @param categoryDto The CategoryDto containing subcategory details.
-//     * @return The created CategoryDto.
-//     */
-//    CategoryDto addSubcategory(long parentId, CategoryDto categoryDto);
-
     /**
      * Delete the category by its id
      *
@@ -38,7 +30,7 @@ public interface CategoryService {
     void deleteCategory(long id);
 
     /**
-     * view all categorys
+     * view all categories
      *
      * @return List<CategoryDto> : List of all category details
      */
@@ -58,11 +50,4 @@ public interface CategoryService {
      * @param id : id of the category
      */
     CategoryDto retrieveCategoryById(long id);
-
-//    /**
-//     * Get Subcategory details by category id
-//     *
-//     * @param id : id of the category
-//     */
-//    List<CategoryDto> retrieveSubcategoriesByCategoryId(long id);
 }

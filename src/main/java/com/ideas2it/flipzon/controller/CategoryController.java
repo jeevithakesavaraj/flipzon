@@ -83,25 +83,4 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable long id) {
         return new ResponseEntity<>(categoryService.retrieveCategoryById(id), HttpStatus.OK);
     }
-
-//    /**
-//     * Create a new subcategory and associate it with a parent category.
-//     * @param parentId The ID of the parent category.
-//     * @param categoryDto The CategoryDto containing subcategory details.
-//     * @return The created CategoryDto.
-//     */
-//    @PostMapping("/{parentId}/subcategories")
-//    public CategoryDto createSubcategory(@PathVariable("parentId") long parentId, @RequestBody CategoryDto categoryDto) {
-//        return categoryService.addSubcategory(parentId, categoryDto);
-//    }
-
-//    /**
-//     * Endpoint to retrieve subcategories for a given category ID.
-//     * @param id The ID of the parent category.
-//     * @return A list of CategoryDto representing the subcategories.
-//     */
-//    @GetMapping("/{id}/subcategories")
-//    public List<CategoryDto> getSubcategoriesByCategoryId(@PathVariable("id") long id) {
-//        return categoryService.retrieveSubcategoriesByCategoryId(id);
-//    }
 }

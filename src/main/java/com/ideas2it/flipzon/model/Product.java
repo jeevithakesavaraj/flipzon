@@ -3,10 +3,7 @@ package com.ideas2it.flipzon.model;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * <p>
@@ -18,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -48,7 +47,9 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    private String subcategory;
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id")
+    private Subcategory subcategory;
 
     @OneToMany(mappedBy = "product")
     private Set<CartItem> cartItems;

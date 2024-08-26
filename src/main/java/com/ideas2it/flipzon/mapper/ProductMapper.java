@@ -5,12 +5,14 @@ import com.ideas2it.flipzon.model.Product;
 
 /**
  * Object to Data Transfer Object and Dto to Object Conversion
+ *
  * @author Gokul
  */
 public class ProductMapper {
 
     /**
      * Convert the product to the productDto
+     *
      * @param product {@link Product}
      * @return ProductDto {@link ProductDto}
      */
@@ -21,12 +23,12 @@ public class ProductMapper {
                 .price(product.getPrice())
                 .brandId(product.getBrand().getId())
                 .categoryId(product.getCategory().getId())
-                .subcategory(product.getCategory().getSubcategory())
                 .build();
     }
 
     /**
      * Convert the productDto to the product
+     *
      * @param productDto {@link ProductDto}
      * @return Product {@link Product}
      */
