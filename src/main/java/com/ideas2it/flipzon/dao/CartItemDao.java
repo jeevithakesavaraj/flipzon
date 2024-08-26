@@ -12,6 +12,7 @@ import com.ideas2it.flipzon.model.CartItem;
  *
  * @author Jeevithakesavaraj
  */
+
 @Repository
 public interface CartItemDao extends JpaRepository<CartItem, Long> {
 }

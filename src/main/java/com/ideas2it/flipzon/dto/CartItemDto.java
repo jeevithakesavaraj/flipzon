@@ -16,7 +16,7 @@ import lombok.Data;
 public class CartItemDto {
     private long id;
     private long cartId;
-    private long product_id;
+    private long productId;
     private int quantity;
     private double totalPrice;
 }

@@ -2,7 +2,7 @@ package com.ideas2it.flipzon.dao;
 
 import com.ideas2it.flipzon.model.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Repository;
 
 import com.ideas2it.flipzon.model.Role;
 
@@ -13,7 +13,7 @@ import com.ideas2it.flipzon.model.Role;
  *
  * @author Jeevithakesavaraj
  */
-@RestController
+@Repository
 public interface RoleDao extends JpaRepository<Role, Long> {
     /**
      * <p>

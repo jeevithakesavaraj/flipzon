@@ -9,14 +9,16 @@ import com.ideas2it.flipzon.dto.CartItemDto;
 import com.ideas2it.flipzon.mapper.CartItemMapper;
 import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.dto.ProductDto;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * CartItem service has methods for add product to the cartItemDao
+ * CartItem service has methods for CRUD operations for cartItem
  * </p>
  *
  * @author Jeevithakesavaraj
  */
+@Service
 public class CartItemServiceImpl implements CartItemService {
 
     @Autowired
@@ -28,7 +30,7 @@ public class CartItemServiceImpl implements CartItemService {
     @Override
     public void addCartItem(CartItemDto cartItemDto) {
         CartItem cartItem = CartItemMapper.convertDtoToEntity(cartItemDto);
-        ProductDto productDto = productService.retrieveProductById(cartItemDto.getProduct_id());
+        ProductDto productDto = productService.retrieveProductById(cartItemDto.getProductId());
         cartItem.setTotalPrice(cartItem.getQuantity() * productDto.getPrice());
         CartItem savedCartItem = cartItemDao.save(cartItem);
     }

@@ -14,6 +14,8 @@ import lombok.Data;
  * <p>
  * Order class represents order details which include product details, payment details and delivery details and whose order is this.
  * </p>
+ *
+ * @author Jeevithakesavaraj
  */
 @Entity
 @Data

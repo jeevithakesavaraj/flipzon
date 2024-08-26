@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.CartDao;
 import com.ideas2it.flipzon.dto.CartDto;
@@ -16,6 +17,7 @@ import com.ideas2it.flipzon.model.Cart;
  *
  * @author Jeevithakesavaraj
  */
+@Service
 public class CartServiceImpl implements CartService {
 
     @Autowired

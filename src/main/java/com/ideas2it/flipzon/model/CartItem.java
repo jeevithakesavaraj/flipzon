@@ -10,6 +10,14 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * <p>
+ * CartItem represents cart item details
+ * </p>
+ *
+ * @author Jeevithakesavaraj
+ */
+
 @Entity
 @Data
 @Builder
@@ -29,5 +37,4 @@ public class CartItem {
 
     private int quantity;
     private double totalPrice;
-    private double productPrice;
 }

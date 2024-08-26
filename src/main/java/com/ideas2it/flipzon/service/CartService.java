@@ -17,10 +17,30 @@ import com.ideas2it.flipzon.dto.CartDto;
 @Service
 public interface CartService {
 
+    /**
+     * <p>
+     *  Add cart
+     * </p>
+     * @param cartDto  {@link CartDto}
+     * @return CartDto
+     */
     CartDto addCart(CartDto cartDto);
 
+    /**
+     * <p>
+     * Get list of carts
+     * </p>
+     * @return List of cartDtos {@link CartDto}
+     */
     List<CartDto> getCarts();
 
+    /**
+     * <p>
+     * Get cart by Id
+     * </p>
+     * @param id   Id of the cart
+     * @return Cart {@link Cart}
+     */
     Cart getCartById(long id);
 
 }
