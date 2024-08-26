@@ -7,7 +7,6 @@ import com.ideas2it.flipzon.dao.ProductDao;
 import com.ideas2it.flipzon.dto.BrandDto;
 import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.dto.ProductDto;
-import com.ideas2it.flipzon.exception.MyException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.BrandMapper;
 import com.ideas2it.flipzon.mapper.CategoryMapper;
@@ -62,10 +61,11 @@ public class ProductServiceImpl implements ProductService {
         }
         BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
         CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
+        product.setName(productDto.getName());
         product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
         product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
         product.setSubcategory(CategoryMapper.convertDtoToEntity(categoryDto).getSubcategory());
-        return ProductMapper.convertEntityToDto(productDao.saveAndFlush(ProductMapper.convertDtoToEntity(productDto)));
+        return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 
     @Override

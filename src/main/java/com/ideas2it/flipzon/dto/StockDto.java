@@ -13,8 +13,6 @@ public class StockDto {
 
     private Long id;
 
-    private Double price;
-
     private Long productId;
 
     private int initialQuantity;

@@ -31,7 +31,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void deleteStock(long id) {
+    public void deleteStock(Long id) {
         Stock stock = stockDao.findByIdAndIsDeletedFalse(id);
         if (stock.isDeleted()) {
             throw new MyException("Stock Already Deleted : " + id);
@@ -51,13 +51,13 @@ public class StockServiceImpl implements StockService {
     public StockDto updateStock(StockDto stockDto) {
         Stock stock = stockDao.findByIdAndIsDeletedFalse(stockDto.getId());
         if (null == stock) {
-            throw new MyException("Stock not present in this Id :" + stockDto.getId());
+            throw new ResourceNotFoundException("Stock", "productId", stockDto.getId());
         }
-        return StockMapper.convertEntityToDto(stockDao.saveAndFlush(StockMapper.convertDtoToEntity(stockDto)));
+        return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
     }
 
     @Override
-    public StockDto retrieveStockById(long id) {
+    public StockDto retrieveStockById(Long id) {
         Stock stock = stockDao.findByIdAndIsDeletedFalse(id);
         if (null == stock) {
             throw new ResourceNotFoundException("Stock", "Stock ID", id);

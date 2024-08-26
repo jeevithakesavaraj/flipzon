@@ -2,15 +2,7 @@ package com.ideas2it.flipzon.model;
 
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,6 +33,9 @@ public class Product {
     @Column
     private boolean isDeleted;
 
+    @Column
+    private double price;
+
     @ManyToOne
     @JoinColumn(name = "wishlistId")
     private Wishlist wishlist;
@@ -58,6 +53,6 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private Set<CartItem> cartItems;
 
-    @OneToMany(mappedBy = "product")
-    private Set<Stock> stocks;
+    @OneToOne(mappedBy = "product")
+    private Stock stock;
 }

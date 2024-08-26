@@ -27,7 +27,7 @@ public interface StockService {
      *
      * @param id : id of the stock
      */
-    void deleteStock(long id);
+    void deleteStock(Long id);
 
     /**
      * view all stocks
@@ -37,7 +37,7 @@ public interface StockService {
     List<StockDto> retrieveAllStock();
 
     /**
-     * Update the Stock details by its id
+     * Update the Stock details by product id
      *
      * @param stockDto : new stock details
      * @return StockDto : stock details
@@ -49,5 +49,5 @@ public interface StockService {
      *
      * @param id : id of the stock
      */
-    StockDto retrieveStockById(long id);
+    StockDto retrieveStockById(Long id);
 }

@@ -17,7 +17,6 @@ public class StockMapper {
     public static StockDto convertEntityToDto(Stock stock) {
         return StockDto.builder()
                 .id(stock.getId())
-                .price(stock.getPrice())
                 .productId(stock.getProduct().getId())
                 .initialQuantity(stock.getInitialQuantity())
                 .currentQuantity(stock.getCurrentQuantity())
@@ -32,7 +31,6 @@ public class StockMapper {
     public static Stock convertDtoToEntity(StockDto stockDto) {
         return Stock.builder()
                 .id(stockDto.getId())
-                .price(stockDto.getPrice())
                 .initialQuantity(stockDto.getInitialQuantity())
                 .currentQuantity(stockDto.getInitialQuantity())
                 .build();
