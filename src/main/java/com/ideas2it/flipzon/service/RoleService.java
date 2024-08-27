@@ -34,7 +34,7 @@ public class RoleService {
         if (!roleDao.existsByName(UserRole.ADMIN)) {
             roles.add(Role.builder().name(UserRole.ADMIN).build());
             roles.add(Role.builder().name(UserRole.CUSTOMER).build());
-            roles.add(Role.builder().name(UserRole.DELIVERYPARTNER).build());
+            roles.add(Role.builder().name(UserRole.DELIVERYPERSON).build());
             roleDao.saveAll(roles);
         }
     }

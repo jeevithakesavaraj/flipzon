@@ -16,7 +16,7 @@ import com.ideas2it.flipzon.dto.UserDto;
 import com.ideas2it.flipzon.service.CustomerService;
 import com.ideas2it.flipzon.service.LoginService;
 import com.ideas2it.flipzon.dto.LoginDto;
-import com.ideas2it.flipzon.util.JwtService;
+import com.ideas2it.flipzon.configuaration.JwtService;
 
 @RestController
 @RequestMapping("flipzon/api/v1")
@@ -44,19 +44,4 @@ public class LoginController {
                 .body(apiResponse);
     }
 
-    @PostMapping("/users/login")
-    public ResponseEntity<APIResponse> logIn(@Valid @RequestBody LoginDto loginDto) {
-        APIResponse apiResponse = loginService.logIn(loginDto);
-        return ResponseEntity.status(apiResponse.getStatus())
-                .body(apiResponse);
-    }
-
-    @GetMapping("/private")
-    public ResponseEntity<APIResponse> privateAPI(@RequestHeader(value = "authorization") String authorization) {
-        APIResponse apiResponse = new APIResponse();
-        jwtService.verifyToken(authorization);
-        apiResponse.setData("this is private");
-        apiResponse.setStatus(HttpStatus.OK.value());
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
-    }
 }

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.ideas2it.flipzon.dao.UserDao;
 import com.ideas2it.flipzon.model.User;
 
+import java.util.List;
+
 /**
  * <p>
  * UserService represents CRUD operations for user and get user by id
@@ -57,6 +59,14 @@ public class UserService {
         return userDao.findByEmail(email);
     }
 
+    /**
+     * Get all users
+     *
+     * @return List of users
+     */
+    public List<User> getAllUsers() {
+        return userDao.findAll();
+    }
     /**
      * <p>
      * Add user to the database
