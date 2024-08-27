@@ -23,6 +23,7 @@ public class ProductMapper {
                 .price(product.getPrice())
                 .brandId(product.getBrand().getId())
                 .categoryId(product.getCategory().getId())
+                .subcategoryId(product.getSubcategory().getId())
                 .build();
     }
 

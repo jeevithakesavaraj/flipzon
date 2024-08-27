@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ideas2it.flipzon.dao.SubcategoryDao;
+import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.dto.SubcategoryDto;
 import com.ideas2it.flipzon.exception.MyException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import com.ideas2it.flipzon.mapper.CategoryMapper;
 import com.ideas2it.flipzon.mapper.SubcategoryMapper;
 import com.ideas2it.flipzon.model.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,18 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     @Autowired
     private SubcategoryDao subcategoryDao;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @Override
     public SubcategoryDto addSubcategory (SubcategoryDto subcategoryDto) {
         if (subcategoryDao.existsByNameAndIsDeletedFalse(subcategoryDto.getName())) {
             throw new MyException("Subcategory name already present : " + subcategoryDto.getName());
         }
-        return SubcategoryMapper.convertEntityToDto(subcategoryDao.save(SubcategoryMapper.convertDtoToEntity(subcategoryDto)));
+        CategoryDto categoryDto = categoryService.retrieveCategoryById(subcategoryDto.getCategoryId());
+         Subcategory subcategory = subcategoryDao.save(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
+         subcategory.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
+         return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(subcategory));
     }
 
     @Override

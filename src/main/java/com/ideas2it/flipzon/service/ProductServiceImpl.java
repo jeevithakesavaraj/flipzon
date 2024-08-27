@@ -37,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = ProductMapper.convertDtoToEntity(productDto);
         product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
         product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
+        product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 
