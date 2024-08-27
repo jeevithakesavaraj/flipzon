@@ -1,14 +1,35 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.dto.ProductDto;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.ideas2it.flipzon.model.Customer;
 
+/**
+ * <p>
+ * WishlistService represents CRUD operations for user and get user by id
+ * </p>
+ *
+ * @author Gowthamraj
+ */
+@Service
 public interface WishlistService {
 
-    void addProductToWishlist(Long wishlistId, Long productId);
+    /**
+     * <p>
+     * Add product to the wishlist
+     * </p>
+     *
+     * @param wishlistId To specify the wishlist
+     * @param productId To specify the product.
+     */
+    void addProductToWishlist(long wishlistId, long productId);
 
-//    void removeProductFromWishlist(Long wishlistId, Long productId);
-//
-//    List<ProductDto> getWishlistProducts(Long wishlistId);
+    /**
+     * <p>
+     * Add wishlist to a customer while signup.
+     * </p>
+     *
+     * @param customer To refer a customer.
+     */
+    void addWishlistToCustomer(Customer customer);
 }
