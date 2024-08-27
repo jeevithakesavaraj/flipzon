@@ -31,4 +31,16 @@ public class CustomerService {
         return customerDao.save(customer);
     }
 
+    /**
+     * <p>
+     * Get customer by Id
+     * </p>
+     *
+     * @param id   Id of the customer
+     * @return Customer {@link Customer}
+     */
+    public Customer getCustomerById(long id) {
+        return customerDao.findById(id).get();
+    }
+
 }
