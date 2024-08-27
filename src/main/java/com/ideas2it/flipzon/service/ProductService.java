@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 
 import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.model.Product;
 
 /**
  * <p>
@@ -18,7 +19,7 @@ public interface ProductService {
      * Create the new Product
      *
      * @param productDto : new product details
-     * @return ProductDto : product details
+     * @return ProductDto : {@link ProductDto}
      */
     ProductDto addProduct(ProductDto productDto);
 
@@ -49,5 +50,29 @@ public interface ProductService {
      *
      * @param id : id of the product
      */
-    ProductDto retrieveProductById(long id);
+    ProductDto retrieveProductById(Long id);
+
+    /**
+     * Get All product details by brand id
+     *
+     * @param id : id of the brand
+     * @return List<ProductDto> : List of {@link ProductDto}
+     */
+    List<ProductDto>retrieveAllProductByBrandId(Long id);
+
+    /**
+     * Get All product details by Category id
+     *
+     * @param id : id of the Category
+     * @return List<ProductDto> : List of {@link ProductDto}
+     */
+    List<ProductDto>retrieveAllProductByCategoryId(Long id);
+
+    /**
+     * Get All product details by Subcategory id
+     *
+     * @param id : id of the Subcategory
+     * @return List<ProductDto> : List of {@link ProductDto}
+     */
+    List<ProductDto>retrieveAllProductBySubcategoryId(Long id);
 }

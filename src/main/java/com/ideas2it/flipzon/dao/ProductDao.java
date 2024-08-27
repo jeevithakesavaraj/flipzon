@@ -17,4 +17,6 @@ public interface ProductDao extends JpaRepository<Product, Long> {
     Product findByIdAndIsDeletedFalse(long id);
 
     List<Product> findByIsDeletedFalse();
+
+    List<Product> findByCategoryIdAndIsDeletedFalse(Long id);
 }

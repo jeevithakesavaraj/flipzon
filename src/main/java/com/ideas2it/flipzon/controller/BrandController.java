@@ -3,7 +3,9 @@ package com.ideas2it.flipzon.controller;
 import java.util.List;
 
 import com.ideas2it.flipzon.dto.BrandDto;
+import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.service.BrandService;
+import com.ideas2it.flipzon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class BrandController {
 
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private ProductService productService;
 
     /**
      * Create the Brand based on the Admin request
@@ -75,5 +79,15 @@ public class BrandController {
     @GetMapping("/{id}")
     public ResponseEntity<BrandDto> getBrandById(@PathVariable long id) {
         return new ResponseEntity<>(brandService.retrieveBrandById(id), HttpStatus.OK);
+    }
+
+    /**
+     * Get the all products by brand id
+     *
+     * @return List<ProductDto> : list of productDto
+     */
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<ProductDto>> getAllProductsByBrandId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.retrieveAllProductByBrandId(id), HttpStatus.OK);
     }
 }

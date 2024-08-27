@@ -2,7 +2,9 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.dto.SubcategoryDto;
+import com.ideas2it.flipzon.service.ProductService;
 import com.ideas2it.flipzon.service.SubcategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * SubsubcategoryController handles all incoming HTTP requests related to subcategory and return the responses
+ * SubcategoryController handles all incoming HTTP requests related to subcategory and return the responses
  * </p>
  *
  * @author Gokul
@@ -30,6 +32,8 @@ public class SubcategoryController {
 
     @Autowired
     private SubcategoryService subcategoryService;
+    @Autowired
+    private ProductService productService;
 
     /**
      * Create the Subcategory based on the Admin request
@@ -38,7 +42,7 @@ public class SubcategoryController {
      * @return SubcategoryDto with Http status Created.
      */
     @PostMapping
-    public ResponseEntity<SubcategoryDto> addSubsubcategory(@RequestBody SubcategoryDto subcategoryDto) {
+    public ResponseEntity<SubcategoryDto> addSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
         return new ResponseEntity<>(subcategoryService.addSubcategory(subcategoryDto), HttpStatus.CREATED);
     }
 
@@ -70,7 +74,7 @@ public class SubcategoryController {
      * @return SubcategoryDto with Http status Created.
      */
     @PutMapping
-    public ResponseEntity<SubcategoryDto> updateSubsubcategory(@RequestBody SubcategoryDto subcategoryDto) {
+    public ResponseEntity<SubcategoryDto> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
         return new ResponseEntity<>(subcategoryService.updateSubcategory(subcategoryDto), HttpStatus.OK);
     }
 
@@ -82,5 +86,15 @@ public class SubcategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<SubcategoryDto> getSubcategoryById(@PathVariable long id) {
         return new ResponseEntity<>(subcategoryService.retrieveSubcategoryById(id), HttpStatus.OK);
+    }
+
+    /**
+     * Get the all products by category id
+     *
+     * @return List<ProductDto> : list of productDto
+     */
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<ProductDto>> getAllProductBySubcategoryId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.retrieveAllProductBySubcategoryId(id), HttpStatus.OK);
     }
 }

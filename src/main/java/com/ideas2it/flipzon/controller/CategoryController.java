@@ -3,7 +3,9 @@ package com.ideas2it.flipzon.controller;
 import java.util.List;
 
 import com.ideas2it.flipzon.dto.CategoryDto;
+import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.service.CategoryService;
+import com.ideas2it.flipzon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,8 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
 
     /**
      * Create the Category based on the Admin request
@@ -82,5 +86,15 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable long id) {
         return new ResponseEntity<>(categoryService.retrieveCategoryById(id), HttpStatus.OK);
+    }
+
+    /**
+     * Get the all products by category id
+     *
+     * @return List<ProductDto> : list of productDto
+     */
+    @GetMapping("/{id}/products")
+    public ResponseEntity<List<ProductDto>> getAllProductsByCategoryId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.retrieveAllProductByCategoryId(id), HttpStatus.OK);
     }
 }
