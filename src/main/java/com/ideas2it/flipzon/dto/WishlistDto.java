@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -18,6 +19,6 @@ import java.util.List;
 @Data
 public class WishlistDto {
     private long id;
-    private List<Product> products;
+    private Set<Product> products;
     private long customerId;
 }
