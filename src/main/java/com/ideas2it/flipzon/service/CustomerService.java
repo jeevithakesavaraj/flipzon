@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.service;
 
+import com.ideas2it.flipzon.model.Wishlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class CustomerService {
     private CustomerDao customerDao;
 
     @Autowired
-    private WishlistService wishlistService
+    private WishlistService wishlistService;
 
     /**
      * <p>
@@ -31,7 +32,8 @@ public class CustomerService {
      * @return Customer
      */
     public Customer createCustomer(Customer customer) {
-        wishlistService.addWishlistToCustomer(customer);
+        Wishlist wishlist = wishlistService.addWishlistToCustomer(customer);
+        customer.setWishlist(wishlist);
         return customerDao.save(customer);
     }
 
