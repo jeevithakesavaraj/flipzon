@@ -32,7 +32,7 @@ public class CustomerService {
      * @return Customer
      */
     public Customer createCustomer(Customer customer) {
-        Wishlist wishlist = wishlistService.addWishlistToCustomer(customer);
+        Wishlist wishlist = wishlistService.addWishlistToCustomer(customer.getId());
         customer.setWishlist(wishlist);
         return customerDao.save(customer);
     }
