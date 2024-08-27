@@ -20,10 +20,10 @@ public class WishlistServiceImpl implements WishlistService {
     @Autowired
     private ProductService productService;
 
-    public void addWishlistToCustomer(Customer customer) {
+    public Wishlist addWishlistToCustomer(Customer customer) {
         Wishlist wishlist = new Wishlist();
         wishlist.setCustomer(customer);
-        wishlistDao.save(wishlist);
+        return wishlistDao.save(wishlist);
     }
 
     public void addProductToWishlist(long customerId, long productId) {

@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.service;
 
+import com.ideas2it.flipzon.model.Wishlist;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.model.Customer;
@@ -31,5 +32,5 @@ public interface WishlistService {
      *
      * @param customer To refer a customer.
      */
-    void addWishlistToCustomer(Customer customer);
+    Wishlist addWishlistToCustomer(Customer customer);
 }

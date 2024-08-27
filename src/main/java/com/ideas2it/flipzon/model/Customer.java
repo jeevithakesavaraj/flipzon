@@ -47,6 +47,7 @@ public class Customer {
     @OneToOne(mappedBy = "customer")
     private Cart cart;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne
+    @JoinColumn(name = "wishlist_id")
     private Wishlist wishlist;
 }
