@@ -23,7 +23,8 @@ public class WishlistServiceImpl implements WishlistService {
     public Wishlist addWishlistToCustomer(Customer customer) {
         Wishlist wishlist = new Wishlist();
         wishlist.setCustomer(customer);
-        return wishlistDao.save(wishlist);
+        Wishlist savedWishlist = wishlistDao.save(wishlist);
+        return savedWishlist;
     }
 
     public void addProductToWishlist(long customerId, long productId) {
