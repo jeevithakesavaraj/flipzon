@@ -19,6 +19,9 @@ public class CustomerService {
     @Autowired
     private CustomerDao customerDao;
 
+    @Autowired
+    private WishlistService wishlistService
+
     /**
      * <p>
      * Add customer to the customer database
@@ -28,6 +31,7 @@ public class CustomerService {
      * @return Customer
      */
     public Customer createCustomer(Customer customer) {
+        wishlistService.addWishlistToCustomer(customer);
         return customerDao.save(customer);
     }
 

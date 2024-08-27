@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.util;
 import java.security.Key;
 import java.util.Date;
 
+import com.ideas2it.flipzon.exception.AccessDeniedException;
 import com.ideas2it.flipzon.exception.MyException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -60,7 +61,7 @@ public class JwtService {
         try {
             Jwts.parser().setSigningKey(getSigninKey()).build().parseClaimsJws(authorization).getBody();
         } catch (Exception e) {
-            throw new MyException("this is error");
+            throw new AccessDeniedException("Access Denied");
         }
     }
 }
