@@ -63,7 +63,7 @@ public class SubcategoryController {
      * @return List<SubcategoryDto> : list of subcategoryDto
      */
     @GetMapping
-    public ResponseEntity<List<SubcategoryDto>> getAllSubsubcategory() {
+    public ResponseEntity<List<SubcategoryDto>> getAllSubcategory() {
         return new ResponseEntity<>(subcategoryService.retrieveAllSubcategory(), HttpStatus.OK);
     }
 

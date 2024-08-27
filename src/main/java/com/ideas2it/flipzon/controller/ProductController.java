@@ -7,14 +7,7 @@ import com.ideas2it.flipzon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -73,8 +66,9 @@ public class ProductController {
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.updateProduct(productDto), HttpStatus.OK);
     }
+    
     /**
-     * update the Product based on the Admin request
+     * Get the Product based on the Admin request
      *
      * @param id : id of the product
      * @return ProductDto with Http status Created.
@@ -82,5 +76,16 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable long id) {
         return new ResponseEntity<>(productService.retrieveProductById(id), HttpStatus.OK);
+    }
+
+    /**
+     * update the Product price based on the Admin request
+     *
+     * @param id : id of the product
+     * @return ProductDto with Http status Created.
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductDto> updateProductPrice(@PathVariable Long id, @RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(productService.updateProductPrice(id, productDto), HttpStatus.OK);
     }
 }

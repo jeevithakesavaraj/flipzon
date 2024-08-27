@@ -65,13 +65,24 @@ public class ProductServiceImpl implements ProductService {
         if (null == product) {
             throw new ResourceNotFoundException("Product", "Product ID", productDto.getId());
         }
-        BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
-        CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
-        SubcategoryDto subcategoryDto = subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId());
-        product.setName(productDto.getName());
-        product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
-        product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
-        product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
+//        BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
+//        CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
+//        SubcategoryDto subcategoryDto = subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId());
+//        product.setPrice(productDto.getPrice());
+//        product.setName(productDto.getName());
+//        product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
+//        product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
+//        product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
+        return ProductMapper.convertEntityToDto(productDao.saveAndFlush(ProductMapper.convertDtoToEntity(productDto)));
+    }
+
+    @Override
+    public ProductDto updateProductPrice(Long id, ProductDto productDto) {
+        Product product = productDao.findByIdAndIsDeletedFalse(id);
+        if (null == product) {
+            throw new ResourceNotFoundException("Product", "Product ID", id);
+        }
+        product.setPrice(productDto.getPrice());
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 
