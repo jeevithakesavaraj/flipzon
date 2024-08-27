@@ -31,10 +31,11 @@ public class CustomerService {
      * @param customer {@link Customer}
      * @return Customer
      */
-    public Customer createCustomer(Customer customer) {
-        Wishlist wishlist = wishlistService.addWishlistToCustomer(customer.getId());
-        customer.setWishlist(wishlist);
-        return customerDao.save(customer);
+    public void createCustomer(Customer customer) {
+        Customer savedCustomer = customerDao.save(customer);
+        Wishlist wishlist = wishlistService.addWishlistToCustomer(savedCustomer);
+        savedCustomer.setWishlist(wishlist);
+        customerDao.save(savedCustomer);
     }
 
     /**
