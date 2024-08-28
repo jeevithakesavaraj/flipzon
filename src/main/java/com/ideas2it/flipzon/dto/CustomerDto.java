@@ -35,5 +35,5 @@ public class CustomerDto {
 
     private String phoneNumber;
 
-    private Set<AddressDto> addresses = new HashSet<>();
+    private AddressDto addressDto;
 }

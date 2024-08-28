@@ -2,7 +2,6 @@ package com.ideas2it.flipzon.userAuthentication;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +24,18 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register/{role}")
-    public ResponseEntity<AuthenticationResponse> register(
-            @PathVariable String role,
+    @PostMapping("/register/customers")
+    public ResponseEntity<AuthenticationResponse> registerCustomer(
             @RequestBody UserDto userDto
     ) {
-        return ResponseEntity.ok(authenticationService.register(userDto,role));
+        return ResponseEntity.ok(authenticationService.registerCustomer(userDto));
+    }
+
+    @PostMapping("/register/deliverypersons")
+    public ResponseEntity<AuthenticationResponse> registerDeliveryPerson(
+            @RequestBody UserDto userDto
+    ) {
+        return ResponseEntity.ok(authenticationService.registerDeliveryPerson(userDto));
     }
 
     @PostMapping("/login")

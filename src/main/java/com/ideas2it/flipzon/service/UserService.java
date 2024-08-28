@@ -1,12 +1,14 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.UserDao;
 import com.ideas2it.flipzon.model.User;
 
-import java.util.List;
 
 /**
  * <p>
@@ -20,6 +22,7 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    private final static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
     /**
      * <p>
      * Create Admin
@@ -29,7 +32,7 @@ public class UserService {
         User user = User.builder()
                 .name("ADMIN")
                 .email("admin@gmail.com")
-                .password("admin@123")
+                .password(encoder.encode(System.getenv("ADMINPASSWORD")))
                 .phoneNumber("9087654321")
         .build();
         if (!userDao.existsByName("ADMIN")) {

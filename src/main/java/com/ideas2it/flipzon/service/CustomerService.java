@@ -1,8 +1,6 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.dto.CustomerDto;
-import com.ideas2it.flipzon.dto.WishlistDto;
-import com.ideas2it.flipzon.mapper.CustomerMapper;
+import com.ideas2it.flipzon.model.User;
 import com.ideas2it.flipzon.model.Wishlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,20 +21,21 @@ public class CustomerService {
     @Autowired
     private CustomerDao customerDao;
 
-//    @Autowired
-//    private WishlistService wishlistService;
+    @Autowired
+    private WishlistService wishlistService;
 
     /**
      * <p>
      * Add customer to the customer database
      * </p>
      *
-     * @param customer {@link Customer}
-     * @return Customer
+     * @param user {@link User}
      */
-    public CustomerDto createCustomer(Customer customer) {
-        Customer savedCustomer = customerDao.save(customer);
-        return CustomerMapper.convertEntityToDto(customerDao.save(savedCustomer));
+    public void addCustomer(User user) {
+        Customer customer = Customer.builder()
+                .user(user)
+                .build();
+         customerDao.save(customer);
     }
 
     /**
@@ -50,7 +49,5 @@ public class CustomerService {
     public Customer getCustomerById(long id) {
         return customerDao.findById(id).get();
     }
+
 }
-
-
-

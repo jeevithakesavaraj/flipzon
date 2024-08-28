@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.service;
 
+import com.ideas2it.flipzon.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,10 @@ public class DeliveryService {
      *
      * @param delivery  {@link Delivery}
      */
-    public Delivery createDelivery(Delivery delivery) {
+    public Delivery createDelivery(User user) {
+        Delivery delivery = Delivery.builder()
+                .user(user)
+                .build();
         return deliveryDao.save(delivery);
     }
 

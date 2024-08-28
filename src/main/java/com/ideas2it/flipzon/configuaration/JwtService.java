@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtService {
 
-    private static String secretKey = "5ab076caf4fa2a4542fdf504474ae7c6ce1d719e04ee749d170335f51648f859";
+    private static String secretKey = System.getenv("SECRETKEY");
 
     public String extractUsername(String token) {
         return extractClaim(token,Claims::getSubject);
@@ -70,6 +70,7 @@ public class JwtService {
     private Claims extractALlClaims(String token) {
         return Jwts
                 .parserBuilder()
+                .setAllowedClockSkewSeconds(3000000)
                 .setSigningKey(getSigninKey())
                 .build()
                 .parseClaimsJws(token)
