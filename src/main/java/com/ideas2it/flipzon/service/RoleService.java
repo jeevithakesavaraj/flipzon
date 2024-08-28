@@ -31,10 +31,10 @@ public class RoleService {
      */
     public void addRoles() {
         List<Role> roles = new ArrayList<>();
-        if (!roleDao.existsByName(UserRole.ADMIN)) {
-            roles.add(Role.builder().name(UserRole.ADMIN).build());
-            roles.add(Role.builder().name(UserRole.CUSTOMER).build());
-            roles.add(Role.builder().name(UserRole.DELIVERYPERSON).build());
+        if (!roleDao.existsByName(UserRole.ROLE_ADMIN)) {
+            roles.add(Role.builder().name(UserRole.ROLE_ADMIN).build());
+            roles.add(Role.builder().name(UserRole.ROLE_CUSTOMER).build());
+            roles.add(Role.builder().name(UserRole.ROLE_DELIVERYPERSON).build());
             roleDao.saveAll(roles);
         }
     }

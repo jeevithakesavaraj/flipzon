@@ -1,7 +1,7 @@
 package com.ideas2it.flipzon.model;
 
 public enum UserRole {
-    ADMIN,
-    CUSTOMER,
-    DELIVERYPERSON
+    ROLE_ADMIN,
+    ROLE_CUSTOMER,
+    ROLE_DELIVERYPERSON
 }

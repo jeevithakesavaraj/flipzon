@@ -23,25 +23,23 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
-
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless API
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("api/v1/authentication/**").permitAll()
-                        .requestMatchers("api/v1/admin/**").permitAll()
-                        .requestMatchers("api/v1/customers","api/v1/customers/**").hasRole("CUSTOMER")
-                        .requestMatchers("api/v1/deliverypersons", "api/v1/deliverypersons/**").hasRole("DELIVERYPERSON")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/flipzon/api/v1/authentication/**").permitAll()
+                        .requestMatchers("/flipzon/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/flipzon/api/v1/customers/**").hasRole("CUSTOMER")
+                        .requestMatchers("/flipzon/api/v1/deliverypersons/**").hasRole("DELIVERYPERSON")
+                        .anyRequest().authenticated() // All other requests need authentication
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
+                .authenticationProvider(authenticationProvider) // Custom authentication provider
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
         return http.build();
     }
-
 }

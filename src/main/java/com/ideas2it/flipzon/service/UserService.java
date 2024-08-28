@@ -1,7 +1,11 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.ideas2it.flipzon.model.Role;
+import com.ideas2it.flipzon.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +39,9 @@ public class UserService {
                 .password(encoder.encode(System.getenv("ADMINPASSWORD")))
                 .phoneNumber("9087654321")
         .build();
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.builder().id(1).name(UserRole.ROLE_ADMIN).build());
+        user.setRoles(roles);
         if (!userDao.existsByName("ADMIN")) {
             userDao.save(user);
         }

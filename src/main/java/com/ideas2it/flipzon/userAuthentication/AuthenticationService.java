@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.userAuthentication;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,15 +41,15 @@ public class AuthenticationService {
     private final DeliveryService deliveryService;
 
     public AuthenticationResponse registerCustomer(UserDto userDto) {
-        Role role = roleService.getRoleByName(UserRole.CUSTOMER);
+        Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
         if (userService.checkByEmail(userDto.getEmail())) {
             User existingUser = userService.getByEmail(userDto.getEmail());
-            boolean checkRole = checkRole(existingUser.getRoles(), role.getId());
+            boolean checkRole = checkRole(existingUser.getRoles(), roles.getId());
             if (!checkRole) {
-                Set<Role> roles = existingUser.getRoles();
-                roles.add(role);
+                Set<Role> userRoles = existingUser.getRoles();
+                userRoles.add(roles);
                 existingUser.setId(userDto.getId());
-                existingUser.setRoles(roles);
+                existingUser.setRoles(userRoles);
                 userService.addUser(existingUser);
                 customerService.addCustomer(existingUser);
                 String jwtToken = jwtService.generateToken(existingUser);
@@ -59,15 +60,15 @@ public class AuthenticationService {
             throw new MyException("Email Id - " + userDto.getEmail()
                     + " Already Exist.Please Login or use Another EmailId");
         }
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
+//        Set<Role> roles = new HashSet<>();
+//        roles.add(role);
         User savedUser = User.builder()
                 .name(userDto.getName())
                 .email(userDto.getEmail())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .phoneNumber(userDto.getPhoneNumber())
                 .build();
-        savedUser.setRoles(roles);
+        savedUser.setRoles(Collections.singleton(roles));
         userService.addUser(savedUser);
         customerService.addCustomer(savedUser);
         String jwtToken = jwtService.generateToken(savedUser);
@@ -80,7 +81,7 @@ public class AuthenticationService {
     public AuthenticationResponse registerDeliveryPerson(UserDto userDto) {
         Role role = null;
         if (userService.checkByEmail(userDto.getEmail())) {
-            role = roleService.getRoleByName(UserRole.DELIVERYPERSON);
+            role = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
             User user = userService.getByEmail(userDto.getEmail());
             boolean checkRole = checkRole(user.getRoles(), role.getId());
             if (!checkRole) {
@@ -98,7 +99,7 @@ public class AuthenticationService {
             throw new MyException("Email Id - " + userDto.getEmail()
                     + " Already Exist.Please Login or use Another EmailId");
         }
-        role = roleService.getRoleByName(UserRole.DELIVERYPERSON);
+        role = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
         Set<Role> roles = new HashSet<>();
         roles.add(role);
         User user = User.builder()

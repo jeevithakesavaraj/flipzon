@@ -18,7 +18,7 @@ import com.ideas2it.flipzon.dto.UserDto;
  * @author Jeevithakesavaraj
  */
 @RestController
-@RequestMapping("api/v1/authentication")
+@RequestMapping("flipzon/api/v1/authentication")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

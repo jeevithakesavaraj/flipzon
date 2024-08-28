@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * JWt service is for generating Jwt token
+ * JWt service is for generating and validating Jwt token
  * </p>
  *
  * @author Jeevithakesavaraj
@@ -48,7 +49,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000 * 60 *24))
+                .setExpiration(new Date(System.currentTimeMillis()+1000 * 60 * 60 * 24))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS256)
                 .compact();
 
@@ -70,7 +71,7 @@ public class JwtService {
     private Claims extractALlClaims(String token) {
         return Jwts
                 .parserBuilder()
-                .setAllowedClockSkewSeconds(3000000)
+                .setAllowedClockSkewSeconds(300)
                 .setSigningKey(getSigninKey())
                 .build()
                 .parseClaimsJws(token)
