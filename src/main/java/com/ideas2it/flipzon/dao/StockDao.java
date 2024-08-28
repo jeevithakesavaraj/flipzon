@@ -16,5 +16,7 @@ public interface StockDao extends JpaRepository<Stock, Long>{
 
     Stock findByIdAndIsDeletedFalse(long id);
 
+    Stock findByProductIdAndIsDeletedFalse(long id);
+
     List<Stock> findByIsDeletedFalse();
 }

@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Stock {
 
     @OneToOne
     @JoinColumn(name = "product_id")
+    @JsonIgnore
     private Product product;
 
     @Column

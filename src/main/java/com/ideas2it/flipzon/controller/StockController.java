@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Gokul
  */
 @RestController
-@RequestMapping("flipzon/api/v1/stocks")
+@RequestMapping("flipzon/api/v1/admin/stocks")
 public class StockController {
 
     @Autowired
@@ -64,6 +64,16 @@ public class StockController {
     @PutMapping
     public ResponseEntity<StockDto> updateStock(@RequestBody StockDto stockDto) {
         return new ResponseEntity<>(stockService.updateStock(stockDto), HttpStatus.OK);
+    }
+    /**
+     * Refill the Stock by product ID based on the Admin request
+     *
+     * @param stockDto {@link StockDto}
+     * @return StockDto with Http status Created.
+     */
+    @PatchMapping
+    public ResponseEntity<StockDto> updateNewStock(@RequestBody StockDto stockDto) {
+        return new ResponseEntity<>(stockService.updateNewStock(stockDto), HttpStatus.OK);
     }
 
     /**

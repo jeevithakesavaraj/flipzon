@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("flipzon/api/v1/products")
+@RequestMapping("flipzon/api/v1/admin/products")
 public class ProductController {
 
     @Autowired
@@ -66,7 +66,7 @@ public class ProductController {
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.updateProduct(productDto), HttpStatus.OK);
     }
-    
+
     /**
      * Get the Product based on the Admin request
      *
@@ -81,11 +81,10 @@ public class ProductController {
     /**
      * update the Product price based on the Admin request
      *
-     * @param id : id of the product
      * @return ProductDto with Http status Created.
      */
-    @PatchMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProductPrice(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        return new ResponseEntity<>(productService.updateProductPrice(id, productDto), HttpStatus.OK);
+    @PatchMapping
+    public ResponseEntity<ProductDto> updateProductPrice(@RequestBody ProductDto productDto) {
+        return new ResponseEntity<>(productService.updateProductPrice(productDto), HttpStatus.OK);
     }
 }

@@ -55,6 +55,16 @@ public class StockServiceImpl implements StockService {
         }
         return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
     }
+    @Override
+    public StockDto updateNewStock(StockDto stockDto) {
+        Stock stock = stockDao.findByProductIdAndIsDeletedFalse(stockDto.getProductId());
+        if (null == stock) {
+            throw new ResourceNotFoundException("Stock", "productId", stockDto.getId());
+        }
+        stock.setInitialQuantity(stockDto.getInitialQuantity() + stock.getInitialQuantity());
+        stock.setCurrentQuantity(stock.getCurrentQuantity() + stockDto.getInitialQuantity());
+        return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
+    }
 
     @Override
     public StockDto retrieveStockById(Long id) {

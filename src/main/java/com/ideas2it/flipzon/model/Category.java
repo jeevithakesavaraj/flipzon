@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,8 +34,10 @@ public class Category {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<Product> product;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<Subcategory> subcategories;
 }

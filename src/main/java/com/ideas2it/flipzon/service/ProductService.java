@@ -44,14 +44,14 @@ public interface ProductService {
      * @return ProductDto : product details
      */
     ProductDto updateProduct(ProductDto productDto);
+    
     /**
      * Update the Product price details by its id
      *
-     * @param id : id of the product
      * @param productDto : {@link ProductDto}
      * @return ProductDto : product details
      */
-    ProductDto updateProductPrice(Long id, ProductDto productDto);
+    ProductDto updateProductPrice(ProductDto productDto);
 
     /**
      * Get product details by its id

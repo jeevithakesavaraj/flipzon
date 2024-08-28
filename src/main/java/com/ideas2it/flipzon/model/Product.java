@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.model;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,23 +38,22 @@ public class Product {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "wishlistId")
-    @ManyToMany(mappedBy = "products")
-    private List<Wishlist> wishlists;
-
-    @ManyToOne
     @JoinColumn(name = "brand_id")
+    @JsonIgnore
     private Brand brand;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
+    @JsonIgnore
     private Subcategory subcategory;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private Set<CartItem> cartItems;
 
     @OneToOne(mappedBy = "product")

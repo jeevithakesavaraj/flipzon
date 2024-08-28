@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("flipzon/api/v1/subcategories")
+@RequestMapping("flipzon/api/v1/admin/subcategories")
 public class SubcategoryController {
 
     @Autowired

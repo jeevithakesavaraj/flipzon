@@ -54,6 +54,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> retrieveAllProduct() {
+        List<Product> products = productDao.findByIsDeletedFalse();
+        if (null == products) {
+            throw new ResourceNotFoundException();
+        }
         return productDao.findByIsDeletedFalse().stream()
                 .map(ProductMapper::convertEntityToDto)
                 .collect(Collectors.toList());
@@ -65,22 +69,22 @@ public class ProductServiceImpl implements ProductService {
         if (null == product) {
             throw new ResourceNotFoundException("Product", "Product ID", productDto.getId());
         }
-//        BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
-//        CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
-//        SubcategoryDto subcategoryDto = subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId());
-//        product.setPrice(productDto.getPrice());
-//        product.setName(productDto.getName());
-//        product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
-//        product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
-//        product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
+        BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
+        CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
+        SubcategoryDto subcategoryDto = subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId());
+        product.setPrice(productDto.getPrice());
+        product.setName(productDto.getName());
+        product.setBrand(BrandMapper.convertDtoToEntity(brandDto));
+        product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
+        product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(ProductMapper.convertDtoToEntity(productDto)));
     }
 
     @Override
-    public ProductDto updateProductPrice(Long id, ProductDto productDto) {
-        Product product = productDao.findByIdAndIsDeletedFalse(id);
+    public ProductDto updateProductPrice(ProductDto productDto) {
+        Product product = productDao.findByIdAndIsDeletedFalse(productDto.getId());
         if (null == product) {
-            throw new ResourceNotFoundException("Product", "Product ID", id);
+            throw new ResourceNotFoundException("Product", "Product ID", productDto.getId());
         }
         product.setPrice(productDto.getPrice());
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
@@ -97,6 +101,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto>retrieveAllProductByBrandId(Long id) {
+        List<Product> products = productDao.findByIsDeletedFalse();
+        if (null == products) {
+            throw new ResourceNotFoundException("Products", "BrandId", id);
+        }
         return productDao.findByIsDeletedFalse().stream()
                 .filter((product) -> Objects.equals(product.getBrand().getId(), id))
                 .map(ProductMapper::convertEntityToDto)
@@ -105,6 +113,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto>retrieveAllProductByCategoryId(Long id) {
+        List<Product> products = productDao.findByIsDeletedFalse();
+        if (null == products) {
+            throw new ResourceNotFoundException("Products", "CategoryId", id);
+        }
         return productDao.findByCategoryIdAndIsDeletedFalse(id).stream()
                 .map(ProductMapper::convertEntityToDto)
                 .collect(Collectors.toList());
@@ -112,6 +124,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto>retrieveAllProductBySubcategoryId(Long id) {
+        List<Product> products = productDao.findByIsDeletedFalse();
+        if (null == products) {
+            throw new ResourceNotFoundException("Products", "SubcategoryId", id);
+        }
         return productDao.findByIsDeletedFalse().stream()
                 .filter((product) -> Objects.equals(product.getSubcategory().getId(), id))
                 .map(ProductMapper::convertEntityToDto)

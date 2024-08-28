@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("flipzon/api/v1/brands")
+@RequestMapping("flipzon/api/v1/admin/brands")
 public class BrandController {
 
     @Autowired

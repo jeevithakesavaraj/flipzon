@@ -43,7 +43,13 @@ public interface StockService {
      * @return StockDto : stock details
      */
     StockDto updateStock(StockDto stockDto);
-
+    /**
+     * Refill the Stock details by product id
+     *
+     * @param stockDto : new stock details
+     * @return StockDto : stock details
+     */
+    StockDto updateNewStock(StockDto stockDto);
     /**
      * Get stock details by its id
      *

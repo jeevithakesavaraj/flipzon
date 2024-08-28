@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,5 +44,6 @@ public class Brand {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "brand")
+    @JsonIgnore
     private Set<Product> products;
 }
