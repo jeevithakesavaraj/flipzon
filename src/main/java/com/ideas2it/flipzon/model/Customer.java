@@ -39,7 +39,9 @@ public class Customer {
     @OneToOne(mappedBy = "customer")
     private Cart cart;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "wishlist_id")
-    private Wishlist wishlist;
+//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "wishlist_id")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Wishlist> wishlists = new HashSet<>();
+
 }

@@ -1,9 +1,7 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.model.Wishlist;
+import com.ideas2it.flipzon.dto.WishlistResponseDto;
 import org.springframework.stereotype.Service;
-
-import com.ideas2it.flipzon.model.Customer;
 
 /**
  * <p>
@@ -21,16 +19,28 @@ public interface WishlistService {
      * </p>
      *
      * @param wishlistId To specify the wishlist
-     * @param productId To specify the product.
+     * @param productId  To specify the product.
      */
-    void addProductToWishlist(long wishlistId, long productId);
+    WishlistResponseDto addProductToWishlist(long wishlistId, long productId);
 
     /**
      * <p>
-     * Add wishlist to a customer while signup.
+     * Retrieve all products from wishlist
+     * </p>
+     * @param customerId To specify which customer.
+     * @return A list of products
+     */
+    WishlistResponseDto getProductsFromWishlist(long customerId);
+
+    /**
+     * <p>
+     * Removes product from wishlist
      * </p>
      *
-     * @param customer To refer a customer.
+     * @param customerId To specify which customer.
+     * @param productId  To specify which product.
+     * @return Updated wishlist.
      */
-    Wishlist addWishlistToCustomer(Customer customer);
+    WishlistResponseDto removeProductFromWishlist(long customerId, long productId);
+
 }

@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.model;
 
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -37,7 +38,8 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "wishlistId")
-    private Wishlist wishlist;
+    @ManyToMany(mappedBy = "products")
+    private List<Wishlist> wishlists;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")

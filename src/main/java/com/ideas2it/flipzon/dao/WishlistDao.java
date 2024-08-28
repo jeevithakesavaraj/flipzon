@@ -14,4 +14,6 @@ import com.ideas2it.flipzon.model.Wishlist;
 public interface WishlistDao extends JpaRepository<Wishlist, Long> {
 
     Wishlist findByCustomerId(long customerId);
+    boolean existsByCustomerId(long customerId);
+
 }
