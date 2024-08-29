@@ -39,9 +39,6 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartDao cartDao;
 
-    @Autowired
-    private CartDto cartDto;
-
     public CartResponseDto addProductToCart(CartDto cartDto) {
         Customer customer = customerService.getCustomerById(cartDto.getCustomerId());
         Product product = ProductMapper.convertDtoToEntity(productService.retrieveProductById(cartDto.getProductId()));
@@ -87,7 +84,7 @@ public class CartServiceImpl implements CartService {
             throw new ResourceNotFoundException("Please add products to wishlist", "customerId", customerId);
         }
         return CartResponseDto.builder()
-                .customerName(customerService.getCustomerById(cartDto.getCustomerId()).getUser().getName())
+                .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(cart.getProducts().stream()
                         .map(Product :: getName)
                         .collect(Collectors.toSet()))
