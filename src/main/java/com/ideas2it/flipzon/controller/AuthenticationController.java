@@ -1,4 +1,4 @@
-package com.ideas2it.flipzon.userAuthentication;
+package com.ideas2it.flipzon.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.dto.LoginDto;
 import com.ideas2it.flipzon.dto.UserDto;
+import com.ideas2it.flipzon.dto.AuthenticationResponse;
+import com.ideas2it.flipzon.service.AuthenticationService;
 
 /**
  * <p>

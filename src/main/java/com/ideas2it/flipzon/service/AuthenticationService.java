@@ -1,15 +1,13 @@
-package com.ideas2it.flipzon.userAuthentication;
+package com.ideas2it.flipzon.service;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.ideas2it.flipzon.exception.MyException;
-import com.ideas2it.flipzon.service.CustomerService;
-import com.ideas2it.flipzon.service.DeliveryService;
+import com.ideas2it.flipzon.dto.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,6 @@ import com.ideas2it.flipzon.dto.UserDto;
 import com.ideas2it.flipzon.model.Role;
 import com.ideas2it.flipzon.model.User;
 import com.ideas2it.flipzon.model.UserRole;
-import com.ideas2it.flipzon.service.RoleService;
-import com.ideas2it.flipzon.service.UserService;
 
 /**
  * <p>
@@ -44,12 +40,12 @@ public class AuthenticationService {
         Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
         if (userService.checkByEmail(userDto.getEmail())) {
             User existingUser = userService.getByEmail(userDto.getEmail());
-            boolean checkRole = checkRole(existingUser.getRoles(), roles.getId());
+            boolean checkRole = checkRole(existingUser.getRole(), roles.getId());
             if (!checkRole) {
-                Set<Role> userRoles = existingUser.getRoles();
+                Set<Role> userRoles = existingUser.getRole();
                 userRoles.add(roles);
                 existingUser.setId(userDto.getId());
-                existingUser.setRoles(userRoles);
+                existingUser.setRole(userRoles);
                 userService.addUser(existingUser);
                 customerService.addCustomer(existingUser);
                 String jwtToken = jwtService.generateToken(existingUser);
@@ -68,10 +64,10 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .phoneNumber(userDto.getPhoneNumber())
                 .build();
-        savedUser.setRoles(Collections.singleton(roles));
-        userService.addUser(savedUser);
+        savedUser.setRole(Collections.singleton(roles));
+        User saved = userService.addUser(savedUser);
         customerService.addCustomer(savedUser);
-        String jwtToken = jwtService.generateToken(savedUser);
+        String jwtToken = jwtService.generateToken(saved);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -83,15 +79,15 @@ public class AuthenticationService {
         if (userService.checkByEmail(userDto.getEmail())) {
             role = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
             User user = userService.getByEmail(userDto.getEmail());
-            boolean checkRole = checkRole(user.getRoles(), role.getId());
+            boolean checkRole = checkRole(user.getRole(), role.getId());
             if (!checkRole) {
-                Set<Role> roles = user.getRoles();
+                Set<Role> roles = user.getRole();
                 roles.add(role);
                 user.setId(user.getId());
-                user.setRoles(roles);
-                userService.addUser(user);
+                user.setRole(roles);
+                User savedUser = userService.addUser(user);
                 deliveryService.createDelivery(user);
-                String jwtToken = jwtService.generateToken(user);
+                String jwtToken = jwtService.generateToken(savedUser);
                 return AuthenticationResponse.builder()
                         .token(jwtToken)
                         .build();
@@ -107,7 +103,7 @@ public class AuthenticationService {
                 .email(userDto.getEmail())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .phoneNumber(userDto.getPhoneNumber())
-                .roles(roles)
+                .role(roles)
                 .build();
         userService.addUser(user);
         deliveryService.createDelivery(user);
@@ -119,12 +115,12 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(LoginDto loginDto) {
-        authenticationManager.authenticate(
+        /*authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getEmail(),
                         loginDto.getPassword()
                 )
-        );
+        );*/
         User user = userService.getByEmail(loginDto.getEmail());
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

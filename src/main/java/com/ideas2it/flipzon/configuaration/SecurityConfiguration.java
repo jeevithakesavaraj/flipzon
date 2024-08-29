@@ -28,17 +28,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless API
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/flipzon/api/v1/authentication/**").permitAll()
-                        .requestMatchers("/flipzon/api/v1/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/flipzon/api/v1/customers/**").hasRole("CUSTOMER")
-                        .requestMatchers("/flipzon/api/v1/deliverypersons/**").hasRole("DELIVERYPERSON")
-                        .anyRequest().authenticated() // All other requests need authentication
+                        .requestMatchers("/flipzon/api/v1/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/flipzon/api/v1/customers/**").hasAnyRole("CUSTOMER", "ADMIN")
+                        .requestMatchers("/flipzon/api/v1/deliverypersons/**").hasAnyRole("DELIVERYPERSON", "ADMIN")
+                        .anyRequest().authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session
-                .authenticationProvider(authenticationProvider) // Custom authentication provider
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

@@ -4,15 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.ideas2it.flipzon.model.Role;
-import com.ideas2it.flipzon.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.UserDao;
 import com.ideas2it.flipzon.model.User;
-
+import com.ideas2it.flipzon.model.Role;
+import com.ideas2it.flipzon.model.UserRole;
 
 /**
  * <p>
@@ -25,6 +24,9 @@ import com.ideas2it.flipzon.model.User;
 public class UserService {
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RoleService roleService;
 
     private final static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
     /**
@@ -41,7 +43,7 @@ public class UserService {
         .build();
         Set<Role> roles = new HashSet<>();
         roles.add(Role.builder().id(1).name(UserRole.ROLE_ADMIN).build());
-        user.setRoles(roles);
+        user.setRole(roles);
         if (!userDao.existsByName("ADMIN")) {
             userDao.save(user);
         }
@@ -66,7 +68,8 @@ public class UserService {
      * @return User {@link User}
      */
     public  User getByEmail(String email) {
-        return userDao.findByEmail(email);
+        User user = userDao.findByEmail(email);
+        return user;
     }
 
     /**
@@ -85,6 +88,7 @@ public class UserService {
      * @return User {@link User}
      */
     public User addUser(User user) {
-        return userDao.save(user);
+        User savedUser = userDao.save(user);
+        return savedUser;
     }
 }

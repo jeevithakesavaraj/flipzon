@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 @Builder
 public class Role {
 
@@ -30,7 +30,8 @@ public class Role {
     @Enumerated(value = EnumType.STRING)
     private UserRole name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
+    @Builder
+    public Role(UserRole rolename) {
+        this.name = rolename;
+    }
 }

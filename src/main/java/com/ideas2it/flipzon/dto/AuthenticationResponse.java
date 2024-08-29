@@ -1,4 +1,4 @@
-package com.ideas2it.flipzon.userAuthentication;
+package com.ideas2it.flipzon.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -49,5 +49,4 @@ public class RoleService {
     public Role getRoleByName(UserRole userRole) {
         return roleDao.findByName(userRole);
     }
-
 }
