@@ -17,6 +17,4 @@ import com.ideas2it.flipzon.dto.CartItemDto;
 public interface CartItemService {
 
 
-    CartItemDto addProductToCartItem(long customerId, long productId, int quantity);
-
 }

@@ -18,10 +18,5 @@ import java.util.Optional;
 @SpringBootApplication(scanBasePackages = "com.ideas2it.flipzon")
 @Repository
 public interface CartItemDao extends JpaRepository<CartItem, Long> {
-//    boolean existsByCartItemId(long cartId);
 
-//    CartItem findByCartId(long cartId);
-
-    CartItem findByCartId(long cartId);
-    boolean existsByCartId(long cartId);
 }

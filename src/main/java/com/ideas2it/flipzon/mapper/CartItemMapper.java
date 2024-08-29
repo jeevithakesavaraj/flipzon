@@ -27,7 +27,7 @@ public class CartItemMapper {
     public static CartItemDto convertEntityToDto(CartItem cartItem) {
         return CartItemDto.builder()
                 .id(cartItem.getId())
-                .cartId(cartItem.getCart().getId())
+//                .cartId(cartItem.getCart().getId())
                 .price(cartItem.getPrice())
                 .quantity(cartItem.getQuantity())
                 .totalPrice(cartItem.getTotalPrice())
@@ -51,7 +51,7 @@ public class CartItemMapper {
         cartItem.setQuantity(cartItemDto.getQuantity());
         cartItem.setTotalPrice(cartItemDto.getTotalPrice());
         cartItem.setProducts(products);
-        cartItem.setCart(cart);
+//        cartItem.setCart(cart);
         return cartItem;
     }
 }

@@ -38,9 +38,12 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart")
-    private Set<CartItem> cartItems;
+    @OneToMany
+    private Set<Product> products;
 
-    private double totalPrice = 0.0;
+    private int quantity;
+    private double price;
+
+    private double totalPrice = 0.00;
 
 }

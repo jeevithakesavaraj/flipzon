@@ -1,11 +1,8 @@
 package com.ideas2it.flipzon.dao;
 
+import com.ideas2it.flipzon.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.ideas2it.flipzon.model.Cart;
-
-import java.util.Optional;
 
 /**
  * <p>
@@ -16,7 +13,8 @@ import java.util.Optional;
  */
 @Repository
 public interface CartDao extends JpaRepository<Cart, Long> {
-//    Cart findByCustomerId(long id);
 
-    Optional<Cart> findByCustomerId(long customerId);
+    boolean existsByCustomerId(long customerId);
+
+    Cart findByCustomerId(long customerId);
 }

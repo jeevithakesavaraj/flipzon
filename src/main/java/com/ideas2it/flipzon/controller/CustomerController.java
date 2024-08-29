@@ -1,9 +1,8 @@
 package com.ideas2it.flipzon.controller;
 
-import com.ideas2it.flipzon.dto.CartItemDto;
-import com.ideas2it.flipzon.dto.WishlistDto;
-import com.ideas2it.flipzon.dto.WishlistResponseDto;
+import com.ideas2it.flipzon.dto.*;
 import com.ideas2it.flipzon.service.CartItemService;
+import com.ideas2it.flipzon.service.CartService;
 import com.ideas2it.flipzon.service.CustomerService;
 import com.ideas2it.flipzon.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @Autowired
-    private CartItemService cartItemService;
+    private CartService cartService;
 
     /**
      * <p>
@@ -74,23 +73,25 @@ public class CustomerController {
         return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.OK);
     }
 
-//    @PutMapping("/{customerId}/cartitems/products/{productId}")
-//    public ResponseEntity<String> addCartItem(@PathVariable long productId, @PathVariable long customerId) {
-//        cartItemService.addProductToCartItem(productId, customerId);
-//        return ResponseEntity.ok("Product added successfully");
-//    }
+    @PutMapping("/addproducts")
+    public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
+        CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
+        return ResponseEntity.ok(updatedCart);
+    }
 
-//    @PutMapping("/{customerId}/cartitems/products/{productId}")
-//    public ResponseEntity<CartItemDto> addProductToCartItem(@PathVariable long customerId, @PathVariable long productId, @RequestBody int quantity) {
-//        CartItemDto updatedCartItem = cartItemService.addProductToCartItem(customerId, productId, quantity);
-//        return ResponseEntity.ok(updatedCartItem);
-//    }
+    @GetMapping("/{customerId}/cart")
+    public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
+        return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
+    }
 
+    @DeleteMapping("/{customerId}/cart/{productId}")
+    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
+        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
+    }
 
-    @PutMapping("/{customerId}/cartitems/products/{productId}")
-    public ResponseEntity<String> addProductToCartItem(@RequestBody long productId, @RequestBody long customerId, @RequestBody Map<String, Integer> requestBody) {
-        int quantity = requestBody.get("quantity");
-        cartItemService.addProductToCartItem(customerId, productId, quantity);
-        return ResponseEntity.ok("Product added successfully with quantity: " + quantity);
+    @PutMapping("/update-quantity")
+    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
+        CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
+        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
     }
 }
