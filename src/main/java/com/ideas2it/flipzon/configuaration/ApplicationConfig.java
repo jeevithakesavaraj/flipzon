@@ -21,6 +21,7 @@ import com.ideas2it.flipzon.model.User;
 /**
  * <p>
  * Application configuration represents methods for authentication provider and manager
+ * It is a configuration class for setting up the application's security components.
  * </p>
  *
  * @author Jeevithekesavaraj

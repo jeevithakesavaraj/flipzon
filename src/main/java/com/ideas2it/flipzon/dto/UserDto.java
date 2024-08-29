@@ -1,7 +1,5 @@
 package com.ideas2it.flipzon.dto;
 
-import java.util.Set;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import com.ideas2it.flipzon.model.Address;
-import com.ideas2it.flipzon.model.Role;
 
 /**
  * <p>
@@ -38,9 +35,7 @@ public class UserDto {
 
     private String phoneNumber;
 
-    private long role_id;
-
-    private Set<Role> roles;
+    private String idProof;
 
     private Address address;
 }

@@ -1,15 +1,10 @@
 package com.ideas2it.flipzon.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-
-
 /**
  * <p>
  * CustomerDto is a Data Transfer Object that represents a Customer.
@@ -34,6 +29,4 @@ public class CustomerDto {
     private String password;
 
     private String phoneNumber;
-
-    private AddressDto addressDto;
 }

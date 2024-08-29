@@ -7,18 +7,27 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
- * This class is for JWT authentication filter
+ * This class is responsible for filtering incoming requests to
+ * ensure they contain valid JWT tokens. It performs the necessary authentication
+ * and authorization checks, setting the authentication context if the token is valid.
  * </p>
  *
  * @author Jeevithakesavaraj
@@ -30,6 +39,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    /**
+     * <p>
+     * Filters each incoming request to check for a valid JWT token and sets the authentication context if the token is valid.
+     * </p>
+     * @param request    Http request
+     * @param response   Http response
+     * @param filterChain  filter chain
+     * @throws ServletException If an error occurs, while the filtering process
+     * @throws IOException If an I/O error occurs, while filtering process
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -61,5 +80,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request,response);
+    }
+
+    /**
+     * <p>
+     * Checks if the current authenticated user is authorized to access the requested path.
+     * </p>
+     * @param request Http request
+     * @return boolean If the user is authorized, return true or false
+     */
+    private boolean isAuthorized(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        List<String> roles = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+        Map<String, List<String>> allowedPaths = new HashMap<>();
+        allowedPaths.put("DELIVERYPERSON", List.of("/v1/deliverypersons/**", "/v1/customers/**"));
+        allowedPaths.put("CUSTOMER", List.of("/v1/customers/**"));
+        allowedPaths.put("ADMIN", List.of("/v1/admin/**", "/v1/deliverypersons/**", "/v1/customers/**"));
+        String requestPath = request.getServletPath();
+        for (Map.Entry<String, List<String>> entry : allowedPaths.entrySet()) {
+            String role = entry.getKey();
+            List<String> allowedPathsForRole = entry.getValue();
+            for (String pathPattern : allowedPathsForRole) {
+                if (new AntPathMatcher().match(pathPattern, requestPath) && roles.contains(role)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

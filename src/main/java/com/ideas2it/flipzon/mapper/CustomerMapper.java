@@ -7,6 +7,7 @@ public class CustomerMapper {
     public static CustomerDto convertEntityToDto(Customer customer) {
         return CustomerDto.builder()
                 .id(customer.getId())
+                .name(customer.getUser().getName())
                 .build();
     }
 
