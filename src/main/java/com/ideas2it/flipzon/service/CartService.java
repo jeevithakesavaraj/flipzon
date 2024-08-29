@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 
 import com.ideas2it.flipzon.model.Cart;
+import com.ideas2it.flipzon.model.Customer;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dto.CartDto;
@@ -42,5 +43,9 @@ public interface CartService {
      * @return Cart {@link Cart}
      */
     Cart getCartById(long id);
+
+    Cart getCartByCustomerId(Customer customer);
+
+    Cart saveCart(Cart cart);
 
 }

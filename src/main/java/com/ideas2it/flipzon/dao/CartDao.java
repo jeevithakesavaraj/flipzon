@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ideas2it.flipzon.model.Cart;
 
+import java.util.Optional;
+
 /**
  * <p>
  * CartDao is for accessing cart from database
@@ -14,4 +16,7 @@ import com.ideas2it.flipzon.model.Cart;
  */
 @Repository
 public interface CartDao extends JpaRepository<Cart, Long> {
+//    Cart findByCustomerId(long id);
+
+    Optional<Cart> findByCustomerId(long customerId);
 }

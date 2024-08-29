@@ -16,27 +16,7 @@ import com.ideas2it.flipzon.dto.CartItemDto;
 @Service
 public interface CartItemService {
 
-    /**
-     * <p>
-     * Add cartItem
-     * </p>
-     * @param cartItemDto {@link CartItemDto}
-     */
-    void addCartItem(CartItemDto cartItemDto);
 
-    /**
-     * <p>
-     * Get cart items
-     * </p>
-     * @return CartItemDtos  {@link CartItemDto}
-     */
-    List<CartItemDto> getCartItems();
+    CartItemDto addProductToCartItem(long customerId, long productId, int quantity);
 
-    /**
-     * <p>
-     * Delete cart item
-     * </p>
-     * @param cartItemId  Id of the cart item which we have to delete
-     */
-    void deleteCartItem(long cartItemId);
 }

@@ -1,13 +1,18 @@
 package com.ideas2it.flipzon.controller;
 
+import com.ideas2it.flipzon.dto.CartItemDto;
 import com.ideas2it.flipzon.dto.WishlistDto;
 import com.ideas2it.flipzon.dto.WishlistResponseDto;
+import com.ideas2it.flipzon.service.CartItemService;
 import com.ideas2it.flipzon.service.CustomerService;
 import com.ideas2it.flipzon.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -24,6 +29,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CartItemService cartItemService;
 
     /**
      * <p>
@@ -66,4 +74,23 @@ public class CustomerController {
         return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.OK);
     }
 
+//    @PutMapping("/{customerId}/cartitems/products/{productId}")
+//    public ResponseEntity<String> addCartItem(@PathVariable long productId, @PathVariable long customerId) {
+//        cartItemService.addProductToCartItem(productId, customerId);
+//        return ResponseEntity.ok("Product added successfully");
+//    }
+
+//    @PutMapping("/{customerId}/cartitems/products/{productId}")
+//    public ResponseEntity<CartItemDto> addProductToCartItem(@PathVariable long customerId, @PathVariable long productId, @RequestBody int quantity) {
+//        CartItemDto updatedCartItem = cartItemService.addProductToCartItem(customerId, productId, quantity);
+//        return ResponseEntity.ok(updatedCartItem);
+//    }
+
+
+    @PutMapping("/{customerId}/cartitems/products/{productId}")
+    public ResponseEntity<String> addProductToCartItem(@RequestBody long productId, @RequestBody long customerId, @RequestBody Map<String, Integer> requestBody) {
+        int quantity = requestBody.get("quantity");
+        cartItemService.addProductToCartItem(customerId, productId, quantity);
+        return ResponseEntity.ok("Product added successfully with quantity: " + quantity);
+    }
 }

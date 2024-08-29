@@ -52,10 +52,6 @@ public class Product {
     @JsonIgnore
     private Subcategory subcategory;
 
-    @OneToMany(mappedBy = "product")
-    @JsonIgnore
-    private Set<CartItem> cartItems;
-
     @OneToOne(mappedBy = "product")
     private Stock stock;
 }

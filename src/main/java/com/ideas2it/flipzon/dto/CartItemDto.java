@@ -3,12 +3,14 @@ package com.ideas2it.flipzon.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
+
 /**
  * <p>
  * CartItemDto represents Cart item details.
  * </p>
  *
- * @author Jeevithakesavaraj
+ * @author Gowthamraj
  */
 
 @Data
@@ -16,7 +18,8 @@ import lombok.Data;
 public class CartItemDto {
     private long id;
     private long cartId;
-    private long productId;
+    private Set<Long> productIds;
     private int quantity;
+    private double price;
     private double totalPrice;
 }
