@@ -1,64 +1,51 @@
 package com.ideas2it.flipzon.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.mapper.ProductMapper;
-import com.ideas2it.flipzon.model.Cart;
-import com.ideas2it.flipzon.model.CartItem;
-import com.ideas2it.flipzon.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.ideas2it.flipzon.dao.CustomerDao;
 import com.ideas2it.flipzon.dto.CustomerDto;
-import com.ideas2it.flipzon.mapper.CustomerMapper;
 import com.ideas2it.flipzon.model.Customer;
 
 /**
  * <p>
- * This service is for performing CRUD operations for customer
+ *  Customer service is for accessing customer details
  * </p>
  *
  * @author Jeevithakesavaraj
  */
-@Service
-public class CustomerService {
-
-    @Autowired
-    private CustomerDao customerDao;
+public interface CustomerService {
 
     /**
      * <p>
-     * Add customer to the customer database
+     * Add customer to the database
      * </p>
-     *
      * @param customer {@link Customer}
+     * @return savedCustomer {@link Customer}
      */
-    public void addCustomer(Customer customer) {
-        customerDao.save(customer);
-    }
+    Customer addCustomer(Customer customer);
 
-    public List<CustomerDto> getAllCustomers() {
-        List<Customer> customers = customerDao.findAll();
-        List<CustomerDto> customerDtos = new ArrayList<>();
-        for (Customer customer : customers) {
-            customerDtos.add(CustomerMapper.convertEntityToDto(customer));
-        }
-        return customerDtos;
-    }
+    /**
+     * <p>
+     * Get all customers
+     * </p>
+     * @return List of customer {@link CustomerDto}
+     */
+    List<CustomerDto> getAllCustomers();
 
     /**
      * <p>
      * Get customer by Id
      * </p>
-     *
-     * @param id Id of the customer
+     * @param id  Id of the customer
      * @return Customer {@link Customer}
      */
-    public Customer getCustomerById(long id) {
-        return customerDao.findById(id).get();
-    }
+    Customer getCustomerById(long id);
 
+    /**
+     * <p>
+     * Check if the customer is present or not
+     * </p>
+     * @param customerId Id of the customer
+     * @return boolean If customer is present, return true or else false
+     */
+    boolean isCustomerPresent(long customerId);
 }

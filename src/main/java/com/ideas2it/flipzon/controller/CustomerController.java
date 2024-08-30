@@ -2,17 +2,13 @@ package com.ideas2it.flipzon.controller;
 
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.*;
-import com.ideas2it.flipzon.service.CartItemService;
-import com.ideas2it.flipzon.service.CartService;
-import com.ideas2it.flipzon.service.CustomerService;
-import com.ideas2it.flipzon.service.WishlistService;
+import com.ideas2it.flipzon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * <p>
@@ -32,6 +28,9 @@ public class CustomerController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private AddressService addressService;
 
     /**
      * <p>
@@ -74,7 +73,7 @@ public class CustomerController {
         return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.OK);
     }
 
-    @PostMapping("/addproducts")
+    @PutMapping("/addproducts")
     public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(updatedCart);
@@ -90,9 +89,37 @@ public class CustomerController {
         return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
     }
 
-    @PatchMapping("/update-quantity")
+    @PutMapping("/update-quantity")
     public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
         return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+    }
+
+    @PostMapping("/{customerId}/addresses")
+    public ResponseEntity<APIResponse> addAddress(@PathVariable long customerId, @RequestBody AddressDto addressDto) {
+        APIResponse apiResponse =  addressService.addAddress(customerId, addressDto);
+        return ResponseEntity.status(apiResponse.getStatus())
+                .body(apiResponse);
+    }
+
+    @GetMapping("/{customerId}/addresses")
+    public ResponseEntity<APIResponse> getAddressesByCustomerId(@PathVariable long customerId) {
+        APIResponse apiResponse = addressService.getAddressesByCustomerId(customerId);
+        return ResponseEntity.status(apiResponse.getStatus())
+                .body(apiResponse);
+    }
+
+    @PutMapping("/{customerId}/addresses")
+    public ResponseEntity<APIResponse> updateAddressByCustomerId(@PathVariable long customerId, @RequestBody AddressDto addressDto) {
+        APIResponse apiResponse = addressService.updateAddressByCustomerId(customerId, addressDto);
+        return ResponseEntity.status(apiResponse.getStatus())
+                .body(apiResponse);
+    }
+
+    @DeleteMapping("/{customerId}/addresses/{addressId}")
+    public ResponseEntity<APIResponse> deleteAddressByCustomerId(@PathVariable long customerId, @PathVariable long addressId) {
+        APIResponse apiResponse = addressService.deleteAddressByCustomerId(customerId, addressId);
+        return ResponseEntity.status(apiResponse.getStatus())
+                .body(apiResponse);
     }
 }

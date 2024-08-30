@@ -29,5 +29,4 @@ public class DeliveryService {
     public Delivery createDelivery(Delivery delivery) {
         return deliveryDao.save(delivery);
     }
-
 }

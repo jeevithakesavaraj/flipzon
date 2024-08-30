@@ -14,4 +14,5 @@ import com.ideas2it.flipzon.model.Customer;
  */
 @Repository
 public interface CustomerDao extends JpaRepository<Customer, Long> {
+    boolean existsByIdAndIsDeletedFalse(long customerId);
 }
