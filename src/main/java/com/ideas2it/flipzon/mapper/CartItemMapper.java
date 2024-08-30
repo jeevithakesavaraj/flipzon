@@ -6,7 +6,6 @@ import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Product;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -27,7 +26,6 @@ public class CartItemMapper {
     public static CartItemDto convertEntityToDto(CartItem cartItem) {
         return CartItemDto.builder()
                 .id(cartItem.getId())
-//                .cartId(cartItem.getCart().getId())
                 .price(cartItem.getPrice())
                 .quantity(cartItem.getQuantity())
                 .totalPrice(cartItem.getTotalPrice())
@@ -47,7 +45,6 @@ public class CartItemMapper {
         cartItem.setPrice(cartItemDto.getPrice());
         cartItem.setQuantity(cartItemDto.getQuantity());
         cartItem.setTotalPrice(cartItemDto.getTotalPrice());
-//        cartItem.setCart(cart);
         return cartItem;
     }
 }

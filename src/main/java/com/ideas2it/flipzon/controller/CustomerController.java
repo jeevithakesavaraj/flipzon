@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.controller;
 
+import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.*;
 import com.ideas2it.flipzon.service.CartItemService;
 import com.ideas2it.flipzon.service.CartService;
@@ -79,19 +80,19 @@ public class CustomerController {
         return ResponseEntity.ok(updatedCart);
     }
 
-//    @GetMapping("/{customerId}/cart")
-//    public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
-//        return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("/{customerId}/cart/{productId}")
-//    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
-//        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
-//    }
-//
-//    @PutMapping("/update-quantity")
-//    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
-//        CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
-//        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-//    }
+    @GetMapping("/{customerId}/cart")
+    public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
+        return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{customerId}/cart/{productId}")
+    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
+        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
+    }
+
+    @PatchMapping("/update-quantity")
+    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
+        CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
+        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+    }
 }

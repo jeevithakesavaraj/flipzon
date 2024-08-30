@@ -22,4 +22,7 @@ public interface CartItemService {
 
     CartItem addProductToCartItem(Cart cart, CartDto cartDto);
 
+    void deleteCartItem(CartItem cartItem);
+
+    CartItem updateProductToCartItem(CartItem cartItem, CartDto cartDto);
 }

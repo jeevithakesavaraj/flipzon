@@ -20,13 +20,29 @@ public class CartItemServiceImpl implements CartItemService {
     private CartItemDao cartItemDao;
 
     public CartItem addProductToCartItem(Cart cart, CartDto cartDto) {
+        CartItem item = cartItemDao.findByProductId(cartDto.getProductId());
         Product product = ProductMapper.convertDtoToEntity(productService.retrieveProductById(cartDto.getProductId()));
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
+        if (item == null) {
+            CartItem cartItem = new CartItem();
+            cartItem.setCart(cart);
+            cartItem.setProduct(product);
+            cartItem.setQuantity(cartDto.getQuantity());
+            cartItem.setPrice(product.getPrice());
+            cartItem.setTotalPrice(cartDto.getQuantity() * product.getPrice());
+            return cartItemDao.saveAndFlush(cartItem);
+        } else {
+            return updateProductToCartItem(item, cartDto);
+        }
+    }
+
+    public void deleteCartItem(CartItem cartItem) {
+        cartItemDao.delete(cartItem);
+    }
+
+    public CartItem updateProductToCartItem(CartItem cartItem, CartDto cartDto) {
         cartItem.setQuantity(cartDto.getQuantity());
-        cartItem.setPrice(product.getPrice());
-        cartItem.setTotalPrice(cartDto.getQuantity() * product.getPrice());
+        cartItem.setPrice(cartItem.getProduct().getPrice());
+        cartItem.setTotalPrice(cartDto.getQuantity() * cartItem.getProduct().getPrice());
         return cartItemDao.saveAndFlush(cartItem);
     }
 }

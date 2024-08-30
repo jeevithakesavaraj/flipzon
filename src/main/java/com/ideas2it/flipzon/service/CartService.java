@@ -21,4 +21,9 @@ public interface CartService {
 
     CartResponseDto addProductToCart(CartDto cartDto);
 
+    CartResponseDto getProductsFromCart(long customerId);
+
+    CartResponseDto removeProductFromCart(long customerId, long productId);
+
+    CartResponseDto updateProductQuantity(CartDto cartDto);
 }

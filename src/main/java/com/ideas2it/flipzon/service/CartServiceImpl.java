@@ -1,9 +1,14 @@
 package com.ideas2it.flipzon.service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.ideas2it.flipzon.dto.CartResponseDto;
-import com.ideas2it.flipzon.model.*;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import com.ideas2it.flipzon.mapper.CartItemMapper;
+import com.ideas2it.flipzon.model.Cart;
+import com.ideas2it.flipzon.model.CartItem;
+import com.ideas2it.flipzon.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +33,8 @@ public class CartServiceImpl implements CartService {
     private CustomerService customerService;
     @Autowired
     private CartItemService cartItemService;
+    @Autowired
+    private ProductService productService;
 
     public CartResponseDto addProductToCart(CartDto cartDto) {
         Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
@@ -78,5 +85,50 @@ public class CartServiceImpl implements CartService {
                 .customerId(cartDto.getCustomerId())
                 .totalPrice(existCart.getTotalPrice())
                 .build();
+    }
+
+    public CartResponseDto getProductsFromCart(long customerId) {
+        Cart cart = cartDao.findByCustomerId(customerId);
+        return CartResponseDto.builder()
+                .customerId(customerId)
+                .totalPrice(cart.getTotalPrice())
+                .build();
+    }
+
+    public CartResponseDto removeProductFromCart(long customerId, long productId) {
+        Cart cart = cartDao.findByCustomerId(customerId);
+        productService.retrieveProductById(productId);
+        for(CartItem cartItems : cart.getCartItems()) {
+            if (cartItems.getProduct().getId() == productId) {
+                cartItemService.deleteCartItem(cartItems);
+                cart.getCartItems().remove(cartItems);
+                cart.setTotalPrice(cart.getTotalPrice() - cartItems.getTotalPrice());
+                Cart updatedCart = cartDao.saveAndFlush(cart);
+                return CartResponseDto.builder()
+                        .customerId(customerId)
+                        .totalPrice(updatedCart.getTotalPrice())
+                        .build();
+            }
+        }
+        throw new ResourceNotFoundException("customerId" + customerId, "ProductId", productId);
+    }
+
+    public CartResponseDto updateProductQuantity(CartDto cartDto) {
+        Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
+        for(CartItem cartItems : cart.getCartItems()) {
+            if (cartItems.getProduct().getId() == cartDto.getProductId()) {
+                cartItems = cartItemService.updateProductToCartItem(cartItems, cartDto);
+                cartItems.setQuantity(cartDto.getQuantity());
+                cartItems.setTotalPrice(cartItems.getPrice() * cartDto.getQuantity());
+                cart.getCartItems().add(cartItems);
+                Cart updatedCart = cartDao.saveAndFlush(cart);
+                return CartResponseDto.builder()
+                        .customerId(updatedCart.getCustomer().getId())
+                        .totalPrice(updatedCart.getTotalPrice())
+                        .cartItemDtos(updatedCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
+                        .build();
+            }
+        }
+        throw new ResourceNotFoundException("customerId" + cartDto.getCustomerId(), "ProductId", cartDto.getProductId());
     }
 }
