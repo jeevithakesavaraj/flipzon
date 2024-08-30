@@ -39,7 +39,7 @@ public interface WishlistService {
      *
      * @param customerId To specify which customer.
      * @param productId  To specify which product.
-     * @return Updated wishlist.
+     * @return Updated wishlist. {@link WishlistResponseDto}
      */
     WishlistResponseDto removeProductFromWishlist(long customerId, long productId);
 
