@@ -1,10 +1,9 @@
 package com.ideas2it.flipzon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Set;
 
@@ -17,7 +16,8 @@ import java.util.Set;
  */
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -29,12 +29,15 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
+    @JsonManagedReference
     private Cart cart;
 
-    @OneToMany
-    private Set<Product> products;
+    @OneToOne
+    private Product product;
 
     private int quantity;
+
     private double price;
+
     private double totalPrice;
 }

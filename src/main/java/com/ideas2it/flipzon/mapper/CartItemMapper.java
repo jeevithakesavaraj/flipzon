@@ -31,9 +31,6 @@ public class CartItemMapper {
                 .price(cartItem.getPrice())
                 .quantity(cartItem.getQuantity())
                 .totalPrice(cartItem.getTotalPrice())
-                .productIds(cartItem.getProducts().stream()
-                        .map(Product::getId)
-                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -50,7 +47,6 @@ public class CartItemMapper {
         cartItem.setPrice(cartItemDto.getPrice());
         cartItem.setQuantity(cartItemDto.getQuantity());
         cartItem.setTotalPrice(cartItemDto.getTotalPrice());
-        cartItem.setProducts(products);
 //        cartItem.setCart(cart);
         return cartItem;
     }

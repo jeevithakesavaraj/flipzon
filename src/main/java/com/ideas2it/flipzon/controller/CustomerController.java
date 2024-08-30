@@ -73,25 +73,25 @@ public class CustomerController {
         return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.OK);
     }
 
-    @PutMapping("/addproducts")
+    @PostMapping("/addproducts")
     public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(updatedCart);
     }
 
-    @GetMapping("/{customerId}/cart")
-    public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
-        return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{customerId}/cart/{productId}")
-    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
-        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
-    }
-
-    @PutMapping("/update-quantity")
-    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
-        CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
-        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
-    }
+//    @GetMapping("/{customerId}/cart")
+//    public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
+//        return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("/{customerId}/cart/{productId}")
+//    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
+//        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
+//    }
+//
+//    @PutMapping("/update-quantity")
+//    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
+//        CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
+//        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+//    }
 }

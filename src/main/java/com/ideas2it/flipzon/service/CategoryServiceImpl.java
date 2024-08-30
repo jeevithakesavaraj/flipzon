@@ -3,14 +3,15 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dao.CategoryDao;
 import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.exception.MyException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CategoryMapper;
 import com.ideas2it.flipzon.model.Category;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
@@ -19,7 +20,7 @@ public class CategoryServiceImpl implements CategoryService{
     private CategoryDao categoryDao;
 
     @Override
-    public CategoryDto addCategory (CategoryDto categoryDto) {
+    public CategoryDto addCategory(CategoryDto categoryDto) {
         if (categoryDao.existsByNameAndIsDeletedFalse(categoryDto.getName())) {
             throw new MyException("Category name already present : " + categoryDto.getName());
         }

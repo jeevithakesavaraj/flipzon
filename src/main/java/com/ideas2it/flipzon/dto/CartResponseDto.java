@@ -1,5 +1,7 @@
 package com.ideas2it.flipzon.dto;
 
+import com.ideas2it.flipzon.model.Cart;
+import com.ideas2it.flipzon.model.CartItem;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,13 +11,9 @@ import java.util.Set;
 @Builder
 public class CartResponseDto {
 
-    private String customerName;
+    private Long  customerId;
 
-    private Set<String> products;
-
-    private double productPrice;
-
-    private int quantity;
+    private Set<CartItem> cartItems;
 
     private double totalPrice;
 

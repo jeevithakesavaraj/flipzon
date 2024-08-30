@@ -3,14 +3,15 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dao.BrandDao;
 import com.ideas2it.flipzon.dto.BrandDto;
 import com.ideas2it.flipzon.exception.MyException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.BrandMapper;
 import com.ideas2it.flipzon.model.Brand;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class BrandServiceImpl implements BrandService{

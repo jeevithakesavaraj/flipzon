@@ -1,8 +1,7 @@
 package com.ideas2it.flipzon.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Data transfer object of category Entity
@@ -10,8 +9,7 @@ import lombok.Setter;
  * @author Gokul
  */
 @Builder
-@Getter
-@Setter
+@Data
 public class CategoryDto {
     private Long id;
 

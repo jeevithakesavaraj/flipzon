@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -52,6 +54,7 @@ public class User implements UserDetails {
     private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @JsonManagedReference
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

@@ -3,7 +3,6 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 
 import com.ideas2it.flipzon.dto.ProductDto;
-import com.ideas2it.flipzon.model.Product;
 
 /**
  * <p>

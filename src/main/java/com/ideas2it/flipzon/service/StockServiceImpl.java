@@ -3,6 +3,9 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dao.StockDao;
 import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.dto.StockDto;
@@ -11,8 +14,6 @@ import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.mapper.StockMapper;
 import com.ideas2it.flipzon.model.Stock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class StockServiceImpl implements StockService {

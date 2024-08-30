@@ -3,6 +3,9 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dao.SubcategoryDao;
 import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.dto.SubcategoryDto;
@@ -11,8 +14,6 @@ import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CategoryMapper;
 import com.ideas2it.flipzon.mapper.SubcategoryMapper;
 import com.ideas2it.flipzon.model.Subcategory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService{

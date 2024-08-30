@@ -4,10 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * <p>
@@ -17,9 +14,10 @@ import lombok.NoArgsConstructor;
  * @author Gowthamraj
  */
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Table
 @Builder
 public class Customer {

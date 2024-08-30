@@ -1,15 +1,19 @@
 package com.ideas2it.flipzon.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.Set;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p>
@@ -18,7 +22,7 @@ import java.util.Set;
  *
  * @author Gokul
  */
-@Data
+
 @Table
 @Entity
 @Builder

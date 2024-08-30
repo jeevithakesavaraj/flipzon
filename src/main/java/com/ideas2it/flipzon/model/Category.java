@@ -2,13 +2,16 @@ package com.ideas2it.flipzon.model;
 
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * <p>
  * Category class represents the category of the products.
@@ -19,7 +22,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table
 @Builder
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
