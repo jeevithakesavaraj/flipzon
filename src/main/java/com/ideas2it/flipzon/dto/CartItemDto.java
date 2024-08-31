@@ -18,7 +18,6 @@ import java.util.Set;
 public class CartItemDto {
     private long id;
     private long cartId;
-    private Set<Long> productIds;
     private int quantity;
     private double price;
     private double totalPrice;

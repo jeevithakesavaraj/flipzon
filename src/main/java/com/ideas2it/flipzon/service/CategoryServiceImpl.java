@@ -1,5 +1,8 @@
 package com.ideas2it.flipzon.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +18,7 @@ import com.ideas2it.flipzon.model.Category;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
+    private static final LocalDate currentDate = LocalDate.now();
 
     @Autowired
     private CategoryDao categoryDao;
@@ -50,6 +54,8 @@ public class CategoryServiceImpl implements CategoryService{
         if (null == category) {
             throw new ResourceNotFoundException("Category", "Category ID", categoryDto.getId());
         }
+        Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        category.setModifiedDate(modifiedDate);
         return CategoryMapper.convertEntityToDto(categoryDao.saveAndFlush(CategoryMapper.convertDtoToEntity(categoryDto)));
     }
 

@@ -8,6 +8,5 @@ import lombok.Data;
 public class CartItemResponseDto {
     private String productName;
     private int quantity;
-    private double price;
     private double totalPrice;
 }

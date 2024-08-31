@@ -15,5 +15,4 @@ public interface WishlistDao extends JpaRepository<Wishlist, Long> {
 
     Wishlist findByCustomerId(long customerId);
     boolean existsByCustomerId(long customerId);
-
 }

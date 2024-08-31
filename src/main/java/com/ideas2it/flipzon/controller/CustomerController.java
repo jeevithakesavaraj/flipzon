@@ -41,7 +41,7 @@ public class CustomerController {
      * @param productId To specify a product has to be added.
      * @return wishlistDto
      */
-    @PutMapping("/{customerId}/wishlist/{productId}")
+    @PostMapping("/{customerId}/wishlist/{productId}")
     public ResponseEntity<WishlistResponseDto> addProductToWishlist(@PathVariable long customerId, @PathVariable long productId) {
         WishlistResponseDto updatedWishlist = wishlistService.addProductToWishlist(customerId, productId);
         return ResponseEntity.ok(updatedWishlist);
@@ -73,7 +73,7 @@ public class CustomerController {
         return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.OK);
     }
 
-    @PutMapping("/addproducts")
+    @PostMapping("/addproducts")
     public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(updatedCart);

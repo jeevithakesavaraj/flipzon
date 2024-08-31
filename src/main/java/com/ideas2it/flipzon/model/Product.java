@@ -1,17 +1,16 @@
 package com.ideas2it.flipzon.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDate;
+import java.util.Date;
+
 
 /**
  * <p>
@@ -27,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @AllArgsConstructor
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class Product {
 
     @Id
@@ -59,4 +59,11 @@ public class Product {
 
     @OneToOne(mappedBy = "product")
     private Stock stock;
+
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate;
+
+    @LastModifiedDate
+    private Date modifiedDate;
 }

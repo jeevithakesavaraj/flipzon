@@ -1,5 +1,8 @@
 package com.ideas2it.flipzon.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,7 @@ import com.ideas2it.flipzon.model.Subcategory;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService{
+    private static final LocalDate currentDate = LocalDate.now();
 
     @Autowired
     private SubcategoryDao subcategoryDao;
@@ -58,6 +62,8 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         if (null == subcategory) {
             throw new ResourceNotFoundException("Subcategory", "Subcategory ID", subcategoryDto.getId());
         }
+        Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        subcategory.setModifiedDate(modifiedDate);
         return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(SubcategoryMapper.convertDtoToEntity(subcategoryDto)));
     }
 

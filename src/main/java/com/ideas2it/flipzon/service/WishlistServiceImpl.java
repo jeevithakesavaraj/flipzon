@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.service;
 
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.WishlistDao;
@@ -10,6 +11,7 @@ import com.ideas2it.flipzon.model.Customer;
 import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.Wishlist;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,10 +30,8 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     public WishlistResponseDto addProductToWishlist(long customerId, long productId) {
-
         Customer customer = customerService.getCustomerById(customerId);
         Product product = ProductMapper.convertDtoToEntity(productService.retrieveProductById(productId));
-
         if (!wishlistDao.existsByCustomerId(customerId)) {
             Wishlist wishlist = new Wishlist();
             wishlist.setCustomer(customer);
@@ -73,11 +73,14 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     public WishlistResponseDto removeProductFromWishlist(long customerId, long productId) {
-        Customer customer = customerService.getCustomerById(customerId);
         Product product = ProductMapper.convertDtoToEntity(productService.retrieveProductById(productId));
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
-        wishlist.getProducts().removeIf(product1 -> product1.getId() == productId);
-        wishlist.setProducts(wishlist.getProducts());
+        for (Product products : wishlist.getProducts()) {
+            if (products.getId() == productId) {
+                wishlist.getProducts().remove(product);
+                wishlist = wishlistDao.saveAndFlush(wishlist);
+            }
+        }
         return WishlistResponseDto.builder()
                 .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(wishlist.getProducts().stream()

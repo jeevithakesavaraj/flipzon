@@ -34,12 +34,10 @@ public class Customer {
 
     private boolean isDeleted;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Cart cart;
 
-//    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "wishlist_id")
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private Set<Wishlist> wishlists = new HashSet<>();
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Wishlist wishlist;
 
 }

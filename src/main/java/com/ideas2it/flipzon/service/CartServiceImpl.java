@@ -57,10 +57,11 @@ public class CartServiceImpl implements CartService {
             totalPrice += item.getTotalPrice();
         }
         newCart.setTotalPrice(totalPrice);
-        cartDao.saveAndFlush(newCart);
+        cart = cartDao.saveAndFlush(newCart);
         return CartResponseDto.builder()
-                .customerId(cartDto.getCustomerId())
-                .totalPrice(newCart.getTotalPrice())
+                .customerId(cart.getCustomer().getId())
+                .totalPrice(cart.getTotalPrice())
+                .cartItemResponseDtos(cart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -80,18 +81,20 @@ public class CartServiceImpl implements CartService {
             }
             existCart.setTotalPrice(totalPrice);
         }
-        cartDao.saveAndFlush(existCart);
+        existCart = cartDao.saveAndFlush(existCart);
         return CartResponseDto.builder()
-                .customerId(cartDto.getCustomerId())
+                .customerId(existCart.getCustomer().getId())
                 .totalPrice(existCart.getTotalPrice())
+                .cartItemResponseDtos(existCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                 .build();
     }
 
     public CartResponseDto getProductsFromCart(long customerId) {
         Cart cart = cartDao.findByCustomerId(customerId);
         return CartResponseDto.builder()
-                .customerId(customerId)
+                .customerId(cart.getCustomer().getId())
                 .totalPrice(cart.getTotalPrice())
+                .cartItemResponseDtos(cart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -102,11 +105,12 @@ public class CartServiceImpl implements CartService {
             if (cartItems.getProduct().getId() == productId) {
                 cartItemService.deleteCartItem(cartItems);
                 cart.getCartItems().remove(cartItems);
-                cart.setTotalPrice(cart.getTotalPrice() - cartItems.getTotalPrice());
+                cart.setTotalPrice(cartItems.getTotalPrice());
                 Cart updatedCart = cartDao.saveAndFlush(cart);
                 return CartResponseDto.builder()
-                        .customerId(customerId)
+                        .customerId(updatedCart.getCustomer().getId())
                         .totalPrice(updatedCart.getTotalPrice())
+                        .cartItemResponseDtos(updatedCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                         .build();
             }
         }
@@ -121,11 +125,12 @@ public class CartServiceImpl implements CartService {
                 cartItems.setQuantity(cartDto.getQuantity());
                 cartItems.setTotalPrice(cartItems.getPrice() * cartDto.getQuantity());
                 cart.getCartItems().add(cartItems);
+                cart.setTotalPrice(cartItems.getTotalPrice());
                 Cart updatedCart = cartDao.saveAndFlush(cart);
                 return CartResponseDto.builder()
                         .customerId(updatedCart.getCustomer().getId())
                         .totalPrice(updatedCart.getTotalPrice())
-                        .cartItemDtos(updatedCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
+                        .cartItemResponseDtos(updatedCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                         .build();
             }
         }

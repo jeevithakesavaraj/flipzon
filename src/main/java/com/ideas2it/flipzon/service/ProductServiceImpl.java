@@ -1,5 +1,8 @@
 package com.ideas2it.flipzon.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,6 +24,7 @@ import com.ideas2it.flipzon.model.Product;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    private static final LocalDate currentDate = LocalDate.now();
 
     @Autowired
     private ProductDao productDao;
@@ -88,6 +92,8 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("Product", "Product ID", productDto.getId());
         }
         product.setPrice(productDto.getPrice());
+        Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        product.setModifiedDate(modifiedDate);
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 

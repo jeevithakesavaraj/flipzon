@@ -1,5 +1,9 @@
 package com.ideas2it.flipzon.service;
 
+import java.time.LocalDate;
+
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +19,7 @@ import com.ideas2it.flipzon.model.Brand;
 
 @Service
 public class BrandServiceImpl implements BrandService{
-
+    private static final LocalDate currentDate = LocalDate.now();
     @Autowired
     private BrandDao brandDao;
 
@@ -52,6 +56,8 @@ public class BrandServiceImpl implements BrandService{
         } else if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             throw new MyException("Brand name already present : " + brandDto.getName());
         }
+        Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        brand.setModifiedDate(modifiedDate);
         return BrandMapper.convertEntityToDto(brandDao.saveAndFlush(BrandMapper.convertDtoToEntity(brandDto)));
     }
 

@@ -41,7 +41,6 @@ public class CartMapper {
         return CartDto.builder()
                 .cartId(cart.getId())
                 .customerId(cart.getCustomer().getId())
-                .totalPrice(cart.getTotalPrice())
                 .build();
     }
 }

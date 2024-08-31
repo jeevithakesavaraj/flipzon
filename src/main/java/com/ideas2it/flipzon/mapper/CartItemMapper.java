@@ -1,6 +1,7 @@
 package com.ideas2it.flipzon.mapper;
 
 import com.ideas2it.flipzon.dto.CartItemDto;
+import com.ideas2it.flipzon.dto.CartItemResponseDto;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Product;
@@ -23,10 +24,9 @@ public class CartItemMapper {
      * @param cartItem   {@link CartItem}
      * @return cartItemDto  {@link CartItemDto}
      */
-    public static CartItemDto convertEntityToDto(CartItem cartItem) {
-        return CartItemDto.builder()
-                .id(cartItem.getId())
-                .price(cartItem.getPrice())
+    public static CartItemResponseDto convertEntityToDto(CartItem cartItem) {
+        return CartItemResponseDto.builder()
+                .productName(cartItem.getProduct().getName())
                 .quantity(cartItem.getQuantity())
                 .totalPrice(cartItem.getTotalPrice())
                 .build();

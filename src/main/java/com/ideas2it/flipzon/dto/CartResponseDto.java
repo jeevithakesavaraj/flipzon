@@ -13,7 +13,7 @@ public class CartResponseDto {
 
     private Long  customerId;
 
-    private Set<CartItemDto> cartItemDtos;
+    private Set<CartItemResponseDto> cartItemResponseDtos;
 
     private double totalPrice;
 
