@@ -3,6 +3,8 @@ package com.ideas2it.flipzon.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +22,12 @@ import com.ideas2it.flipzon.model.Customer;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class);
     @Autowired
     private CustomerDao customerDao;
 
     public Customer addCustomer(Customer customer) {
+        logger.info("customer is added");
         return customerDao.save(customer);
     }
 
@@ -33,14 +37,17 @@ public class CustomerServiceImpl implements CustomerService {
         for (Customer customer : customers) {
             customerDtos.add(CustomerMapper.convertEntityToDto(customer));
         }
+        logger.info("Getting all customer details.");
         return customerDtos;
     }
 
-    public Customer getCustomerById(long id) {
-        return customerDao.findById(id).get();
+    public Customer getCustomerById(long customerId) {
+        logger.info("Getting the customer with this id: {}", customerId);
+        return customerDao.findByIdAndIsDeletedFalse(customerId);
     }
 
     public boolean isCustomerPresent(long customerId) {
+        logger.info("Checking for the customer with this id: {}", customerId);
         return customerDao.existsByIdAndIsDeletedFalse(customerId);
     }
 }

@@ -1,12 +1,6 @@
 package com.ideas2it.flipzon.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -32,10 +26,14 @@ public class Order {
     private Cart cart;
 
     @OneToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
-
-    @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @Column(name = "payment_Method")
+    @Enumerated(value = EnumType.STRING)
+    private PaymentType paymentType;
+
+    @Column(name = "payment_status")
+    @Enumerated(value = EnumType.STRING)
+    private PaymentStatus paymentStatus;
 }

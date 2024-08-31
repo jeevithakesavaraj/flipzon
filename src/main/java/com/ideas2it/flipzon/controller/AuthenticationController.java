@@ -67,6 +67,5 @@ public class AuthenticationController {
             @RequestBody LoginDto loginDto
             ) {
         return ResponseEntity.ok(authenticationService.authenticate(loginDto));
-
     }
 }
