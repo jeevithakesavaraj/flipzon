@@ -3,6 +3,11 @@ package com.ideas2it.flipzon.model;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -13,7 +18,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-@Builder
+@NoArgsConstructor
 @Table(name = "order")
 public class Order {
 
@@ -22,8 +27,11 @@ public class Order {
     private long id;
 
     @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "address_id")
@@ -36,4 +44,8 @@ public class Order {
     @Column(name = "payment_status")
     @Enumerated(value = EnumType.STRING)
     private PaymentStatus paymentStatus;
+
+    private Date orderedDate;
+
+    private double totalPrice;
 }

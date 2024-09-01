@@ -1,5 +1,7 @@
 package com.ideas2it.flipzon.controller;
 
+import com.ideas2it.flipzon.dto.*;
+import com.ideas2it.flipzon.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.common.APIResponse;
-import com.ideas2it.flipzon.dto.AddressDto;
-import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.dto.CartResponseDto;
-import com.ideas2it.flipzon.dto.WishlistResponseDto;
-import com.ideas2it.flipzon.service.AddressService;
-import com.ideas2it.flipzon.service.CartService;
-import com.ideas2it.flipzon.service.CustomerService;
-import com.ideas2it.flipzon.service.WishlistService;
 
 /**
  * <p>
@@ -36,7 +30,7 @@ public class CustomerController {
     private WishlistService wishlistService;
 
     @Autowired
-    private CustomerService customerService;
+    private OrderService orderService;
 
     @Autowired
     private CartService cartService;
@@ -131,6 +125,13 @@ public class CustomerController {
     @DeleteMapping("/{customerId}/addresses/{addressId}")
     public ResponseEntity<APIResponse> deleteAddressByCustomerId(@PathVariable long customerId, @PathVariable long addressId) {
         APIResponse apiResponse = addressService.deleteAddressByCustomerId(customerId, addressId);
+        return ResponseEntity.status(apiResponse.getStatus())
+                .body(apiResponse);
+    }
+
+    @PostMapping("/placeOrder")
+    public ResponseEntity<APIResponse> placeOrder(@RequestBody OrderDto orderDto) {
+        APIResponse apiResponse = orderService.placeOrder(orderDto);
         return ResponseEntity.status(apiResponse.getStatus())
                 .body(apiResponse);
     }

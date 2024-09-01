@@ -87,4 +87,8 @@ public class AddressServiceImpl implements AddressService {
         apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
         return apiResponse;
     }
+
+    public Address getAddressById(long id) {
+        return addressDao.findById(id).get();
+    }
 }

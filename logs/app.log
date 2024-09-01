@@ -24,3 +24,71 @@
 [INFO ] 2024-08-31 15:22:25.351 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
 [DEBUG] 2024-08-31 15:22:36.950 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
 [INFO ] 2024-08-31 15:22:40.155 [main] FlipzonApplication - Started FlipzonApplication in 15.914 seconds (process running for 18.35)
+[INFO ] 2024-08-31 15:28:19.979 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 5292 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-08-31 15:28:19.996 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-08-31 15:28:19.999 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-08-31 15:28:30.020 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-08-31 15:28:32.304 [main] FlipzonApplication - Started FlipzonApplication in 13.333 seconds (process running for 15.47)
+[INFO ] 2024-08-31 15:28:38.733 [main] UserServiceImpl - ADMINadmin is created.
+[INFO ] 2024-08-31 15:31:03.187 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 13252 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-08-31 15:31:03.223 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-08-31 15:31:03.227 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-08-31 15:31:12.775 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-08-31 15:31:14.345 [main] FlipzonApplication - Started FlipzonApplication in 12.297 seconds (process running for 14.622)
+[INFO ] 2024-08-31 15:33:48.162 [http-nio-8080-exec-1] UserServiceImpl - Checking for the user with this emailId : dharani@gmail.com
+[INFO ] 2024-08-31 15:33:53.478 [http-nio-8080-exec-1] UserServiceImpl - Dharani user is added
+[INFO ] 2024-08-31 15:33:53.718 [http-nio-8080-exec-1] CustomerServiceImpl - customer is added
+[INFO ] 2024-08-31 15:34:24.858 [http-nio-8080-exec-3] UserServiceImpl - Getting the user with this emailId : admin@gmail.com
+[INFO ] 2024-08-31 15:38:15.532 [http-nio-8080-exec-2] UserServiceImpl - Getting the user with this emailId : dharani@gmail.com
+[INFO ] 2024-08-31 15:38:44.332 [http-nio-8080-exec-1] CustomerServiceImpl - Checking for the customer with this id: 1
+[INFO ] 2024-08-31 15:38:44.336 [http-nio-8080-exec-1] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-08-31 15:42:45.894 [http-nio-8080-exec-5] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-08-31 15:42:59.366 [http-nio-8080-exec-6] UserServiceImpl - Getting the user with this emailId : dharani@gmail.com
+[INFO ] 2024-09-01 22:11:57.155 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 8184 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:11:57.180 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:11:57.180 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:12:12.010 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:13:56.849 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 16088 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:13:56.865 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:13:56.865 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:14:07.115 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:14:53.621 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 2636 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:14:53.639 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:14:53.639 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:15:02.576 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:15:04.329 [main] FlipzonApplication - Started FlipzonApplication in 11.874 seconds (process running for 13.971)
+[INFO ] 2024-09-01 22:20:38.737 [http-nio-8080-exec-3] UserServiceImpl - Getting the user with this emailId : dharani@gmail.com
+[INFO ] 2024-09-01 22:24:00.280 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 14392 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:24:00.302 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:24:00.304 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:24:12.205 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:24:13.855 [main] FlipzonApplication - Started FlipzonApplication in 14.795 seconds (process running for 17.68)
+[INFO ] 2024-09-01 22:25:23.702 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 14788 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:25:23.783 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:25:23.787 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:25:40.491 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:25:42.569 [main] FlipzonApplication - Started FlipzonApplication in 20.248 seconds (process running for 22.966)
+[INFO ] 2024-09-01 22:27:12.819 [http-nio-8080-exec-6] UserServiceImpl - Getting the user with this emailId : admin@gmail.com
+[INFO ] 2024-09-01 22:33:16.127 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 10992 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:33:16.193 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:33:16.196 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:33:30.448 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:33:33.440 [main] FlipzonApplication - Started FlipzonApplication in 18.288 seconds (process running for 20.324)
+[INFO ] 2024-09-01 22:33:49.749 [http-nio-8080-exec-2] UserServiceImpl - Checking for the user with this emailId : aravind@gmail.com
+[INFO ] 2024-09-01 22:33:55.096 [http-nio-8080-exec-2] UserServiceImpl - Aravind user is added
+[INFO ] 2024-09-01 22:33:55.370 [http-nio-8080-exec-2] CustomerServiceImpl - customer is added
+[INFO ] 2024-09-01 22:34:17.138 [http-nio-8080-exec-3] UserServiceImpl - Getting the user with this emailId : aravind@gmail.com
+[INFO ] 2024-09-01 22:34:39.231 [http-nio-8080-exec-4] CustomerServiceImpl - Getting the customer with this id: 2
+[INFO ] 2024-09-01 22:35:23.625 [http-nio-8080-exec-6] CustomerServiceImpl - Checking for the customer with this id: 2
+[INFO ] 2024-09-01 22:35:23.631 [http-nio-8080-exec-6] CustomerServiceImpl - Getting the customer with this id: 2
+[INFO ] 2024-09-01 22:54:30.236 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 8480 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 22:54:30.259 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 22:54:30.259 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 22:54:39.607 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 22:54:41.143 [main] FlipzonApplication - Started FlipzonApplication in 12.372 seconds (process running for 14.781)
+[INFO ] 2024-09-01 23:02:01.223 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 8432 (C:\flipzon\flipzon\target\classes started by postgres in C:\flipzon\flipzon)
+[DEBUG] 2024-09-01 23:02:01.244 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-01 23:02:01.245 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-01 23:02:10.029 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-01 23:02:11.624 [main] FlipzonApplication - Started FlipzonApplication in 11.566 seconds (process running for 13.808)
+[INFO ] 2024-09-01 23:02:15.032 [main] UserServiceImpl - ADMINadmin is created.

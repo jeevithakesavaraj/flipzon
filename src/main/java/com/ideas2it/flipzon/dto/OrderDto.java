@@ -1,5 +1,7 @@
 package com.ideas2it.flipzon.dto;
 
+import com.ideas2it.flipzon.model.PaymentStatus;
+import com.ideas2it.flipzon.model.PaymentType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,7 +19,7 @@ public class OrderDto {
     private long id;
     private long customerId;
     private long cart_id;
-    private double totalPrice;
-    private long payment_id;
     private long address_id;
+    private PaymentType paymentType;
+    private PaymentStatus paymentStatus;
 }

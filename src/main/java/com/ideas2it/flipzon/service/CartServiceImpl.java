@@ -136,4 +136,8 @@ public class CartServiceImpl implements CartService {
         }
         throw new ResourceNotFoundException("customerId" + cartDto.getCustomerId(), "ProductId", cartDto.getProductId());
     }
+
+    public Cart getCartByCustomerId(long customerId) {
+        return cartDao.findByCustomerId(customerId);
+    }
 }

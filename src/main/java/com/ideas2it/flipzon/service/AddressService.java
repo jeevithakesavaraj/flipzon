@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.service;
 
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.AddressDto;
+import com.ideas2it.flipzon.model.Address;
 
 public interface AddressService {
 
@@ -44,4 +45,6 @@ public interface AddressService {
      * @return APIResponse {@link APIResponse}
      */
     APIResponse deleteAddressByCustomerId(long customerId, long addressId);
+
+    Address getAddressById(long id);
 }

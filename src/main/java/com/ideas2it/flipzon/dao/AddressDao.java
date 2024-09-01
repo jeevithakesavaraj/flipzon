@@ -26,5 +26,14 @@ public interface AddressDao extends JpaRepository<Address, Long> {
      */
     List<Address> findByCustomerIdAndIsDeletedFalse(long customerId);
 
+
+    /**
+     * <p>
+     * Check the address and customer Id
+     * </p>
+     * @param addressId   Id of the address
+     * @param customerId  Id of the customer
+     * @return boolean   If the address is belongs to customer, return true or false.
+     */
     boolean existsByIdAndCustomerIdAndIsDeletedFalse(long addressId, long customerId);
 }
