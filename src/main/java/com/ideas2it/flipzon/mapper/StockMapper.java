@@ -1,7 +1,10 @@
 package com.ideas2it.flipzon.mapper;
 
 import com.ideas2it.flipzon.dto.StockDto;
+import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.model.Stock;
+import com.ideas2it.flipzon.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Object to Data Transfer Object and Dto to Object Conversion
@@ -9,6 +12,8 @@ import com.ideas2it.flipzon.model.Stock;
  */
 public class StockMapper {
 
+    @Autowired
+    private ProductService productService;
     /**
      * Convert the stock to the stockDto
      * @param stock {@link Stock}

@@ -7,19 +7,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.dto.*;
+import com.ideas2it.flipzon.exception.OutOfStock;
+import com.ideas2it.flipzon.mapper.*;
+import com.ideas2it.flipzon.model.Stock;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.ProductDao;
-import com.ideas2it.flipzon.dto.BrandDto;
-import com.ideas2it.flipzon.dto.CategoryDto;
-import com.ideas2it.flipzon.dto.ProductDto;
-import com.ideas2it.flipzon.dto.SubcategoryDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
-import com.ideas2it.flipzon.mapper.BrandMapper;
-import com.ideas2it.flipzon.mapper.CategoryMapper;
-import com.ideas2it.flipzon.mapper.ProductMapper;
-import com.ideas2it.flipzon.mapper.SubcategoryMapper;
 import com.ideas2it.flipzon.model.Product;
 
 @Service
@@ -34,6 +31,8 @@ public class ProductServiceImpl implements ProductService {
     private CategoryService categoryService;
     @Autowired
     private SubcategoryService subcategoryService;
+    @Autowired
+    private StockService stockService;
 
     @Override
     public ProductDto addProduct(ProductDto productDto) {
@@ -97,17 +96,31 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 
+    @SneakyThrows
     @Override
     public ProductDto retrieveProductById(Long id) {
         Product product = productDao.findByIdAndIsDeletedFalse(id);
         if (null == product) {
             throw new ResourceNotFoundException("Product", "Product ID", id);
+        } else {
+            Stock stock = StockMapper.convertDtoToEntity(stockService.retrieveStockByProductId(product.getId()));
+            if (stock.getCurrentQuantity() == 0) {
+                throw new OutOfStock("Out of Stocks");
+            }
         }
         return ProductMapper.convertEntityToDto(product);
     }
+    @Override
+    public Product getProductById(Long id) {
+        Product product = productDao.findByIdAndIsDeletedFalse(id);
+        if (null == product) {
+            throw new ResourceNotFoundException("Product", "Product ID", id);
+        }
+        return productDao.findByIdAndIsDeletedFalse(id);
+    }
 
     @Override
-    public List<ProductDto>retrieveAllProductByBrandId(Long id) {
+    public List<ProductDto> retrieveAllProductByBrandId(Long id) {
         List<Product> products = productDao.findByIsDeletedFalse();
         if (null == products) {
             throw new ResourceNotFoundException("Products", "BrandId", id);
@@ -119,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto>retrieveAllProductByCategoryId(Long id) {
+    public List<ProductDto> retrieveAllProductByCategoryId(Long id) {
         List<Product> products = productDao.findByIsDeletedFalse();
         if (null == products) {
             throw new ResourceNotFoundException("Products", "CategoryId", id);
@@ -130,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto>retrieveAllProductBySubcategoryId(Long id) {
+    public List<ProductDto> retrieveAllProductBySubcategoryId(Long id) {
         List<Product> products = productDao.findByIsDeletedFalse();
         if (null == products) {
             throw new ResourceNotFoundException("Products", "SubcategoryId", id);

@@ -1,9 +1,12 @@
 package com.ideas2it.flipzon.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +21,10 @@ import java.util.List;
  */
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "order")
 public class Order {
 
@@ -26,14 +32,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "order", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
 
@@ -45,7 +51,11 @@ public class Order {
     @Enumerated(value = EnumType.STRING)
     private PaymentStatus paymentStatus;
 
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     private Date orderedDate;
 
     private double totalPrice;
+
+    private boolean isDeleted;
 }

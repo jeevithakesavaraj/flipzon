@@ -27,7 +27,8 @@ public class UserDto {
     @NotBlank
     private String name;
 
-    @Email
+    @Email(message = "Please enter a valid email Id")
+    @NotNull(message = "Email cannot be NULL")
     private String email;
 
     @NotNull
@@ -36,8 +37,5 @@ public class UserDto {
     @NotBlank
     private String phoneNumber;
 
-    @NotBlank
     private String idProof;
-
-    private Address address;
 }

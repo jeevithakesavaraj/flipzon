@@ -2,8 +2,6 @@ package com.ideas2it.flipzon.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
-
     String resourceName;
     String field;
     String fieldName;
@@ -12,11 +10,10 @@ public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException() {
     }
 
-    public ResourceNotFoundException(String resourceName, String field, String fieldName) {
-        super(String.format("%s not found with %s: %s", resourceName, field, fieldName));
+    public ResourceNotFoundException(String resourceName, String field) {
+        super(String.format("%s not found with %s", resourceName, field));
         this.resourceName = resourceName;
         this.field = field;
-        this.fieldName = fieldName;
     }
 
     public ResourceNotFoundException(String resourceName, String field, Long fieldId) {

@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 
 import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.model.Product;
 
 /**
  * <p>
@@ -53,12 +54,18 @@ public interface ProductService {
     ProductDto updateProductPrice(ProductDto productDto);
 
     /**
-     * Get product details by its id
+     * Get product details by its id with check stock is available or not
      *
      * @param id : id of the product
      */
     ProductDto retrieveProductById(Long id);
 
+    /**
+     * Get product details by its id
+     *
+     * @param id : id of the product
+     */
+    Product getProductById(Long id);
     /**
      * Get All product details by brand id
      *

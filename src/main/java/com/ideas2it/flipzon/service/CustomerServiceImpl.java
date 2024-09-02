@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Customer getCustomerById(long customerId) {
+        Customer customer = customerDao.findByIdAndIsDeletedFalse(customerId);
+        if (null ==customer) {
+            logger.warn("Customer is not found in this Id: {}", customerId);
+            throw new ResourceNotFoundException("Customer", customerId);
+        }
         logger.info("Getting the customer with this id: {}", customerId);
-        return customerDao.findByIdAndIsDeletedFalse(customerId);
+        return customer;
     }
 
     public boolean isCustomerPresent(long customerId) {

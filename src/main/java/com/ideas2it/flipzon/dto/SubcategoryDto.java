@@ -20,4 +20,5 @@ public class SubcategoryDto {
 
     @NotNull(message = "Category ID is mandatory")
     private Long categoryId;
+
 }

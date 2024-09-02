@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +55,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public  User getByEmail(String email) {
-        logger.info("Getting the user with this emailId : {}", email);
-        return userDao.findByEmail(email);
+        User user = userDao.findByEmail(email);
+        if (null == user) {
+            logger.warn("User is not found in this mailId: {}", email);
+            throw new ResourceNotFoundException("User", email);
+        }
+        return user;
     }
 
     public User addUser(User user) {

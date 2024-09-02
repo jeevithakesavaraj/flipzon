@@ -1,11 +1,14 @@
 package com.ideas2it.flipzon.dto;
 
+import com.ideas2it.flipzon.model.OrderItem;
 import com.ideas2it.flipzon.model.PaymentStatus;
 import com.ideas2it.flipzon.model.PaymentType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * <p>
@@ -32,6 +35,7 @@ public class OrderDto {
     @NotBlank(message = "Please enter the address id")
     private long address_id;
 
+    private List<OrderItemDto> orderItems;
     private PaymentType paymentType;
     private PaymentStatus paymentStatus;
 }

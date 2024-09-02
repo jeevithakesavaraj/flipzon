@@ -3,6 +3,8 @@ package com.ideas2it.flipzon.service;
 import java.util.List;
 
 import com.ideas2it.flipzon.dto.StockDto;
+import com.ideas2it.flipzon.model.Product;
+import com.ideas2it.flipzon.model.Stock;
 
 /**
  * <p>
@@ -17,10 +19,11 @@ public interface StockService {
     /**
      * Create the new Stock
      *
-     * @param stockDto : new stock details
-     * @return StockDto : stock details
+     * @param stockDto : {@link StockDto}
+     * @param product : {@link Product}
+     * @return  stock : new stock details
      */
-    StockDto addStock(StockDto stockDto);
+    StockDto addStock(StockDto stockDto, Product product) ;
 
     /**
      * Delete the stock by its id
@@ -50,10 +53,25 @@ public interface StockService {
      * @return StockDto : stock details
      */
     StockDto updateNewStock(StockDto stockDto);
+
     /**
      * Get stock details by its id
      *
      * @param id : id of the stock
      */
-    StockDto retrieveStockById(Long id);
+    StockDto retrieveStockByProductId(Long id);
+
+    /**
+     * Reduce the product quantity as per the order placed quantity
+     * @param productId : id of the product
+     * @param quantity : product Quantity
+     */
+    void reduceStockByOrder(Long productId, int quantity);
+
+    /**
+     * Add the product quantity as per the order cancelled quantity
+     * @param productId : id of the product
+     * @param quantity : product Quantity
+     */
+    void updateStockByCancelledOrder(Long productId, int quantity);
 }

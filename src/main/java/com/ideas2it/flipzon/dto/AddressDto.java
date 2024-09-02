@@ -1,8 +1,8 @@
 package com.ideas2it.flipzon.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,10 +20,12 @@ public class AddressDto {
 
     private long id;
 
-    @NotBlank(message = "Please enter the address")
+    @NotBlank
+    @Size(min=2, max=30)
     private String addressLine;
 
-    @NotBlank(message = "Please enter your city")
+    @NotBlank
+    @Size(min=2, max=30)
     @Pattern(regexp = "^[a-zA-Z]+( [a-zA-Z])*$", message = "Name only contains Characters")
     private String city;
 

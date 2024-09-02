@@ -5,10 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.configuaration.JwtService;
 import com.ideas2it.flipzon.exception.MyException;
 import com.ideas2it.flipzon.dto.AuthenticationResponse;
@@ -32,6 +35,8 @@ import com.ideas2it.flipzon.model.UserRole;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+    @Autowired
+    private APIResponse apiResponse;
     private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -39,7 +44,14 @@ public class AuthenticationService {
     private final CustomerService customerService;
     private final DeliveryService deliveryService;
 
-    public String registerCustomer(CustomerDto customerDto) {
+    /**
+     * <p>
+     * register customer
+     * </p>
+     * @param customerDto {@link CustomerDto}
+     * @return APIresponse {@link APIResponse}
+     */
+    public APIResponse registerCustomer(CustomerDto customerDto) {
         Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
         if (userService.checkByEmail(customerDto.getEmail())) {
             User existingUser = userService.getByEmail(customerDto.getEmail());
@@ -52,7 +64,9 @@ public class AuthenticationService {
                 User savedUser = userService.addUser(existingUser);
                 Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
                 customerService.addCustomer(customer);
-                return savedUser.getEmail() + " registered successfully.";
+                apiResponse.setData(savedUser.getEmail() + " registered successfully.");
+                apiResponse.setStatus(HttpStatus.CREATED.value());
+                return apiResponse;
             }
             throw new MyException("Email Id - " + customerDto.getEmail()
                     + " Already Exist.Please Login or use Another EmailId");
@@ -62,11 +76,20 @@ public class AuthenticationService {
         User savedUser = userService.addUser(user);
         Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
         customerService.addCustomer(customer);
-        return savedUser.getEmail() + " registered successfully.";
+        apiResponse.setData(savedUser.getEmail() + " registered successfully.");
+        apiResponse.setStatus(HttpStatus.CREATED.value());
+        return apiResponse;
 
     }
 
-    public String registerDeliveryPerson(DeliveryDto deliveryDto) {
+    /**
+     * <p>
+     *  Register delivery person
+     * </p>
+     * @param deliveryDto  {@link DeliveryDto}
+     * @return APIResponse {@link APIResponse}
+     */
+    public APIResponse registerDeliveryPerson(DeliveryDto deliveryDto) {
         Role role = null;
         if (userService.checkByEmail(deliveryDto.getEmail())) {
             role = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
@@ -80,7 +103,9 @@ public class AuthenticationService {
                 User savedUser = userService.addUser(user);
                 Delivery delivery = UserMapper.convertDeliveryEntity(deliveryDto, savedUser);
                 deliveryService.createDelivery(delivery);
-                return savedUser.getEmail() + "registered successfully.";
+                apiResponse.setData(savedUser.getEmail() + " registered successfully.");
+                apiResponse.setStatus(HttpStatus.CREATED.value());
+                return apiResponse;
             }
             throw new MyException("Email Id - " + deliveryDto.getEmail()
                     + " Already Exist.Please Login or use Another EmailId");
@@ -93,9 +118,18 @@ public class AuthenticationService {
         User savedUser = userService.addUser(user);
         Delivery delivery = UserMapper.convertDeliveryEntity(deliveryDto, savedUser);
         deliveryService.createDelivery(delivery);
-        return savedUser.getEmail() + "registered successfully.";
+        apiResponse.setData(savedUser.getEmail() + " registered successfully.");
+        apiResponse.setStatus(HttpStatus.CREATED.value());
+        return apiResponse;
     }
 
+    /**
+     * <p>
+     * Authenticate login using credentials
+     * </p>
+     * @param loginDto {@link LoginDto}
+     * @return {@link AuthenticationResponse}
+     */
     public AuthenticationResponse authenticate(LoginDto loginDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -110,6 +144,14 @@ public class AuthenticationService {
                 .build();
     }
 
+    /**
+     * <p>
+     * Check if the role is present in the set of roles of the user
+     * </p>
+     * @param roles  Set of roles where user have registered
+     * @param roleId ID of the role
+     * @return boolean if the role is present, return true or else false
+     */
     public boolean checkRole(Set<Role> roles, long roleId) {
         for (Role userRole : roles) {
             if (userRole.getId() == roleId) {

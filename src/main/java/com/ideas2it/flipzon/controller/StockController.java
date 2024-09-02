@@ -2,6 +2,9 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.mapper.ProductMapper;
+import com.ideas2it.flipzon.model.Product;
+import com.ideas2it.flipzon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,16 +34,19 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
+    @Autowired
+    private ProductService productService;
 
     /**
-     * Create the Stock based on the Admin request
+     * Add the Stock details by product ID based on the Admin request
      *
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
     @PostMapping
     public ResponseEntity<StockDto> addStock(@RequestBody StockDto stockDto) {
-        return new ResponseEntity<>(stockService.addStock(stockDto), HttpStatus.CREATED);
+        Product product = productService.getProductById(stockDto.getProductId());
+        return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.OK);
     }
 
     /**
@@ -74,6 +80,7 @@ public class StockController {
     public ResponseEntity<StockDto> updateStock(@RequestBody StockDto stockDto) {
         return new ResponseEntity<>(stockService.updateStock(stockDto), HttpStatus.OK);
     }
+
     /**
      * Refill the Stock by product ID based on the Admin request
      *
@@ -92,7 +99,7 @@ public class StockController {
      * @return StockDto with Http status Created.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<StockDto> getStockById(@PathVariable long id) {
-        return new ResponseEntity<>(stockService.retrieveStockById(id), HttpStatus.OK);
+    public ResponseEntity<StockDto> getStockByProductId(@PathVariable long id) {
+        return new ResponseEntity<>(stockService.retrieveStockByProductId(id), HttpStatus.OK);
     }
 }

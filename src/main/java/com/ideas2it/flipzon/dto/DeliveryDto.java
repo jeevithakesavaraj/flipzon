@@ -17,7 +17,6 @@ import lombok.Data;
 public class DeliveryDto {
     private long id;
 
-    @NotNull(message = "Name is mandatory")
     @NotBlank(message = "Please enter Valid name")
     private String name;
 

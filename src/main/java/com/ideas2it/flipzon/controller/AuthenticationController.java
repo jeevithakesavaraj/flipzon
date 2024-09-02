@@ -1,6 +1,8 @@
 package com.ideas2it.flipzon.controller;
 
+import com.ideas2it.flipzon.common.APIResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,7 @@ import com.ideas2it.flipzon.service.AuthenticationService;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    private APIResponse apiResponse;
     private final AuthenticationService authenticationService;
 
     /**
@@ -35,10 +38,11 @@ public class AuthenticationController {
      * @return String - Customer is registered or not
      */
     @PostMapping("/register/customers")
-    public ResponseEntity<String> registerCustomer(
+    public ResponseEntity<APIResponse> registerCustomer(
             @RequestBody CustomerDto customerDto
     ) {
-        return ResponseEntity.ok(authenticationService.registerCustomer(customerDto));
+        apiResponse = authenticationService.registerCustomer(customerDto);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
     /**
@@ -49,10 +53,11 @@ public class AuthenticationController {
      * @return String - Delivery person is registered or not
      */
     @PostMapping("/register/deliverypersons")
-    public ResponseEntity<String> registerDeliveryPerson(
+    public ResponseEntity<APIResponse> registerDeliveryPerson(
             @RequestBody DeliveryDto deliveryDto
             ) {
-        return ResponseEntity.ok(authenticationService.registerDeliveryPerson(deliveryDto));
+        apiResponse = authenticationService.registerDeliveryPerson(deliveryDto);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
     /**

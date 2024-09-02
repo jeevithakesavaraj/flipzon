@@ -20,6 +20,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(myException.getMessage(), HttpStatus.ALREADY_REPORTED);
     }
 
+    @ExceptionHandler(OutOfStock.class)
+    public ResponseEntity<String> stockNotAvailable(OutOfStock outOfStock) {
+        return new ResponseEntity<>(outOfStock.getMessage(), HttpStatus.OK);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         Map<String,String> errors = new HashMap<>();
@@ -35,6 +40,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<APIResponse> accessDeniedException(AccessDeniedException accessDeniedException) {
         APIResponse apiResponse = new APIResponse();
         apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<APIResponse> handleResourceNotFoundException(ResourceNotFoundException resourceNotFoundException) {
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        apiResponse.setData(resourceNotFoundException.getMessage());
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 }
