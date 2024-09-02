@@ -1,17 +1,12 @@
 package com.ideas2it.flipzon.dto;
 
+import com.ideas2it.flipzon.model.Cart;
+import com.ideas2it.flipzon.model.CartItem;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.Set;
 
-/**
- * <p>
- * This represents for token which is response back to the user
- * </p>
- *
- * @author Gowthamraj
- */
 @Data
 @Builder
 public class CartResponseDto {

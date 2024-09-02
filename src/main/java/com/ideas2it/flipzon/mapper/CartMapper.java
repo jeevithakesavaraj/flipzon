@@ -1,12 +1,8 @@
 package com.ideas2it.flipzon.mapper;
 
-import java.util.stream.Collectors;
-
 import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.dto.CartResponseDto;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.Customer;
-
 
 /**
  * <p>

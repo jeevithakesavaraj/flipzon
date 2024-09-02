@@ -10,15 +10,13 @@ import lombok.Builder;
  *
  * @author Jeevithakesavaraj
  */
+
 @Builder
 @Data
 public class CartDto {
 
     private Long cartId;
-
     private long customerId;
-
     private long productId;
-
     private int quantity;
 }

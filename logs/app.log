@@ -104,3 +104,18 @@
 [INFO ] 2024-09-02 11:16:33.320 [http-nio-8080-exec-6] CustomerServiceImpl - Getting the customer with this id: 1
 [INFO ] 2024-09-02 11:16:33.398 [http-nio-8080-exec-6] CustomerServiceImpl - Getting the customer with this id: 1
 [INFO ] 2024-09-02 11:16:33.402 [http-nio-8080-exec-6] CustomerController - Product added to wishlist Successfully
+[INFO ] 2024-09-02 11:43:52.323 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 22052 (C:\Users\gowthamraj.bommannan\Desktop\project\flipzon\target\classes started by postgres in C:\Users\gowthamraj.bommannan\Desktop\project\flipzon)
+[DEBUG] 2024-09-02 11:43:52.342 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-02 11:43:52.344 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-02 11:44:02.574 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-02 11:44:04.144 [main] FlipzonApplication - Started FlipzonApplication in 12.806 seconds (process running for 16.685)
+[INFO ] 2024-09-02 12:13:43.102 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 20640 (C:\Users\gowthamraj.bommannan\Desktop\project\flipzon\target\classes started by postgres in C:\Users\gowthamraj.bommannan\Desktop\project\flipzon)
+[DEBUG] 2024-09-02 12:13:43.119 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-02 12:13:43.120 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-02 12:13:53.121 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-02 12:13:54.786 [main] FlipzonApplication - Started FlipzonApplication in 12.58 seconds (process running for 14.468)
+[INFO ] 2024-09-02 12:15:01.685 [http-nio-8080-exec-3] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 12:15:01.854 [http-nio-8080-exec-3] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 12:31:43.861 [http-nio-8080-exec-7] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 12:31:43.898 [http-nio-8080-exec-7] WishlistServiceImpl - Products added to wishlist successfully!!!
+[INFO ] 2024-09-02 12:31:43.898 [http-nio-8080-exec-7] CustomerServiceImpl - Getting the customer with this id: 1

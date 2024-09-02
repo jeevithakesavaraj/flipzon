@@ -1,10 +1,13 @@
 package com.ideas2it.flipzon.dao;
 
+import com.ideas2it.flipzon.dto.CartDto;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.ideas2it.flipzon.model.CartItem;
+
+import java.util.Optional;
 
 /**
  * <p>
@@ -16,14 +19,6 @@ import com.ideas2it.flipzon.model.CartItem;
 @SpringBootApplication(scanBasePackages = "com.ideas2it.flipzon")
 @Repository
 public interface CartItemDao extends JpaRepository<CartItem, Long> {
-
-    /**
-     * <p>
-     * Gets a cartItem of a cart.
-     * </p>
-     * @param id  Unique identification of a cart.
-     * @return CartItem of a cart. {@link CartItem}
-     */
     CartItem findByProductId(long id);
 
 }
