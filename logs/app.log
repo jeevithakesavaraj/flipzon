@@ -92,3 +92,15 @@
 [DEBUG] 2024-09-01 23:02:10.029 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
 [INFO ] 2024-09-01 23:02:11.624 [main] FlipzonApplication - Started FlipzonApplication in 11.566 seconds (process running for 13.808)
 [INFO ] 2024-09-01 23:02:15.032 [main] UserServiceImpl - ADMINadmin is created.
+[INFO ] 2024-09-02 11:14:08.455 [main] FlipzonApplication - Starting FlipzonApplication using Java 22.0.1 with PID 23888 (C:\Users\gowthamraj.bommannan\Desktop\project\flipzon\target\classes started by postgres in C:\Users\gowthamraj.bommannan\Desktop\project\flipzon)
+[DEBUG] 2024-09-02 11:14:08.474 [main] FlipzonApplication - Running with Spring Boot v3.3.2, Spring v6.1.11
+[INFO ] 2024-09-02 11:14:08.481 [main] FlipzonApplication - No active profile set, falling back to 1 default profile: "default"
+[DEBUG] 2024-09-02 11:14:22.410 [main] JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+[INFO ] 2024-09-02 11:14:25.941 [main] FlipzonApplication - Started FlipzonApplication in 18.499 seconds (process running for 20.884)
+[INFO ] 2024-09-02 11:15:29.086 [http-nio-8080-exec-4] UserServiceImpl - Getting the user with this emailId : gowtham@gmail.com
+[INFO ] 2024-09-02 11:16:24.982 [http-nio-8080-exec-5] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 11:16:25.134 [http-nio-8080-exec-5] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 11:16:25.137 [http-nio-8080-exec-5] CustomerController - Product added to wishlist Successfully
+[INFO ] 2024-09-02 11:16:33.320 [http-nio-8080-exec-6] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 11:16:33.398 [http-nio-8080-exec-6] CustomerServiceImpl - Getting the customer with this id: 1
+[INFO ] 2024-09-02 11:16:33.402 [http-nio-8080-exec-6] CustomerController - Product added to wishlist Successfully
