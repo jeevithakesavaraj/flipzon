@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import com.ideas2it.flipzon.mapper.OrderMapper;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private static final Logger logger = LogManager.getLogger(OrderServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
 
     @Autowired
     private APIResponse apiResponse;
@@ -68,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentType(orderDto.getPaymentType());
         order.setPaymentStatus(orderDto.getPaymentStatus());
         order.setTotalPrice(cart.getTotalPrice());
+        LOGGER.info("Order is placed for the customer{}", order.getCustomer().getId());
         Order savedOrder = orderDao.save(order);
         Set<CartItem> cartItems = cart.getCartItems();
         List<OrderItem> orderItems = new ArrayList<>();
@@ -84,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
             int quantity = cartItem.getQuantity();
             Product product = cartItem.getProduct();
             cartService.removeProductFromCart(cart.getCustomer().getId(),cartItem.getProduct().getId());
+            LOGGER.info("Stock is reduced based on the quantity of the product that customer ordered{}", product.getId());
             stockService.reduceStockByOrder(product.getId(),quantity);
         });
         apiResponse.setStatus(HttpStatus.OK.value());
@@ -92,8 +95,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public APIResponse getOrdersByCustomerId(long customerId) {
+        List<Order> placedOrders = orderDao.findByCustomerIdAndIsDeletedFalse(customerId);
         List<OrderDto> orderDtos = new ArrayList<>();
-        for (Order order :  orderDao.findByCustomerIdAndIsDeletedFalse(customerId)) {
+        for (Order order :  placedOrders) {
             List<OrderItemDto> orderItems = new ArrayList<>();
             for (OrderItem orderItem : order.getOrderItems()) {
                 orderItems.add(OrderItemMapper.convertEntityToDto(orderItem));
@@ -102,14 +106,19 @@ public class OrderServiceImpl implements OrderService {
             orderDto.setOrderItems(orderItems);
             orderDtos.add(orderDto);
         }
+        LOGGER.info("Getting the history of orders for the customer ID: {}", customerId);
         apiResponse.setData(orderDtos);
         apiResponse.setStatus(HttpStatus.OK.value());
-         return apiResponse;
+        return apiResponse;
     }
 
     @Override
     public APIResponse cancelOrder(long customerId, long orderId) {
         Order order = orderDao.findByIdAndCustomerId(orderId, customerId);
+        if (null == order) {
+            LOGGER.warn("No order is found in this Id: {}", orderId);
+            throw new ResourceNotFoundException("No order is found for this Id: ", orderId);
+        }
         order.setDeleted(true);
         orderDao.save(order);
         order.getOrderItems().forEach(orderItem -> {
@@ -118,6 +127,7 @@ public class OrderServiceImpl implements OrderService {
             cartService.removeProductFromCart(order.getCustomer().getId(),orderItem.getProduct().getId());
             stockService.updateStockByCancelledOrder(product.getId(),quantity);
         });
+        LOGGER.info("Order is cancelled in this Id:{} for the customer :{} ", orderId, order.getCustomer().getId());
         apiResponse.setData("Order Cancelled");
         apiResponse.setStatus(HttpStatus.OK.value());
         return apiResponse;
