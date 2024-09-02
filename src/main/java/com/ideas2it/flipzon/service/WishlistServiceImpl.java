@@ -8,6 +8,8 @@ import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.Wishlist;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class WishlistServiceImpl implements WishlistService {
+
+    private static final Logger LOGGER = LogManager.getLogger(WishlistServiceImpl.class);
 
     @Autowired
     private WishlistDao wishlistDao;
@@ -37,6 +41,7 @@ public class WishlistServiceImpl implements WishlistService {
                 wishlist.setProducts(Set.of(product));
             }
             wishlistDao.save(wishlist);
+            LOGGER.info("Product added to wishlist" + product);
             return WishlistResponseDto.builder()
                     .customerName(customerService.getCustomerById(customerId).getUser().getName())
                     .products(wishlist.getProducts().stream()
@@ -47,6 +52,7 @@ public class WishlistServiceImpl implements WishlistService {
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
         wishlist.getProducts().add(product);
         wishlistDao.save(wishlist);
+        LOGGER.info("Product added to wishlist" + product);
         return WishlistResponseDto.builder()
                 .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(wishlist.getProducts().stream()
@@ -59,8 +65,10 @@ public class WishlistServiceImpl implements WishlistService {
     public WishlistResponseDto getProductsFromWishlist(long customerId) {
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
         if (wishlist == null) {
+            LOGGER.warn("No products in wishlist");
             throw new ResourceNotFoundException("Please add products to wishlist", "customerId", customerId);
         }
+        LOGGER.info("Wishlist of the customer with ID: " + customerId);
         return WishlistResponseDto.builder()
                 .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(wishlist.getProducts().stream()
@@ -76,6 +84,7 @@ public class WishlistServiceImpl implements WishlistService {
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
         wishlist.getProducts().removeIf(product1 -> product1.getId() == productId);
         wishlist = wishlistDao.saveAndFlush(wishlist);
+        LOGGER.info("Product is removed from wishlist");
         return WishlistResponseDto.builder()
                 .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(wishlist.getProducts().stream()
