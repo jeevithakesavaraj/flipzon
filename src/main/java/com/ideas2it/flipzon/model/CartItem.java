@@ -40,4 +40,8 @@ public class CartItem {
     private double price;
 
     private double totalPrice;
+
+    public double getTotalPrice() {
+        return getQuantity() * getPrice();
+    }
 }

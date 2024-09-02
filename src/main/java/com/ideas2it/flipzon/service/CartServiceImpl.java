@@ -103,10 +103,9 @@ public class CartServiceImpl implements CartService {
         productService.retrieveProductById(productId);
         for(CartItem cartItems : cart.getCartItems()) {
             if (cartItems.getProduct().getId() == productId) {
-                cartItemService.deleteCartItem(cartItems);
                 cart.getCartItems().remove(cartItems);
-                cart.setTotalPrice(cartItems.getTotalPrice());
-                Cart updatedCart = cartDao.saveAndFlush(cart);
+                cartItemService.deleteCartItem(cartItems);
+                Cart updatedCart = cartDao.findByCustomerId(customerId);
                 return CartResponseDto.builder()
                         .customerId(updatedCart.getCustomer().getId())
                         .totalPrice(updatedCart.getTotalPrice())
@@ -125,8 +124,7 @@ public class CartServiceImpl implements CartService {
                 cartItems.setQuantity(cartDto.getQuantity());
                 cartItems.setTotalPrice(cartItems.getPrice() * cartDto.getQuantity());
                 cart.getCartItems().add(cartItems);
-                cart.setTotalPrice(cartItems.getTotalPrice());
-                Cart updatedCart = cartDao.saveAndFlush(cart);
+                Cart updatedCart = cartDao.findByCustomerId(cartDto.getCustomerId());
                 return CartResponseDto.builder()
                         .customerId(updatedCart.getCustomer().getId())
                         .totalPrice(updatedCart.getTotalPrice())

@@ -1,7 +1,15 @@
 package com.ideas2it.flipzon.controller;
 
-import com.ideas2it.flipzon.dto.*;
-import com.ideas2it.flipzon.service.*;
+import com.ideas2it.flipzon.common.APIResponse;
+import com.ideas2it.flipzon.dto.AddressDto;
+import com.ideas2it.flipzon.dto.CartDto;
+import com.ideas2it.flipzon.dto.CartResponseDto;
+import com.ideas2it.flipzon.dto.OrderDto;
+import com.ideas2it.flipzon.dto.WishlistResponseDto;
+import com.ideas2it.flipzon.service.AddressService;
+import com.ideas2it.flipzon.service.CartService;
+import com.ideas2it.flipzon.service.OrderService;
+import com.ideas2it.flipzon.service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ideas2it.flipzon.common.APIResponse;
 
 /**
  * <p>
@@ -44,7 +51,7 @@ public class CustomerController {
      * </p>
      *
      * @param customerId To specify a customer.
-     * @param productId To specify a product has to be added.
+     * @param productId  To specify a product has to be added.
      * @return wishlistDto
      */
     @PostMapping("/{customerId}/wishlist/{productId}")
@@ -57,6 +64,7 @@ public class CustomerController {
      * <p>
      * Retrieves all products from a wishlist of a particular customer.
      * </p>
+     *
      * @param customerId Specify the customer
      * @return wishlist of a customer
      */
@@ -71,7 +79,7 @@ public class CustomerController {
      * </p>
      *
      * @param customerId Specifies which customer.
-     * @param productId Specifies which product needs to be removed.
+     * @param productId  Specifies which product needs to be removed.
      * @return a updated wishlist.
      */
     @DeleteMapping("/{customerId}/wishlist/products/{productId}")
@@ -103,7 +111,7 @@ public class CustomerController {
 
     @PostMapping("/{customerId}/addresses")
     public ResponseEntity<APIResponse> addAddress(@PathVariable long customerId, @RequestBody AddressDto addressDto) {
-        APIResponse apiResponse =  addressService.addAddress(customerId, addressDto);
+        APIResponse apiResponse = addressService.addAddress(customerId, addressDto);
         return ResponseEntity.status(apiResponse.getStatus())
                 .body(apiResponse);
     }
