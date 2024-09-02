@@ -20,6 +20,7 @@ public interface WishlistService {
      *
      * @param wishlistId To specify the wishlist
      * @param productId  To specify the product.
+     * @return The updated wishlist {@link WishlistResponseDto}
      */
     WishlistResponseDto addProductToWishlist(long wishlistId, long productId);
 
@@ -28,7 +29,7 @@ public interface WishlistService {
      * Retrieve all products from wishlist
      * </p>
      * @param customerId To specify which customer.
-     * @return A list of products
+     * @return A list of products {@link WishlistResponseDto}
      */
     WishlistResponseDto getProductsFromWishlist(long customerId);
 
