@@ -1,21 +1,19 @@
 package com.ideas2it.flipzon.mapper;
 
-import com.ideas2it.flipzon.dto.UserDto;
-import com.ideas2it.flipzon.model.Address;
-import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.model.Delivery;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.ideas2it.flipzon.dto.CustomerDto;
 import com.ideas2it.flipzon.dto.DeliveryDto;
+import com.ideas2it.flipzon.dto.UserDto;
+import com.ideas2it.flipzon.model.Customer;
+import com.ideas2it.flipzon.model.Delivery;
 import com.ideas2it.flipzon.model.User;
-
-import java.util.Collections;
-
 /**
  * <p>
  * UserMapper have methods for conversion of entity and dto
  * </p>
+ *
+ * @author Jeevithakesavaraj
  */
 public class UserMapper {
 
@@ -37,6 +35,13 @@ public class UserMapper {
                 .build();
     }
 
+    /**
+     * <p>
+     * Convert CustomerDto to User
+     * </p>
+     * @param customerDto {@link CustomerDto}
+     * @return {@link User}
+     */
     public static User convertUserEntity (CustomerDto customerDto) {
         return User.builder()
                 .name(customerDto.getName())
@@ -46,6 +51,13 @@ public class UserMapper {
                 .build();
     }
 
+    /**
+     * <p>
+     * Convert Delivery Dto to User Entity
+     * </p>
+     * @param deliveryDto {@link DeliveryDto}
+     * @return {@link User}
+     */
     public static User convertUserEntity (DeliveryDto deliveryDto) {
         return User.builder()
                 .name(deliveryDto.getName())
@@ -55,6 +67,14 @@ public class UserMapper {
                 .build();
     }
 
+    /**
+     * <p>
+     * Convert Delivery Dto to Entity
+     * </p>
+     * @param deliveryDto {@link DeliveryDto}
+     * @param user {@link User}
+     * @return {@link Delivery}
+     */
     public static Delivery convertDeliveryEntity (DeliveryDto deliveryDto, User user) {
         return Delivery.builder()
                 .user(user)
@@ -62,6 +82,14 @@ public class UserMapper {
                 .build();
     }
 
+    /**
+     * <p>
+     * Convert Customer Dto to Entity
+     * </p>
+     * @param customerDto {@link CustomerDto}
+     * @param user {@link User}
+     * @return {@link Customer}
+     */
     public static Customer convertCustomerEntity (CustomerDto customerDto, User user) {
         return Customer.builder()
                 .user(user)

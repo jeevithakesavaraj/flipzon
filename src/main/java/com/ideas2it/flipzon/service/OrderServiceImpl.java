@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dao.OrderDao;
 import com.ideas2it.flipzon.dto.OrderDto;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.model.Address;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
