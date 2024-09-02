@@ -1,5 +1,7 @@
 package com.ideas2it.flipzon.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,5 +15,6 @@ import lombok.Data;
 public class CategoryDto {
     private Long id;
 
+    @NotBlank(message = "Please enter a valid category name")
     private String name;
 }

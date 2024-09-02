@@ -1,5 +1,7 @@
 package com.ideas2it.flipzon.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Builder;
 
@@ -16,7 +18,13 @@ import lombok.Builder;
 public class CartDto {
 
     private Long cartId;
+
+    @NotNull(message = "Customer ID is mandatory")
     private long customerId;
+
+    @NotNull(message = "Product ID is mandatory")
     private long productId;
+
+    @NotNull(message = "Quantity is mandatory")
     private int quantity;
 }

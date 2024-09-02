@@ -33,8 +33,10 @@ public class UserDto {
     @NotNull
     private String password;
 
+    @NotBlank
     private String phoneNumber;
 
+    @NotBlank
     private String idProof;
 
     private Address address;

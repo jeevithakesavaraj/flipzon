@@ -1,11 +1,10 @@
 package com.ideas2it.flipzon.dto;
 
-import com.ideas2it.flipzon.model.Cart;
-import com.ideas2it.flipzon.model.CartItem;
+import java.util.Set;
+
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
 
 @Data
 @Builder

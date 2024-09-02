@@ -1,9 +1,9 @@
 package com.ideas2it.flipzon.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.Set;
 
 /**
  * <p>
@@ -17,8 +17,12 @@ import java.util.Set;
 @Builder
 public class CartItemDto {
     private long id;
+
     private long cartId;
+
     private int quantity;
+
     private double price;
+
     private double totalPrice;
 }
