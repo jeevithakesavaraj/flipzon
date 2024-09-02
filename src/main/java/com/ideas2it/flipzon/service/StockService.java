@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ideas2it.flipzon.dto.StockDto;
 import com.ideas2it.flipzon.model.Product;
-import com.ideas2it.flipzon.model.Stock;
 
 /**
  * <p>

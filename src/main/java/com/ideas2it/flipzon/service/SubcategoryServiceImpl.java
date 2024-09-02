@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import com.ideas2it.flipzon.model.Subcategory;
 
 @Service
 public class SubcategoryServiceImpl implements SubcategoryService{
+    private static final Logger LOGGER = LogManager.getLogger(SubcategoryServiceImpl.class);
+
     private static final LocalDate currentDate = LocalDate.now();
 
     @Autowired
@@ -31,11 +35,13 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     @Override
     public SubcategoryDto addSubcategory (SubcategoryDto subcategoryDto) {
         if (subcategoryDao.existsByNameAndIsDeletedFalse(subcategoryDto.getName())) {
+            LOGGER.warn("Subcategory name already exist {}", subcategoryDto.getName());
             throw new MyException("Subcategory name already present : " + subcategoryDto.getName());
         }
         CategoryDto categoryDto = categoryService.retrieveCategoryById(subcategoryDto.getCategoryId());
          Subcategory subcategory = subcategoryDao.save(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
          subcategory.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
+         LOGGER.info("Subcategory added successfully");
          return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(subcategory));
     }
 
@@ -43,27 +49,36 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     public void deleteSubcategory(long id) {
         Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(id);
         if (subcategory.isDeleted()) {
+            LOGGER.warn("Subcategory not found in this id{}", id);
             throw new ResourceNotFoundException("Subcategory", "Subcategory ID", id);
         }
         subcategory.setDeleted(true);
         subcategoryDao.saveAndFlush(subcategory);
+        LOGGER.info("Subcategory deleted Successfully");
     }
 
     @Override
     public List<SubcategoryDto> retrieveAllSubcategory() {
-        return subcategoryDao.findByIsDeletedFalse().stream()
-                .map(SubcategoryMapper::convertEntityToDto)
-                .collect(Collectors.toList());
+        List<SubcategoryDto> subcategoryDtos =  subcategoryDao.findByIsDeletedFalse().stream()
+                .map(SubcategoryMapper::convertEntityToDto).toList();
+        if (subcategoryDtos.isEmpty()) {
+            LOGGER.warn("Subcategories not fount in database");
+            throw new ResourceNotFoundException("Subcategory", "");
+        }
+        LOGGER.info("Get all subcategories in database");
+        return subcategoryDtos;
     }
 
     @Override
     public SubcategoryDto updateSubcategory(SubcategoryDto subcategoryDto) {
         Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(subcategoryDto.getId());
         if (null == subcategory) {
+            LOGGER.warn("subcategory not found in this id {}", subcategoryDto.getId());
             throw new ResourceNotFoundException("Subcategory", "Subcategory ID", subcategoryDto.getId());
         }
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         subcategory.setModifiedDate(modifiedDate);
+        LOGGER.info("subcategory updated successfully");
         return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(SubcategoryMapper.convertDtoToEntity(subcategoryDto)));
     }
 
@@ -71,8 +86,10 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     public SubcategoryDto retrieveSubcategoryById(long id) {
         Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(id);
         if (null == subcategory) {
+            LOGGER.warn("subcategory not found in this id {}", id);
             throw new ResourceNotFoundException("Subcategory", "Subcategory ID", id);
         }
+        LOGGER.info("Get subcategory by its id {}", id);
         return SubcategoryMapper.convertEntityToDto(subcategory);
     }
 }

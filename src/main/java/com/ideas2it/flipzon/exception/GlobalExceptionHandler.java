@@ -11,18 +11,32 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MyException.class)
-    public ResponseEntity<String> handleAlreadyPresent(MyException myException) {
-        return new ResponseEntity<>(myException.getMessage(), HttpStatus.ALREADY_REPORTED);
+    public ResponseEntity<APIResponse> handleAlreadyPresent(MyException myException) {
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setStatus(HttpStatus.ALREADY_REPORTED.value());
+        apiResponse.setData(myException.getMessage());
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
     @ExceptionHandler(OutOfStock.class)
-    public ResponseEntity<String> stockNotAvailable(OutOfStock outOfStock) {
-        return new ResponseEntity<>(outOfStock.getMessage(), HttpStatus.OK);
+    public ResponseEntity<APIResponse> handleStockNotAvailable(OutOfStock outOfStock) {
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setStatus(HttpStatus.NO_CONTENT.value());
+        apiResponse.setData(outOfStock.getMessage());
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    }
+
+    @ExceptionHandler(EmptyCart.class)
+    public ResponseEntity<APIResponse> handleCartIsEmpty(EmptyCart emptyCart) {
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setStatus(HttpStatus.NO_CONTENT.value());
+        apiResponse.setData(emptyCart.getMessage());
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

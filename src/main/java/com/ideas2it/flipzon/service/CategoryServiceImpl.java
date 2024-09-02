@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import com.ideas2it.flipzon.model.Category;
 
 @Service
 public class CategoryServiceImpl implements CategoryService{
+
+    private static final Logger LOGGER = LogManager.getLogger(CategoryServiceImpl.class);
     private static final LocalDate currentDate = LocalDate.now();
 
     @Autowired
@@ -26,8 +29,10 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public CategoryDto addCategory(CategoryDto categoryDto) {
         if (categoryDao.existsByNameAndIsDeletedFalse(categoryDto.getName())) {
+            LOGGER.warn("Category already exist in this name {}", categoryDto.getName());
             throw new MyException("Category name already present : " + categoryDto.getName());
         }
+        LOGGER.info("Category added  successfully");
         return CategoryMapper.convertEntityToDto(categoryDao.save(CategoryMapper.convertDtoToEntity(categoryDto)));
     }
 
@@ -35,27 +40,36 @@ public class CategoryServiceImpl implements CategoryService{
     public void deleteCategory(long id) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(id);
         if (category.isDeleted()) {
+            LOGGER.warn("Category not found in this id {}", id);
             throw new ResourceNotFoundException("Category", "Category ID", id);
         }
         category.setDeleted(true);
         categoryDao.saveAndFlush(category);
+        LOGGER.info("Category deleted successfully");
     }
 
     @Override
     public List<CategoryDto> retrieveAllCategory() {
-        return categoryDao.findByIsDeletedFalse().stream()
-                .map(CategoryMapper::convertEntityToDto)
-                .collect(Collectors.toList());
+        List<CategoryDto> categoryDtos =  categoryDao.findByIsDeletedFalse().stream()
+                .map(CategoryMapper::convertEntityToDto).toList();
+        if (categoryDtos.isEmpty()) {
+            LOGGER.warn("No Categories found ");
+            throw new ResourceNotFoundException("Category", "");
+        }
+        LOGGER.info("Get All categories");
+        return categoryDtos;
     }
 
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(categoryDto.getId());
         if (null == category) {
+            LOGGER.warn("Category not found in this id {}", categoryDto.getId());
             throw new ResourceNotFoundException("Category", "Category ID", categoryDto.getId());
         }
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         category.setModifiedDate(modifiedDate);
+        LOGGER.info("Category updated");
         return CategoryMapper.convertEntityToDto(categoryDao.saveAndFlush(CategoryMapper.convertDtoToEntity(categoryDto)));
     }
 
@@ -63,8 +77,10 @@ public class CategoryServiceImpl implements CategoryService{
     public CategoryDto retrieveCategoryById(long id) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(id);
         if (null == category) {
+            LOGGER.warn("Category not found in this id {}", id);
             throw new ResourceNotFoundException("Category", "Category ID", id);
         }
+        LOGGER.info("Get category by its id {}", id);
         return CategoryMapper.convertEntityToDto(category);
     }
 }

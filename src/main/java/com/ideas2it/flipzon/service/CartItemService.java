@@ -3,7 +3,6 @@ package com.ideas2it.flipzon.service;
 import com.ideas2it.flipzon.dto.CartDto;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Jeevithakesavaraj
  */
-@Service
 public interface CartItemService {
 
     CartItem addProductToCartItem(Cart cart, CartDto cartDto);
