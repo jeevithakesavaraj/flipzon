@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table
+@Table(name = "delivery_persons")
 @Builder
 public class Delivery {
 

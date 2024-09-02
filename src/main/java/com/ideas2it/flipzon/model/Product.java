@@ -20,7 +20,7 @@ import java.util.Date;
  * @author Gokul
  */
 @Entity
-@Table
+@Table(name = "products")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

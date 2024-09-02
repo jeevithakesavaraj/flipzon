@@ -20,7 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author Gokul
  */
 
-@Table
+@Table(name = "sub_categories")
 @Entity
 @Builder
 @Getter

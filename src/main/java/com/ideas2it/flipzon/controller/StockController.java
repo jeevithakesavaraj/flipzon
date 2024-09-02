@@ -2,7 +2,6 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
-import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

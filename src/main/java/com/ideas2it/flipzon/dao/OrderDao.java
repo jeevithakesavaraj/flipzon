@@ -25,6 +25,14 @@ public interface OrderDao extends JpaRepository<Order, Long> {
      */
     List<Order> findByCustomerIdAndIsDeletedFalse(long customerId);
 
+    /**
+     * <p>
+     * Get order by order Id and cutomer Id
+     * </p>
+     * @param id   Id of the order
+     * @param customerId Id of the customer
+     * @return {@link Order}
+     */
     Order findByIdAndCustomerId(long id, long customerId);
 
 }

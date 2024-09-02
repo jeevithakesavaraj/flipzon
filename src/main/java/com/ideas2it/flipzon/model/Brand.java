@@ -39,7 +39,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
+@Table(name ="brands")
 @EntityListeners(AuditingEntityListener.class)
 public class Brand {
     @Id

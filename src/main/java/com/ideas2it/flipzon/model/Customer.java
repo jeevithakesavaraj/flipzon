@@ -18,7 +18,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table
+@Table(name = "customers")
 @Builder
 public class Customer {
     @Id
