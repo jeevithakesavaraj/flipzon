@@ -29,7 +29,7 @@ public class BrandServiceImpl implements BrandService{
     private BrandDao brandDao;
 
     @Override
-    public BrandDto addBrand (BrandDto brandDto) {
+    public BrandDto addBrand(BrandDto brandDto) {
         if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             LOGGER.warn("Brand name already exist : {}", brandDto.getName());
             throw new MyException("Brand name already present : " + brandDto.getName());
@@ -39,7 +39,7 @@ public class BrandServiceImpl implements BrandService{
     }
 
     @Override
-    public void deleteBrand(long id) {
+    public boolean deleteBrand(long id) {
         Brand brand = brandDao.findByIdAndIsDeletedFalse(id);
         if (null == brand) {
             LOGGER.warn("Brand not found in this id : {}", id);
@@ -48,6 +48,7 @@ public class BrandServiceImpl implements BrandService{
         brand.setDeleted(true);
         brandDao.saveAndFlush(brand);
         LOGGER.info("Brand deleted successfully by its id : {}", id);
+        return true;
     }
 
     @Override

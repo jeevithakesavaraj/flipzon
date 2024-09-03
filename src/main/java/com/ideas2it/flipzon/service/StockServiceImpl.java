@@ -32,7 +32,7 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public void deleteStock(Long id) {
+    public boolean deleteStock(Long id) {
         Stock stock = stockDao.findByProductIdAndIsDeletedFalse(id);
         if (stock.isDeleted()) {
             LOGGER.warn("Stock is not found in this product id {}", id);
@@ -41,6 +41,7 @@ public class StockServiceImpl implements StockService {
         stock.setDeleted(true);
         stockDao.saveAndFlush(stock);
         LOGGER.info("Stocks deleted Successfully");
+        return true;
     }
 
     @Override

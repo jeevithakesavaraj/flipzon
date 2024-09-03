@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void deleteCategory(long id) {
+    public boolean deleteCategory(long id) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(id);
         if (category.isDeleted()) {
             LOGGER.warn("Category not found in this id {}", id);
@@ -46,6 +46,7 @@ public class CategoryServiceImpl implements CategoryService{
         category.setDeleted(true);
         categoryDao.saveAndFlush(category);
         LOGGER.info("Category deleted successfully");
+        return true;
     }
 
     @Override

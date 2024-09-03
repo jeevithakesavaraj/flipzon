@@ -26,8 +26,9 @@ public interface SubcategoryService {
      * Delete the subcategory by its id
      *
      * @param id : id of the subcategory
+     * @return boolean
      */
-    void deleteSubcategory(long id);
+    boolean deleteSubcategory(long id);
 
     /**
      * view all subcategories

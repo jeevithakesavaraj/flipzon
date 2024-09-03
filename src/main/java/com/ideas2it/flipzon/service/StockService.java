@@ -28,8 +28,9 @@ public interface StockService {
      * Delete the stock by its id
      *
      * @param id : id of the stock
+     * @return boolean
      */
-    void deleteStock(Long id);
+    boolean deleteStock(Long id);
 
     /**
      * view all stocks

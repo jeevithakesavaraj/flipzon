@@ -27,8 +27,10 @@ public interface ProductService {
      * Delete the product by its id
      *
      * @param id : id of the product
+     *
+     * @return boolean
      */
-    void deleteProduct(long id);
+    boolean deleteProduct(long id);
 
     /**
      * view all products

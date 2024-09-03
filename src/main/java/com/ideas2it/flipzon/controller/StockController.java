@@ -45,7 +45,7 @@ public class StockController {
     @PostMapping
     public ResponseEntity<StockDto> addStock(@RequestBody StockDto stockDto) {
         Product product = productService.getProductById(stockDto.getProductId());
-        return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.OK);
+        return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.CREATED);
     }
 
     /**

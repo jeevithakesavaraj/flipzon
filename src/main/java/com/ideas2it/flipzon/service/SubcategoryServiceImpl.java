@@ -46,7 +46,7 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     }
 
     @Override
-    public void deleteSubcategory(long id) {
+    public boolean deleteSubcategory(long id) {
         Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(id);
         if (subcategory.isDeleted()) {
             LOGGER.warn("Subcategory not found in this id{}", id);
@@ -55,6 +55,7 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         subcategory.setDeleted(true);
         subcategoryDao.saveAndFlush(subcategory);
         LOGGER.info("Subcategory deleted Successfully");
+        return true;
     }
 
     @Override

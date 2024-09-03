@@ -26,8 +26,9 @@ public interface BrandService {
      * Delete the brand by its id
      *
      * @param id : id of the brand
+     * @return boolean
      */
-    void deleteBrand(long id);
+    boolean deleteBrand(long id);
 
     /**
      * view all brands

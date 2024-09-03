@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(long id) {
+    public boolean deleteProduct(long id) {
         Product product = productDao.findByIdAndIsDeletedFalse(id);
         if (null == product) {
             LOGGER.warn("Product not found in this id {}", id);
@@ -73,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDeleted(true);
         productDao.saveAndFlush(product);
         LOGGER.info("Product deleted Successfully");
+        return true;
     }
 
     @Override

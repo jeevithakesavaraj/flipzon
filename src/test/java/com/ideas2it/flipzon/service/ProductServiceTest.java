@@ -1,0 +1,4 @@
+package com.ideas2it.flipzon.service;
+
+public class ProductServiceTest {
+}

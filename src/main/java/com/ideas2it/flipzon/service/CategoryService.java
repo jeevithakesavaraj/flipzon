@@ -26,8 +26,9 @@ public interface CategoryService {
      * Delete the category by its id
      *
      * @param id : id of the category
+     * @return boolean
      */
-    void deleteCategory(long id);
+    boolean deleteCategory(long id);
 
     /**
      * view all categories
