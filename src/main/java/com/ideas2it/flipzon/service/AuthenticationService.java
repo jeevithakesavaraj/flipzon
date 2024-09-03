@@ -54,7 +54,7 @@ public class AuthenticationService {
      * register customer
      * </p>
      * @param customerDto {@link CustomerDto}
-     * @return APIresponse {@link APIResponse}
+     * @return APIResponse {@link APIResponse}
      */
     public APIResponse registerCustomer(CustomerDto customerDto) {
         Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
