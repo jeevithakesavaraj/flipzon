@@ -1,7 +1,8 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.dto.WishlistResponseDto;
 import org.springframework.stereotype.Service;
+
+import com.ideas2it.flipzon.dto.WishlistResponseDto;
 
 /**
  * <p>

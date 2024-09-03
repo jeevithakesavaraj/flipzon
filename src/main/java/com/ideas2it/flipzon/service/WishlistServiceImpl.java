@@ -1,20 +1,20 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import com.ideas2it.flipzon.dao.WishlistDao;
-import com.ideas2it.flipzon.dto.WishlistResponseDto;
-import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.model.Product;
-import com.ideas2it.flipzon.mapper.ProductMapper;
-import com.ideas2it.flipzon.model.Wishlist;
-import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import com.ideas2it.flipzon.dao.WishlistDao;
+import com.ideas2it.flipzon.dto.WishlistResponseDto;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import com.ideas2it.flipzon.model.Customer;
+import com.ideas2it.flipzon.model.Product;
+import com.ideas2it.flipzon.mapper.ProductMapper;
+import com.ideas2it.flipzon.model.Wishlist;
 
 @Service
 public class WishlistServiceImpl implements WishlistService {
