@@ -1,11 +1,19 @@
 package com.ideas2it.flipzon.configuaration;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,12 +24,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.util.AntPathMatcher;
-
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -38,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private static final Logger LOGGER = LogManager.getLogger(JwtAuthenticationFilter.class);
 
     /**
      * <p>
@@ -74,12 +77,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
-
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                LOGGER.debug("User Authenticated successfully and added to the SecurityContextHolder");
+            }
+            else {
+                LOGGER.warn("The JWT for the user is not valid. Either the user's JWT is invalid.");
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 
     /**

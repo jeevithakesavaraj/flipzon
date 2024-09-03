@@ -3,7 +3,6 @@ package com.ideas2it.flipzon.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.CustomerDao;
 import com.ideas2it.flipzon.dto.CustomerDto;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CustomerMapper;
 import com.ideas2it.flipzon.model.Customer;
 /**
@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDao customerDao;
 
     public Customer addCustomer(Customer customer) {
-        logger.info("customer is added");
+        logger.info("{}customer is added", customer.getUser().getName());
         return customerDao.save(customer);
     }
 

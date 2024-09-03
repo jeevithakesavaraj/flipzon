@@ -3,7 +3,9 @@ package com.ideas2it.flipzon.service;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.exception.EmptyCart;
+import com.ideas2it.flipzon.model.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,22 +112,23 @@ public class CartServiceImpl implements CartService {
 
     public CartResponseDto removeProductFromCart(long customerId, long productId) {
         Cart cart = cartDao.findByCustomerId(customerId);
-        productService.retrieveProductById(productId);
+        ProductDto productDto = productService.retrieveProductById(productId);
+        if (null == productDto) {
+            LOGGER.warn("Product not found in this customers cart : {} ", customerId);
+            throw new ResourceNotFoundException("customerId" + customerId, "ProductId", productId);
+        }
         LOGGER.info("Remove product from cart by product ID : {}", productId);
         for (CartItem cartItems : cart.getCartItems()) {
             if (cartItems.getProduct().getId() == productId) {
                 cart.getCartItems().remove(cartItems);
                 cartItemService.deleteCartItem(cartItems);
-                Cart updatedCart = cartDao.findByCustomerId(customerId);
-                return CartResponseDto.builder()
-                        .customerId(updatedCart.getCustomer().getId())
-                        .totalPrice(updatedCart.getTotalPrice())
-                        .cartItemResponseDtos(updatedCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
-                        .build();
             }
         }
-        LOGGER.warn("Product not found in this customers cart : {} ", customerId);
-        throw new ResourceNotFoundException("customerId" + customerId, "ProductId", productId);
+        return CartResponseDto.builder()
+                .customerId(cart.getCustomer().getId())
+                .totalPrice(cart.getTotalPrice())
+                .cartItemResponseDtos(cart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
+                .build();
     }
 
     public CartResponseDto updateProductQuantity(CartDto cartDto) {

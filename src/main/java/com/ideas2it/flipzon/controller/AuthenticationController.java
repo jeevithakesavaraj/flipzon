@@ -1,6 +1,10 @@
 package com.ideas2it.flipzon.controller;
 
+import com.ideas2it.flipzon.exception.AuthenticationException;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,6 +74,14 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> login(
             @RequestBody LoginDto loginDto
             ) {
-        return ResponseEntity.ok(authenticationService.authenticate(loginDto));
+        AuthenticationResponse authenticationResponse = null;
+        try {
+            authenticationResponse = authenticationService.authenticate(loginDto);
+            return ResponseEntity.status(HttpStatus.OK.value()).body(authenticationResponse);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(null);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(null);
+        }
     }
 }

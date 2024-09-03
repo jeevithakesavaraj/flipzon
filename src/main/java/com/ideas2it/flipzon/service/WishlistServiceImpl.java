@@ -41,7 +41,7 @@ public class WishlistServiceImpl implements WishlistService {
                 wishlist.setProducts(Set.of(product));
             }
             wishlistDao.save(wishlist);
-            LOGGER.info("Product added to wishlist" + product);
+            LOGGER.info("Product added to wishlist" + product.getName());
             return WishlistResponseDto.builder()
                     .customerName(customerService.getCustomerById(customerId).getUser().getName())
                     .products(wishlist.getProducts().stream()

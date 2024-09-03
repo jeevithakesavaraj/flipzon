@@ -119,14 +119,14 @@ public class OrderServiceImpl implements OrderService {
             LOGGER.warn("No order is found in this Id: {}", orderId);
             throw new ResourceNotFoundException("No order is found for this Id: ", orderId);
         }
-        order.setDeleted(true);
-        orderDao.save(order);
-        order.getOrderItems().forEach(orderItem -> {
+        for (OrderItem orderItem : order.getOrderItems()) {
             int quantity = orderItem.getQuantity();
             Product product = orderItem.getProduct();
             cartService.removeProductFromCart(order.getCustomer().getId(),orderItem.getProduct().getId());
             stockService.updateStockByCancelledOrder(product.getId(),quantity);
-        });
+        }
+        order.setDeleted(true);
+        orderDao.save(order);
         LOGGER.info("Order is cancelled in this Id:{} for the customer :{} ", orderId, order.getCustomer().getId());
         apiResponse.setData("Order Cancelled");
         apiResponse.setStatus(HttpStatus.OK.value());

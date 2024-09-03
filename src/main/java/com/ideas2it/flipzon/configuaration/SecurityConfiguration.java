@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/flipzon/api/v1/authentication/**").permitAll()
-                        .requestMatchers("/flipzon/api/v1/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/flipzon/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/flipzon/api/v1/customers/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .requestMatchers("/flipzon/api/v1/deliverypersons/**").hasAnyRole("DELIVERYPERSON", "ADMIN")
                         .anyRequest().authenticated()

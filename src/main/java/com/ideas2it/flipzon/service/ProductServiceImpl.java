@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dao.ProductDao;
 import com.ideas2it.flipzon.dto.BrandDto;
 import com.ideas2it.flipzon.dto.CategoryDto;
@@ -21,12 +26,6 @@ import com.ideas2it.flipzon.mapper.StockMapper;
 import com.ideas2it.flipzon.mapper.SubcategoryMapper;
 import com.ideas2it.flipzon.model.Stock;
 import com.ideas2it.flipzon.model.Product;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 
 @Service
 public class ProductServiceImpl implements ProductService {

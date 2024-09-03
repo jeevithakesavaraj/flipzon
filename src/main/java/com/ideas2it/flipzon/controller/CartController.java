@@ -1,5 +1,7 @@
 package com.ideas2it.flipzon.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideas2it.flipzon.dto.CartDto;
 import com.ideas2it.flipzon.dto.CartResponseDto;
 import com.ideas2it.flipzon.service.CartService;
+import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.service.ProductService;
 
 /**
  * <p>
@@ -28,6 +32,9 @@ import com.ideas2it.flipzon.service.CartService;
 public class CartController {
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private ProductService productService;
 
     @PostMapping("/addproducts")
     public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
@@ -76,4 +83,18 @@ public class CartController {
         return new ResponseEntity<>(updatedCart, HttpStatus.OK);
     }
 
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        return new ResponseEntity<>(productService.retrieveAllProduct(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/brands/{id}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByBrandId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.retrieveAllProductByBrandId(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/categories/{id}")
+    public ResponseEntity<List<ProductDto>> getAllProductsByCategoryId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.retrieveAllProductByCategoryId(id), HttpStatus.OK);
+    }
 }

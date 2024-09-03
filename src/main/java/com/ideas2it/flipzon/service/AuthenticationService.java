@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.configuaration.JwtService;
 import com.ideas2it.flipzon.exception.MyException;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.dto.AuthenticationResponse;
 import com.ideas2it.flipzon.dto.CustomerDto;
 import com.ideas2it.flipzon.dto.DeliveryDto;
@@ -43,6 +46,8 @@ public class AuthenticationService {
     private final RoleService roleService;
     private final CustomerService customerService;
     private final DeliveryService deliveryService;
+
+    private static final Logger LOGGER = LogManager.getLogger(AuthenticationService.class);
 
     /**
      * <p>
@@ -131,17 +136,23 @@ public class AuthenticationService {
      * @return {@link AuthenticationResponse}
      */
     public AuthenticationResponse authenticate(LoginDto loginDto) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getEmail(),
-                        loginDto.getPassword()
-                )
-        );
         User user = userService.getByEmail(loginDto.getEmail());
-        String jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        if (null == user) {
+            throw new ResourceNotFoundException("No user is found in this emailId:", loginDto.getEmail());
+        }
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getEmail(),
+                            loginDto.getPassword()
+                    )
+            );
+            String jwtToken = jwtService.generateToken(user);
+            LOGGER.info("User authenticated successfully!");
+            return AuthenticationResponse.builder()
+                    .status(HttpStatus.OK.value())
+                    .token(jwtToken)
+                    .build();
+
     }
 
     /**
