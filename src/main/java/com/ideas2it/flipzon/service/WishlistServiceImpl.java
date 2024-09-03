@@ -52,7 +52,7 @@ public class WishlistServiceImpl implements WishlistService {
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
         wishlist.getProducts().add(product);
         wishlistDao.save(wishlist);
-        LOGGER.info("Product added to wishlist" + product);
+        LOGGER.info("Product added to wishlist" + product.getName());
         return WishlistResponseDto.builder()
                 .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(wishlist.getProducts().stream()

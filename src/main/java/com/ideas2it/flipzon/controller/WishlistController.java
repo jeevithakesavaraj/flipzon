@@ -34,7 +34,7 @@ public class WishlistController {
      * @param productId To specify a product has to be added.
      * @return wishlistDto
      */
-    @PostMapping("/{customerId}/wishlist/{productId}")
+    @PostMapping("/{customerId}/wishlist/products/{productId}")
     public ResponseEntity<WishlistResponseDto> addProductToWishlist(@PathVariable long customerId, @PathVariable long productId) {
         WishlistResponseDto updatedWishlist = wishlistService.addProductToWishlist(customerId, productId);
         return ResponseEntity.ok(updatedWishlist);
