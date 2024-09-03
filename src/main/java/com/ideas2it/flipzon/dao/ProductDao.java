@@ -14,9 +14,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductDao extends JpaRepository<Product, Long> {
 
+    /**
+     * Find the product by its id.
+     *
+     * @param id : id of the product
+     * @return Product {@link Product}
+     */
     Product findByIdAndIsDeletedFalse(long id);
 
+    /**
+     * Get the list of active products.
+     *
+     * @return List<Product> list of Products
+     */
     List<Product> findByIsDeletedFalse();
 
+    /**
+     * Get the list of products in category wise.
+     *
+     * @return List<Product> list of Products
+     */
     List<Product> findByCategoryIdAndIsDeletedFalse(Long id);
 }

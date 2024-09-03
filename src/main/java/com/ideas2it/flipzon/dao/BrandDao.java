@@ -14,9 +14,26 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BrandDao extends JpaRepository<Brand, Long> {
 
+    /**
+     * Check brand name already present or not.
+     *
+     * @param name : name of the brand
+     * @return boolean : true or false.
+     */
     boolean existsByNameAndIsDeletedFalse(String name);
 
+    /**
+     * Find the brand by its id.
+     *
+     * @param id : id of the brand
+     * @return Brand {@link Brand}
+     */
     Brand findByIdAndIsDeletedFalse(long id);
 
+    /**
+     * Get the list of active brands.
+     *
+     * @return List<Brand> list of brands
+     */
     List<Brand> findByIsDeletedFalse();
 }

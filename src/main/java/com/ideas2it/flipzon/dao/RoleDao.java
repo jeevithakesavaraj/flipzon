@@ -29,7 +29,7 @@ public interface RoleDao extends JpaRepository<Role, Long> {
      * Get the role by name
      * </p>
      * @param userRole {@link UserRole}
-     * @return  Role    role which have searched
+     * @return  Role : role which have searched
      */
     Role findByName(UserRole userRole);
 }
