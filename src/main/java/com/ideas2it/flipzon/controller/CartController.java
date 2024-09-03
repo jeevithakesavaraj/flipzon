@@ -83,16 +83,36 @@ public class CartController {
         return new ResponseEntity<>(updatedCart, HttpStatus.OK);
     }
 
+    /**
+     * <p>
+     *  Get the list of products
+     * </p>
+     * @return List<ProductDto> {@link ProductDto}
+     */
     @GetMapping("/products")
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         return new ResponseEntity<>(productService.retrieveAllProduct(), HttpStatus.OK);
     }
 
+    /**
+     * <p>
+     * Get products by brand Id
+     * </p>
+     * @param id  Id of the brand
+     * @return List<ProductDto> {@link ProductDto}
+     */
     @GetMapping("/products/brands/{id}")
     public ResponseEntity<List<ProductDto>> getAllProductsByBrandId(@PathVariable Long id) {
         return new ResponseEntity<>(productService.retrieveAllProductByBrandId(id), HttpStatus.OK);
     }
 
+    /**
+     * <p>
+     * Get products by category
+     * </p>
+     * @param id  Id of the category
+     * @return List<ProductDto> {@link ProductDto}
+     */
     @GetMapping("/products/categories/{id}")
     public ResponseEntity<List<ProductDto>> getAllProductsByCategoryId(@PathVariable Long id) {
         return new ResponseEntity<>(productService.retrieveAllProductByCategoryId(id), HttpStatus.OK);

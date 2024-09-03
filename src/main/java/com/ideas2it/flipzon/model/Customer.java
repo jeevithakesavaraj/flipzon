@@ -39,5 +39,4 @@ public class Customer {
 
     @OneToOne(mappedBy = "customer")
     private Wishlist wishlist;
-
 }
