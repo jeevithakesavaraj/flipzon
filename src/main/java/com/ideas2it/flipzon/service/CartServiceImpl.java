@@ -8,15 +8,15 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ideas2it.flipzon.dao.CartDao;
 import com.ideas2it.flipzon.dto.CartResponseDto;
+import com.ideas2it.flipzon.dto.CartDto;
+import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CartItemMapper;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.dao.CartDao;
-import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.exception.EmptyCart;
 
 /**
@@ -47,29 +47,23 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
         if (cart == null) {
             return createCartAndAddProduct(cartDto);
-        } else {
-            return existCartAddProduct(cart, cartDto);
         }
+        return existCartAddProduct(cart, cartDto);
     }
 
     private CartResponseDto createCartAndAddProduct(CartDto cartDto) {
         Cart cart = new Cart();
-        double totalPrice = 0;
         Customer customer = customerService.getCustomerById(cartDto.getCustomerId());
         cart.setCustomer(customer);
         Cart newCart = cartDao.saveAndFlush(cart);
         CartItem cartItem = cartItemService.addProductToCartItem(newCart, cartDto);
         newCart.setCartItems(Set.of(cartItem));
-        for (CartItem item : newCart.getCartItems()) {
-            totalPrice += item.getTotalPrice();
-        }
-        newCart.setTotalPrice(totalPrice);
-        cart = cartDao.saveAndFlush(newCart);
+        newCart.setTotalPrice(cartItem.getTotalPrice());
         LOGGER.info("CartItem added in new cart");
         return CartResponseDto.builder()
-                .customerId(cart.getCustomer().getId())
-                .totalPrice(cart.getTotalPrice())
-                .cartItemResponseDtos(cart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
+                .customerId(newCart.getCustomer().getId())
+                .totalPrice(newCart.getTotalPrice())
+                .cartItemResponseDtos(newCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                 .build();
     }
 

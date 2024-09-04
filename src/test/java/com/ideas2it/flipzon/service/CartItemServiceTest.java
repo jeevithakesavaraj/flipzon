@@ -5,17 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.ideas2it.flipzon.dao.CartItemDao;
 import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.dto.CartItemDto;
-import com.ideas2it.flipzon.dto.CartResponseDto;
 import com.ideas2it.flipzon.mapper.CartMapper;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class CartItemServiceTest {
 
     @Mock
@@ -29,7 +29,7 @@ public class CartItemServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+
     }
 
     @Test
