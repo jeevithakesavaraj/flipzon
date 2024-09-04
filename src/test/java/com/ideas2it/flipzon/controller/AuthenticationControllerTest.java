@@ -102,7 +102,6 @@ public class AuthenticationControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(apiResponse, response.getBody());
         verify(authenticationService, times(1)).registerDeliveryPerson(deliveryDto);
-
     }
 
     @Test
@@ -110,7 +109,7 @@ public class AuthenticationControllerTest {
         when(authenticationService.authenticate(loginDto)).thenReturn(authenticationResponse);
         ResponseEntity<AuthenticationResponse> response = authenticationController.login(loginDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(apiResponse, response.getBody());
+        assertEquals(authenticationResponse, response.getBody());
         verify(authenticationService, times(1)).authenticate(loginDto);
     }
 }
