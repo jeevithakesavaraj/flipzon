@@ -35,7 +35,7 @@ public class OrderController {
      * @param orderDto {@link OrderDto}
      * @return APIResponse {@link APIResponse}
      */
-    @PostMapping("/placeOrder")
+    @PostMapping("/placeorder")
     public ResponseEntity<APIResponse> placeOrder(@RequestBody OrderDto orderDto) {
         APIResponse apiResponse = orderService.placeOrder(orderDto);
         return ResponseEntity.status(apiResponse.getStatus())
@@ -64,7 +64,7 @@ public class OrderController {
      * @param orderId  Id of the order which we want to cancel
      * @return APIResponse {@link APIResponse}
      */
-    @DeleteMapping("/{customerId}/orders/cancelOrder/{orderId}")
+    @DeleteMapping("/{customerId}/orders/cancelorder/{orderId}")
     public ResponseEntity<APIResponse> cancelOrder(@PathVariable long customerId, @PathVariable long orderId) {
         APIResponse apiResponse = orderService.cancelOrder(customerId, orderId);
         return ResponseEntity.status(apiResponse.getStatus())

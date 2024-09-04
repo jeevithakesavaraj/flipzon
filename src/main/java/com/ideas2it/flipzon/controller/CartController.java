@@ -36,7 +36,7 @@ public class CartController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/addproducts")
+    @PostMapping("/addproduct")
     public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(updatedCart);

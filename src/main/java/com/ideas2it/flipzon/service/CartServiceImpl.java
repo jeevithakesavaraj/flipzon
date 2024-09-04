@@ -3,9 +3,6 @@ package com.ideas2it.flipzon.service;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ideas2it.flipzon.dto.ProductDto;
-import com.ideas2it.flipzon.exception.EmptyCart;
-import com.ideas2it.flipzon.model.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +16,8 @@ import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Customer;
 import com.ideas2it.flipzon.dao.CartDao;
 import com.ideas2it.flipzon.dto.CartDto;
-
+import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.exception.EmptyCart;
 
 /**
  * <p>
@@ -133,12 +131,12 @@ public class CartServiceImpl implements CartService {
 
     public CartResponseDto updateProductQuantity(CartDto cartDto) {
         Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
-        for (CartItem cartItems : cart.getCartItems()) {
-            if (cartItems.getProduct().getId() == cartDto.getProductId()) {
-                cartItems = cartItemService.updateProductToCartItem(cartItems, cartDto);
-                cartItems.setQuantity(cartDto.getQuantity());
-                cartItems.setTotalPrice(cartItems.getPrice() * cartDto.getQuantity());
-                cart.getCartItems().add(cartItems);
+        for (CartItem cartItem : cart.getCartItems()) {
+            if (cartItem.getProduct().getId() == cartDto.getProductId()) {
+                cartItem = cartItemService.updateProductToCartItem(cartItem, cartDto);
+                cartItem.setQuantity(cartDto.getQuantity());
+                cartItem.setTotalPrice(cartItem.getPrice() * cartDto.getQuantity());
+                cart.getCartItems().add(cartItem);
                 Cart updatedCart = cartDao.findByCustomerId(cartDto.getCustomerId());
                 LOGGER.info("Product Quantity updated in this cart");
                 return CartResponseDto.builder()

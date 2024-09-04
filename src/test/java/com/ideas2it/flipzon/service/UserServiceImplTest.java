@@ -21,6 +21,7 @@ import com.ideas2it.flipzon.dao.UserDao;
 import com.ideas2it.flipzon.model.Role;
 import com.ideas2it.flipzon.model.User;
 import com.ideas2it.flipzon.model.UserRole;
+
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
 
