@@ -25,7 +25,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto addStock(StockDto stockDto, Product product) {
-        Stock stock = stockDao.saveAndFlush(StockMapper.convertDtoToEntity(stockDto));
+        Stock stock = StockMapper.convertDtoToEntity(stockDto);
         stock.setProduct(product);
         LOGGER.info("Stock added successfully");
         return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));

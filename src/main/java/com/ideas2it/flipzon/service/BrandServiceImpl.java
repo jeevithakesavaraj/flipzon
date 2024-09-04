@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,7 +30,7 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public BrandDto addBrand(BrandDto brandDto) {
         if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
-            LOGGER.warn("Brand name already exist : {}", brandDto.getName());
+            LOGGER.warn("This Brand name already exist : {}", brandDto.getName());
             throw new MyException("Brand name already present : " + brandDto.getName());
         }
         LOGGER.info("Brand added successfully brand Name : {}", brandDto.getName());
@@ -53,16 +52,22 @@ public class BrandServiceImpl implements BrandService{
 
     @Override
     public List<BrandDto> retrieveAllBrand() {
-        return brandDao.findByIsDeletedFalse().stream()
+        List<BrandDto> brandDtos = brandDao.findByIsDeletedFalse().stream()
                 .map(BrandMapper::convertEntityToDto)
-                .collect(Collectors.toList());
+                .toList();
+        if (brandDtos.isEmpty()) {
+            LOGGER.warn("Brands are empty");
+            throw new ResourceNotFoundException();
+        }
+        LOGGER.info("Get all brands");
+        return brandDtos;
     }
 
     @Override
     public BrandDto updateBrand(BrandDto brandDto) {
         Brand brand = brandDao.findByIdAndIsDeletedFalse(brandDto.getId());
         if (null == brand) {
-            LOGGER.warn("Brand id not found in this id : {}", brandDto.getId());
+            LOGGER.warn("This Brand id not found in this id : {}", brandDto.getId());
             throw new ResourceNotFoundException("Brand", "BrandId", brandDto.getId());
         } else if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             LOGGER.warn("Brand name already exist : {}", brandDto.getName());

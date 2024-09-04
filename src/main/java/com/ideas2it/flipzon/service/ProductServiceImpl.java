@@ -59,7 +59,8 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
         product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
         LOGGER.info("Product added successfully");
-        return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
+        product = productDao.saveAndFlush(product);
+        return ProductMapper.convertEntityToDto(product);
     }
 
     @Override
@@ -165,13 +166,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> retrieveAllProductByCategoryId(Long id) {
-        List<Product> products = productDao.findByIsDeletedFalse();
+        List<Product> products = productDao.findByCategoryIdAndIsDeletedFalse(id);
         if (products.isEmpty()) {
             LOGGER.warn("Product not found in this category id {}", id);
             throw new ResourceNotFoundException("Products", "CategoryId", id);
         }
         LOGGER.info("Get products in this category id {}", id);
-        return productDao.findByCategoryIdAndIsDeletedFalse(id).stream()
+        return products.stream()
                 .map(ProductMapper::convertEntityToDto)
                 .collect(Collectors.toList());
     }

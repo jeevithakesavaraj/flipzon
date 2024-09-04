@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService{
     public CategoryDto updateCategory(CategoryDto categoryDto) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(categoryDto.getId());
         if (null == category) {
-            LOGGER.warn("Category not found in this id {}", categoryDto.getId());
+            LOGGER.warn("Category not Available in this id {}", categoryDto.getId());
             throw new ResourceNotFoundException("Category", "Category ID", categoryDto.getId());
         }
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());

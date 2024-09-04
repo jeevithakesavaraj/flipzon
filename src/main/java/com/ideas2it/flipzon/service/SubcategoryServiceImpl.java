@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,7 @@ import com.ideas2it.flipzon.mapper.SubcategoryMapper;
 import com.ideas2it.flipzon.model.Subcategory;
 
 @Service
-public class SubcategoryServiceImpl implements SubcategoryService{
+public class SubcategoryServiceImpl implements SubcategoryService {
     private static final Logger LOGGER = LogManager.getLogger(SubcategoryServiceImpl.class);
 
     private static final LocalDate currentDate = LocalDate.now();
@@ -33,16 +32,16 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     private CategoryService categoryService;
 
     @Override
-    public SubcategoryDto addSubcategory (SubcategoryDto subcategoryDto) {
+    public SubcategoryDto addSubcategory(SubcategoryDto subcategoryDto) {
         if (subcategoryDao.existsByNameAndIsDeletedFalse(subcategoryDto.getName())) {
             LOGGER.warn("Subcategory name already exist {}", subcategoryDto.getName());
             throw new MyException("Subcategory name already present : " + subcategoryDto.getName());
         }
         CategoryDto categoryDto = categoryService.retrieveCategoryById(subcategoryDto.getCategoryId());
-         Subcategory subcategory = subcategoryDao.save(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
-         subcategory.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
-         LOGGER.info("Subcategory added successfully");
-         return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(subcategory));
+        Subcategory subcategory = SubcategoryMapper.convertDtoToEntity(subcategoryDto);
+        subcategory.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
+        LOGGER.info("Subcategory added successfully");
+        return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(subcategory));
     }
 
     @Override
@@ -60,7 +59,7 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 
     @Override
     public List<SubcategoryDto> retrieveAllSubcategory() {
-        List<SubcategoryDto> subcategoryDtos =  subcategoryDao.findByIsDeletedFalse().stream()
+        List<SubcategoryDto> subcategoryDtos = subcategoryDao.findByIsDeletedFalse().stream()
                 .map(SubcategoryMapper::convertEntityToDto).toList();
         if (subcategoryDtos.isEmpty()) {
             LOGGER.warn("Subcategories not fount in database");
@@ -80,7 +79,8 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         subcategory.setModifiedDate(modifiedDate);
         LOGGER.info("subcategory updated successfully");
-        return SubcategoryMapper.convertEntityToDto(subcategoryDao.saveAndFlush(SubcategoryMapper.convertDtoToEntity(subcategoryDto)));
+        subcategory = subcategoryDao.saveAndFlush(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
+        return SubcategoryMapper.convertEntityToDto(subcategory);
     }
 
     @Override
