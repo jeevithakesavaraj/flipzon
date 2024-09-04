@@ -9,9 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -67,6 +64,5 @@ public class CartServiceTest {
         CartResponseDto cartResponseDto = cartService.getProductsFromCart(1L);
         assertEquals(1L, cartResponseDto.getCustomerId());
     }
-
 }
 
