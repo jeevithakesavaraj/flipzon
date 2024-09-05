@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.OrderDto;
+
+import java.util.List;
+
 /**
  * <p>
  * Order Service interface has methods for CRUD operations
@@ -19,18 +22,18 @@ public interface OrderService {
      *  Place the order
      * </p>
      * @param orderDto  {@link OrderDto}
-     * @return  APIResponse {@link APIResponse}
+     * @return  savedOrderDto {@link OrderDto}
      */
-    APIResponse placeOrder(OrderDto orderDto);
+    OrderDto placeOrder(OrderDto orderDto);
 
     /**
      * <p>
      * Get orders by customer Id
      * </p>
      * @param customerId  Id of the customer
-     * @return APIResponse {@link APIResponse}
+     * @return list of orderDtos {@link OrderDto}
      */
-    APIResponse getOrdersByCustomerId(long customerId);
+    List<OrderDto> getOrdersByCustomerId(long customerId);
 
     /**
      * <p>
@@ -38,7 +41,7 @@ public interface OrderService {
      * </p>
      * @param customerId   Id of the customer
      * @param orderId  Id of the order which we want to cancel
-     * @return APIResponse {@link APIResponse}
+     * @return orderDto {@link OrderDto}
      */
-    APIResponse cancelOrder(long customerId, long orderId);
+    OrderDto cancelOrder(long customerId, long orderId);
 }

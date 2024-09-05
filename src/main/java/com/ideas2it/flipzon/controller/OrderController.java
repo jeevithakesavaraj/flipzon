@@ -14,6 +14,8 @@ import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.OrderDto;
 import com.ideas2it.flipzon.service.OrderService;
 
+import java.util.List;
+
 /**
  * <p>
  * Order controller is the controller for order operations of the customer
@@ -36,10 +38,10 @@ public class OrderController {
      * @return APIResponse {@link APIResponse}
      */
     @PostMapping("/placeorder")
-    public ResponseEntity<APIResponse> placeOrder(@RequestBody OrderDto orderDto) {
-        APIResponse apiResponse = orderService.placeOrder(orderDto);
-        return ResponseEntity.status(apiResponse.getStatus())
-                .body(apiResponse);
+    public ResponseEntity<OrderDto> placeOrder(@RequestBody OrderDto orderDto) {
+        System.out.println("order");
+        OrderDto savedOrderDto = orderService.placeOrder(orderDto);
+        return ResponseEntity.ok(savedOrderDto);
     }
 
     /**
@@ -50,10 +52,8 @@ public class OrderController {
      * @return APIResponse {@link APIResponse}
      */
     @GetMapping("/{customerId}/orders")
-    public ResponseEntity<APIResponse> getOrdersByCustomer(@PathVariable long customerId) {
-        APIResponse apiResponse = orderService.getOrdersByCustomerId(customerId);
-        return ResponseEntity.status(apiResponse.getStatus())
-                .body(apiResponse);
+    public ResponseEntity<List<OrderDto>> getOrdersByCustomer(@PathVariable long customerId) {
+        return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));
     }
 
     /**
@@ -65,9 +65,7 @@ public class OrderController {
      * @return APIResponse {@link APIResponse}
      */
     @DeleteMapping("/{customerId}/orders/cancelorder/{orderId}")
-    public ResponseEntity<APIResponse> cancelOrder(@PathVariable long customerId, @PathVariable long orderId) {
-        APIResponse apiResponse = orderService.cancelOrder(customerId, orderId);
-        return ResponseEntity.status(apiResponse.getStatus())
-                .body(apiResponse);
+    public ResponseEntity<OrderDto> cancelOrder(@PathVariable long customerId, @PathVariable long orderId) {
+        return ResponseEntity.ok(orderService.cancelOrder(customerId, orderId));
     }
 }

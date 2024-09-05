@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.ideas2it.flipzon.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,6 @@ import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dao.OrderDao;
 import com.ideas2it.flipzon.dto.OrderDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
-import com.ideas2it.flipzon.model.Address;
-import com.ideas2it.flipzon.model.Cart;
-import com.ideas2it.flipzon.model.CartItem;
-import com.ideas2it.flipzon.model.Order;
-import com.ideas2it.flipzon.model.OrderItem;
-import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.dto.OrderItemDto;
 import com.ideas2it.flipzon.mapper.OrderItemMapper;
 import com.ideas2it.flipzon.mapper.OrderMapper;
@@ -58,9 +53,9 @@ public class OrderServiceImpl implements OrderService {
     private StockService stockService;
 
     @Override
-    public APIResponse placeOrder(OrderDto orderDto) {
+    public OrderDto placeOrder(OrderDto orderDto) {
         Cart cart = cartService.getCartByCustomerId(orderDto.getCustomerId());
-        Address address = addressService.getAddressById(orderDto.getAddress_id());
+        Address address = addressService.getAddressById(orderDto.getAddressId());
         Order order = new Order();
         order.setCustomer(cart.getCustomer());
         LocalDate currentDate = LocalDate.now();
@@ -69,6 +64,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentType(orderDto.getPaymentType());
         order.setPaymentStatus(orderDto.getPaymentStatus());
         order.setTotalPrice(cart.getTotalPrice());
+        order.setOrderStatus(OrderStatus.PLACED);
         LOGGER.info("Order is placed for the customer{}", order.getCustomer().getId());
         Order savedOrder = orderDao.save(order);
         Set<CartItem> cartItems = cart.getCartItems();
@@ -89,12 +85,11 @@ public class OrderServiceImpl implements OrderService {
             LOGGER.info("Stock is reduced based on the quantity of the product that customer ordered{}", product.getId());
             stockService.reduceStockByOrder(product.getId(),quantity);
         });
-        apiResponse.setStatus(HttpStatus.OK.value());
-        return apiResponse;
+        return OrderMapper.convertEntityToDto(savedOrder);
     }
 
     @Override
-    public APIResponse getOrdersByCustomerId(long customerId) {
+    public List<OrderDto> getOrdersByCustomerId(long customerId) {
         List<Order> placedOrders = orderDao.findByCustomerIdAndIsDeletedFalse(customerId);
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order :  placedOrders) {
@@ -107,13 +102,11 @@ public class OrderServiceImpl implements OrderService {
             orderDtos.add(orderDto);
         }
         LOGGER.info("Getting the history of orders for the customer ID: {}", customerId);
-        apiResponse.setData(orderDtos);
-        apiResponse.setStatus(HttpStatus.OK.value());
-        return apiResponse;
+        return orderDtos;
     }
 
     @Override
-    public APIResponse cancelOrder(long customerId, long orderId) {
+    public OrderDto cancelOrder(long customerId, long orderId) {
         Order order = orderDao.findByIdAndCustomerId(orderId, customerId);
         if (null == order) {
             LOGGER.warn("No order is found in this Id: {}", orderId);
@@ -125,11 +118,10 @@ public class OrderServiceImpl implements OrderService {
             cartService.removeProductFromCart(order.getCustomer().getId(),orderItem.getProduct().getId());
             stockService.updateStockByCancelledOrder(product.getId(),quantity);
         }
+        order.setOrderStatus(OrderStatus.CANCELLED);
         order.setDeleted(true);
-        orderDao.save(order);
+        Order deletedOrder = orderDao.save(order);
         LOGGER.info("Order is cancelled in this Id:{} for the customer :{} ", orderId, order.getCustomer().getId());
-        apiResponse.setData("Order Cancelled");
-        apiResponse.setStatus(HttpStatus.OK.value());
-        return apiResponse;
+        return OrderMapper.convertEntityToDto(deletedOrder);
     }
 }

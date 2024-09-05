@@ -57,5 +57,9 @@ public class Order {
 
     private double totalPrice;
 
+    @Column(name = "order_status")
+    @Enumerated(value = EnumType.STRING)
+    private OrderStatus orderStatus;
+
     private boolean isDeleted;
 }
