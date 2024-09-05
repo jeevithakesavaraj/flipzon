@@ -17,7 +17,6 @@ import com.ideas2it.flipzon.mapper.CartItemMapper;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Customer;
-
 /**
  * <p>
  * CartServiceImpl class implements CartService and inherits the methods in Cart service

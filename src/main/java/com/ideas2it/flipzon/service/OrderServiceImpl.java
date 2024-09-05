@@ -7,21 +7,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.ideas2it.flipzon.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dao.OrderDao;
 import com.ideas2it.flipzon.dto.OrderDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.dto.OrderItemDto;
 import com.ideas2it.flipzon.mapper.OrderItemMapper;
 import com.ideas2it.flipzon.mapper.OrderMapper;
-
+import com.ideas2it.flipzon.model.Address;
+import com.ideas2it.flipzon.model.Cart;
+import com.ideas2it.flipzon.model.CartItem;
+import com.ideas2it.flipzon.model.Order;
+import com.ideas2it.flipzon.model.OrderItem;
+import com.ideas2it.flipzon.model.OrderStatus;
+import com.ideas2it.flipzon.model.Product;
 /**
  * <p>
  *  This class implements methods in order service
@@ -33,9 +36,6 @@ import com.ideas2it.flipzon.mapper.OrderMapper;
 public class OrderServiceImpl implements OrderService {
 
     private static final Logger LOGGER = LogManager.getLogger(OrderServiceImpl.class);
-
-    @Autowired
-    private APIResponse apiResponse;
 
     @Autowired
     private OrderDao orderDao;
