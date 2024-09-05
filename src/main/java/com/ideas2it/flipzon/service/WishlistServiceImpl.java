@@ -95,6 +95,15 @@ public class WishlistServiceImpl implements WishlistService {
     public WishlistResponseDto removeProductFromWishlist(long customerId, long productId) {
         productService.retrieveProductById(productId);
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
+        if (wishlist == null) {
+            LOGGER.warn("Wishlist not available ");
+            throw new ResourceNotFoundException();
+        }
+        boolean flag = productPresentInWishlist(productId,wishlist);
+        if (!flag) {
+            LOGGER.warn("product not available in this wishlist");
+            throw new ResourceNotFoundException();
+        }
         wishlist.getProducts().removeIf(product1 -> product1.getId() == productId);
         wishlist = wishlistDao.saveAndFlush(wishlist);
         LOGGER.info("Product is removed from wishlist");
