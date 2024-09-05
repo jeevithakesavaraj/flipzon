@@ -67,11 +67,23 @@ public class CartItemServiceTest {
     }
 
     @Test
+    void testAddProductToCartItem() {
+        when(cartItemDao.findByProductId(1L)).thenReturn(null);
+        when(productService.retrieveProductById(1L)).thenReturn(ProductMapper.convertEntityToDto(product));
+        when(cartItemDao.saveAndFlush(any(CartItem.class))).thenAnswer(i -> i.getArguments()[0]);
+        CartItem cartItem = cartItemService.addProductToCartItem(cart, cartDto);
+        assertEquals(cart, cartItem.getCart());
+        assertEquals(2, cartItem.getQuantity());
+        assertEquals(100.0, cartItem.getPrice());
+        assertEquals(200.0, cartItem.getTotalPrice());
+        verify(cartItemDao).saveAndFlush(cartItem);
+    }
+
+    @Test
     void testUpdateProductToCartItem() {
         when(cartItemDao.saveAndFlush(cartItem)).thenReturn(cartItem);
         CartItem response = cartItemService.updateProductToCartItem(cartItem, cartDto);
         assertEquals(cart, response.getCart());
         verify(cartItemDao).saveAndFlush(cartItem);
     }
-
 }
