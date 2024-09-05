@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.ideas2it.flipzon.dao.CartDao;
 import com.ideas2it.flipzon.dto.CartResponseDto;
 import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.exception.EmptyCart;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CartItemMapper;
