@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import com.ideas2it.flipzon.exception.AuthenticationException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -42,7 +43,7 @@ public class AuthenticationController {
      */
     @PostMapping("/register/customers")
     public ResponseEntity<APIResponse> registerCustomer(
-            @RequestBody CustomerDto customerDto
+            @Valid @RequestBody CustomerDto customerDto
     ) {
         apiResponse = authenticationService.registerCustomer(customerDto);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
@@ -56,7 +57,7 @@ public class AuthenticationController {
      * @return String - Delivery person is registered or not
      */
     @PostMapping("/register/deliverypersons")
-    public ResponseEntity<APIResponse> registerDeliveryPerson(
+    public ResponseEntity<APIResponse> registerDeliveryPerson( @Valid
             @RequestBody DeliveryDto deliveryDto
             ) {
         apiResponse = authenticationService.registerDeliveryPerson(deliveryDto);
@@ -71,7 +72,7 @@ public class AuthenticationController {
      * @return {@link AuthenticationResponse}
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
+    public ResponseEntity<AuthenticationResponse> login(@Valid
             @RequestBody LoginDto loginDto
             ) {
         AuthenticationResponse authenticationResponse = null;

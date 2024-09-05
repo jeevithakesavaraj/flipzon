@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class ProductController {
      * @return ProductDto with Http status Created.
      */
     @PostMapping
-    public ResponseEntity<ProductDto> addProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> addProduct(@Valid @RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.addProduct(productDto), HttpStatus.CREATED);
     }
 
@@ -72,7 +73,7 @@ public class ProductController {
      * @return ProductDto with Http status Created.
      */
     @PutMapping
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> updateProduct(@Valid @RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.updateProduct(productDto), HttpStatus.OK);
     }
 
@@ -93,7 +94,7 @@ public class ProductController {
      * @return ProductDto with Http status Created.
      */
     @PatchMapping
-    public ResponseEntity<ProductDto> updateProductPrice(@RequestBody ProductDto productDto) {
+    public ResponseEntity<ProductDto> updateProductPrice(@Valid @RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.updateProductPrice(productDto), HttpStatus.OK);
     }
 }

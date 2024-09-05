@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class SubcategoryController {
      * @return SubcategoryDto with Http status Created.
      */
     @PostMapping
-    public ResponseEntity<SubcategoryDto> addSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
+    public ResponseEntity<SubcategoryDto> addSubcategory(@Valid @RequestBody SubcategoryDto subcategoryDto) {
         return new ResponseEntity<>(subcategoryService.addSubcategory(subcategoryDto), HttpStatus.CREATED);
     }
 
@@ -75,7 +76,7 @@ public class SubcategoryController {
      * @return SubcategoryDto with Http status Created.
      */
     @PutMapping
-    public ResponseEntity<SubcategoryDto> updateSubcategory(@RequestBody SubcategoryDto subcategoryDto) {
+    public ResponseEntity<SubcategoryDto> updateSubcategory(@Valid @RequestBody SubcategoryDto subcategoryDto) {
         return new ResponseEntity<>(subcategoryService.updateSubcategory(subcategoryDto), HttpStatus.OK);
     }
 

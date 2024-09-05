@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class CartController {
     private ProductService productService;
 
     @PostMapping("/addproduct")
-    public ResponseEntity<CartResponseDto> addProductToCart(@RequestBody CartDto cartDto) {
+    public ResponseEntity<CartResponseDto> addProductToCart(@Valid @RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(updatedCart);
     }
@@ -78,7 +79,7 @@ public class CartController {
      * @return Updated Cart. {@link CartResponseDto}
      */
     @PutMapping("/update-quantity")
-    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
+    public ResponseEntity<CartResponseDto> updateProductQuantity(@Valid @RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
         return new ResponseEntity<>(updatedCart, HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class BrandController {
      * @return BrandDto with Http status Created.
      */
     @PostMapping
-    public ResponseEntity<BrandDto> addBrand(@RequestBody BrandDto brandDto) {
+    public ResponseEntity<BrandDto> addBrand(@Valid @RequestBody BrandDto brandDto) {
         return new ResponseEntity<>(brandService.addBrand(brandDto), HttpStatus.CREATED);
     }
 
@@ -75,7 +76,7 @@ public class BrandController {
      * @return BrandDto with Http status Created.
      */
     @PutMapping
-    public ResponseEntity<BrandDto> updateBrand(@RequestBody BrandDto brandDto) {
+    public ResponseEntity<BrandDto> updateBrand(@Valid @RequestBody BrandDto brandDto) {
         return new ResponseEntity<>(brandService.updateBrand(brandDto), HttpStatus.OK);
     }
     /**

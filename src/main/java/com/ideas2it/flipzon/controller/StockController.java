@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class StockController {
      * @return StockDto with Http status Created.
      */
     @PostMapping
-    public ResponseEntity<StockDto> addStock(@RequestBody StockDto stockDto) {
+    public ResponseEntity<StockDto> addStock(@Valid @RequestBody StockDto stockDto) {
         Product product = productService.getProductById(stockDto.getProductId());
         return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.CREATED);
     }
@@ -76,7 +77,7 @@ public class StockController {
      * @return StockDto with Http status Created.
      */
     @PutMapping
-    public ResponseEntity<StockDto> updateStock(@RequestBody StockDto stockDto) {
+    public ResponseEntity<StockDto> updateStock(@Valid @RequestBody StockDto stockDto) {
         return new ResponseEntity<>(stockService.updateStock(stockDto), HttpStatus.OK);
     }
 
@@ -87,7 +88,7 @@ public class StockController {
      * @return StockDto with Http status Created.
      */
     @PatchMapping
-    public ResponseEntity<StockDto> updateNewStock(@RequestBody StockDto stockDto) {
+    public ResponseEntity<StockDto> updateNewStock(@Valid @RequestBody StockDto stockDto) {
         return new ResponseEntity<>(stockService.updateNewStock(stockDto), HttpStatus.OK);
     }
 
