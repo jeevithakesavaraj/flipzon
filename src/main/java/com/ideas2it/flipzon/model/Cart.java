@@ -32,12 +32,8 @@ public class Cart {
     private Customer customer;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<CartItem> cartItems;
 
     private double totalPrice = 0.00;
-
-    public double getTotalPrice() {
-        return getCartItems().stream().mapToDouble(CartItem::getTotalPrice).sum();
-    }
 }

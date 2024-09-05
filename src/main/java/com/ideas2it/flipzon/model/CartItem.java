@@ -29,7 +29,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
-    @JsonManagedReference
+    @JsonIgnore
     private Cart cart;
 
     @OneToOne

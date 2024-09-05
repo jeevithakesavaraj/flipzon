@@ -12,12 +12,12 @@ import com.ideas2it.flipzon.dao.CartDao;
 import com.ideas2it.flipzon.dto.CartResponseDto;
 import com.ideas2it.flipzon.dto.CartDto;
 import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.exception.EmptyCart;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CartItemMapper;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.exception.EmptyCart;
 
 /**
  * <p>
@@ -57,8 +57,10 @@ public class CartServiceImpl implements CartService {
         cart.setCustomer(customer);
         Cart newCart = cartDao.saveAndFlush(cart);
         CartItem cartItem = cartItemService.addProductToCartItem(newCart, cartDto);
-        newCart.setCartItems(Set.of(cartItem));
+        newCart = cartDao.findByCustomerId(customer.getId());
         newCart.setTotalPrice(cartItem.getTotalPrice());
+        cartDao.saveAndFlush(newCart);
+        newCart.setCartItems(Set.of(cartItem));
         LOGGER.info("CartItem added in new cart");
         return CartResponseDto.builder()
                 .customerId(newCart.getCustomer().getId())
@@ -94,6 +96,10 @@ public class CartServiceImpl implements CartService {
 
     public CartResponseDto getProductsFromCart(long customerId) {
         Cart cart = cartDao.findByCustomerId(customerId);
+        if (cart == null) {
+            LOGGER.warn("Cart is empty in this customer id : {}", customerId);
+            throw new EmptyCart("cart is empty in this customer id : " + customerId);
+        }
         LOGGER.info("Get cart details by customer id : {}", customerId);
         return CartResponseDto.builder()
                 .customerId(cart.getCustomer().getId())
@@ -146,7 +152,7 @@ public class CartServiceImpl implements CartService {
 
     public Cart getCartByCustomerId(long customerId) {
         Cart cart = cartDao.findByCustomerId(customerId);
-        if (cart == null) {
+        if (cart.getCartItems().isEmpty()) {
             LOGGER.warn("Cart is Empty");
             throw new EmptyCart("Cart is Empty");
         }

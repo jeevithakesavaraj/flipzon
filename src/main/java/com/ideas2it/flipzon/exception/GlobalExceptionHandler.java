@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(OutOfStock.class)
     public ResponseEntity<APIResponse> handleStockNotAvailable(OutOfStock outOfStock) {
         APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.NO_CONTENT.value());
+        apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(outOfStock.getMessage());
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmptyCart.class)
     public ResponseEntity<APIResponse> handleCartIsEmpty(EmptyCart emptyCart) {
         APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.NO_CONTENT.value());
+        apiResponse.setStatus(HttpStatus.OK.value());
         apiResponse.setData(emptyCart.getMessage());
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
 

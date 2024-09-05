@@ -98,7 +98,7 @@ public class CartController {
      * <p>
      * Get products by brand Id
      * </p>
-     * @param id  Id of the brand
+     * @param id : id of the brand
      * @return List<ProductDto> {@link ProductDto}
      */
     @GetMapping("/products/brands/{id}")
@@ -110,7 +110,7 @@ public class CartController {
      * <p>
      * Get products by category
      * </p>
-     * @param id  Id of the category
+     * @param id : id of the category
      * @return List<ProductDto> {@link ProductDto}
      */
     @GetMapping("/products/categories/{id}")
