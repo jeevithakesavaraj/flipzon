@@ -3,6 +3,8 @@ package com.ideas2it.flipzon.controller;
 import java.util.Set;
 
 import com.ideas2it.flipzon.dao.WishlistDao;
+import com.ideas2it.flipzon.service.CustomerService;
+import com.ideas2it.flipzon.service.ProductService;
 import com.ideas2it.flipzon.service.WishlistService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,6 +34,12 @@ public class WishlistControllerTest {
 
     @Mock
     private WishlistDao wishlistDao;
+
+    @Mock
+    private CustomerService customerService;
+
+    @Mock
+    private ProductService productService;
 
     @InjectMocks
     private WishlistController wishlistController;

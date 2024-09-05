@@ -79,7 +79,7 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     public WishlistResponseDto removeProductFromWishlist(long customerId, long productId) {
-        customerService.getCustomerById(customerId);
+
         productService.retrieveProductById(productId);
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
         wishlist.getProducts().removeIf(product1 -> product1.getId() == productId);

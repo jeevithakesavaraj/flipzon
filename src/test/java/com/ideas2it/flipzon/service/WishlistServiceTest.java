@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -137,7 +138,7 @@ public class WishlistServiceTest {
         when(wishlistDao.findByCustomerId(anyLong())).thenReturn(wishlist);
         when(wishlistDao.saveAndFlush(wishlist)).thenReturn(wishlist);
         when(customerService.getCustomerById(anyLong())).thenReturn(customer);
-        WishlistResponseDto response = wishlistService.removeProductFromWishlist(customer.getId(), productDto.getId());
+        WishlistResponseDto response = wishlistService.removeProductFromWishlist(1L, 1L);
         assertEquals(wishlistResponseDto, response);
     }
 }

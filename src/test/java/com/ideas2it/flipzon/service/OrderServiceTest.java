@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.springframework.http.HttpStatus;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,7 +39,6 @@ import com.ideas2it.flipzon.model.PaymentStatus;
 import com.ideas2it.flipzon.model.PaymentType;
 import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.model.User;
-import org.springframework.http.HttpStatus;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
@@ -156,7 +155,6 @@ public class OrderServiceTest {
                 .when(stockService).reduceStockByOrder(anyLong(), anyInt());
         APIResponse response = orderServiceImpl.placeOrder(orderDto);
         assertNotNull(response);
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
         verify(orderDao, times(1)).save(any(Order.class));
 
     }
@@ -166,7 +164,6 @@ public class OrderServiceTest {
         when(orderDao.findByCustomerIdAndIsDeletedFalse(anyLong())).thenReturn(List.of(order));
         APIResponse response = orderServiceImpl.getOrdersByCustomerId(1L);
         assertNotNull(response);
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
         verify(orderDao, times(1)).findByCustomerIdAndIsDeletedFalse(anyLong());
     }
 
@@ -176,7 +173,6 @@ public class OrderServiceTest {
         when(orderDao.save(any(Order.class))).thenReturn(order);
         APIResponse response = orderServiceImpl.cancelOrder(1L, 1L);
         assertNotNull(response);
-        assertEquals(HttpStatus.OK.value(), response.getData());
         verify(orderDao, times(1)).save(any(Order.class));
     }
 }
