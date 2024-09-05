@@ -132,13 +132,10 @@ public class WishlistServiceTest {
     }
 
     @Test
-    void removeProductFromWishlist() {
-        when(customerService.getCustomerById(anyLong())).thenReturn(customer);
-        when(productService.retrieveProductById(anyLong())).thenReturn(productDto);
-        when(wishlistDao.findByCustomerId(anyLong())).thenReturn(wishlist);
-        when(wishlistDao.saveAndFlush(wishlist)).thenReturn(wishlist);
-        when(customerService.getCustomerById(anyLong())).thenReturn(customer);
-        WishlistResponseDto response = wishlistService.removeProductFromWishlist(1L, 1L);
-        assertEquals(wishlistResponseDto, response);
+    void removeProductFromWishlistNull() {
+        when(wishlistDao.findByCustomerId(anyLong())).thenReturn(null);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            wishlistService.removeProductFromWishlist(1L, 1L);
+        });
     }
 }

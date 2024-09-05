@@ -6,15 +6,17 @@ import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.ideas2it.flipzon.dao.UserDao;
@@ -59,4 +61,11 @@ public class UserServiceImplTest {
         assertThat(savedUser).isNotNull();
     }
 
+    @Test
+    void testGetByEmailNull() {
+        when(userDao.findByEmail(user.getEmail())).thenReturn(null);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            userService.getByEmail(user.getEmail());
+        });
+    }
 }
