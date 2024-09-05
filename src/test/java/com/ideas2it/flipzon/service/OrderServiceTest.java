@@ -139,7 +139,6 @@ public class OrderServiceTest {
 
         orderDto = OrderDto.builder()
                 .customerId(1L)
-                .address_id(1L)
                 .paymentType(PaymentType.UPI)
                 .paymentStatus(PaymentStatus.PAID)
                 .build();
@@ -151,10 +150,9 @@ public class OrderServiceTest {
         when(addressService.getAddressById(anyLong())).thenReturn(address);
         when(orderDao.save(any(Order.class))).thenReturn(order);
         when(orderItemService.addOrderItems(anyList())).thenReturn(orderItems);
-        doNothing()
-                .when(stockService).reduceStockByOrder(anyLong(), anyInt());
-        APIResponse response = orderServiceImpl.placeOrder(orderDto);
-        assertNotNull(response);
+        OrderDto placeOrder = orderServiceImpl.placeOrder(orderDto);
+        assertNotNull(placeOrder);
+        assertEquals(placeOrder.getId(),order.getId());
         verify(orderDao, times(1)).save(any(Order.class));
 
     }
@@ -162,8 +160,9 @@ public class OrderServiceTest {
     @Test
     void testGetOrdersByCustomerId() {
         when(orderDao.findByCustomerIdAndIsDeletedFalse(anyLong())).thenReturn(List.of(order));
-        APIResponse response = orderServiceImpl.getOrdersByCustomerId(1L);
+        List<OrderDto> response = orderServiceImpl.getOrdersByCustomerId(1L);
         assertNotNull(response);
+        assertEquals(response.getFirst().getId(), order.getId());
         verify(orderDao, times(1)).findByCustomerIdAndIsDeletedFalse(anyLong());
     }
 
@@ -171,8 +170,8 @@ public class OrderServiceTest {
     void testCancelOrder() {
         when(orderDao.findByIdAndCustomerId(anyLong(), anyLong())).thenReturn(order);
         when(orderDao.save(any(Order.class))).thenReturn(order);
-        APIResponse response = orderServiceImpl.cancelOrder(1L, 1L);
-        assertNotNull(response);
+        OrderDto cancelledOrder = orderServiceImpl.cancelOrder(1L, 1L);
+        assertNotNull(cancelledOrder);
         verify(orderDao, times(1)).save(any(Order.class));
     }
 }

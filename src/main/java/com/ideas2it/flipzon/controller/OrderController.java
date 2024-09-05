@@ -1,5 +1,8 @@
 package com.ideas2it.flipzon.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.OrderDto;
 import com.ideas2it.flipzon.service.OrderService;
-
-import java.util.List;
 
 /**
  * <p>
@@ -38,7 +39,7 @@ public class OrderController {
      * @return APIResponse {@link APIResponse}
      */
     @PostMapping("/placeorder")
-    public ResponseEntity<OrderDto> placeOrder(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderDto> placeOrder(@Valid @RequestBody OrderDto orderDto) {
         System.out.println("order");
         OrderDto savedOrderDto = orderService.placeOrder(orderDto);
         return ResponseEntity.ok(savedOrderDto);
