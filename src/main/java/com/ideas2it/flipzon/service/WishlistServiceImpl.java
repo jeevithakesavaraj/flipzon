@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.exception.MyException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class WishlistServiceImpl implements WishlistService {
                 wishlist.setProducts(Set.of(product));
             }
             wishlistDao.save(wishlist);
-            LOGGER.info("Product added to wishlist" + product.getName());
+            LOGGER.info("Product added to wishlist product Name : {}", product.getName());
             return WishlistResponseDto.builder()
                     .customerName(customerService.getCustomerById(customerId).getUser().getName())
                     .products(wishlist.getProducts().stream()
@@ -50,15 +51,28 @@ public class WishlistServiceImpl implements WishlistService {
                     .build();
         }
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
+        if (!productPresentInWishlist(productId, wishlist)) {
+            LOGGER.warn("Product already present in this wishlist productId : {}", productId);
+            throw new MyException("Product already present in this wishlist productId : " + productId);
+        }
         wishlist.getProducts().add(product);
         wishlistDao.save(wishlist);
-        LOGGER.info("Product added to wishlist" + product.getName());
+        LOGGER.info("Product added to wishlist product Name : {}", product.getName());
         return WishlistResponseDto.builder()
                 .customerName(customerService.getCustomerById(customerId).getUser().getName())
                 .products(wishlist.getProducts().stream()
                 .map(Product :: getName)
                 .collect(Collectors.toSet()))
                 .build();
+    }
+
+    private boolean productPresentInWishlist(long productId, Wishlist wishlist) {
+        for(Product product : wishlist.getProducts()) {
+            if (product.getId() == productId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -79,7 +93,6 @@ public class WishlistServiceImpl implements WishlistService {
 
     @Override
     public WishlistResponseDto removeProductFromWishlist(long customerId, long productId) {
-
         productService.retrieveProductById(productId);
         Wishlist wishlist = wishlistDao.findByCustomerId(customerId);
         wishlist.getProducts().removeIf(product1 -> product1.getId() == productId);

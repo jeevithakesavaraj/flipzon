@@ -31,6 +31,6 @@ public class Wishlist {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany
+    @ManyToMany
     private Set<Product> products;
 }

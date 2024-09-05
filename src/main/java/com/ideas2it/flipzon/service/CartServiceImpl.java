@@ -110,17 +110,28 @@ public class CartServiceImpl implements CartService {
 
     public CartResponseDto removeProductFromCart(long customerId, long productId) {
         Cart cart = cartDao.findByCustomerId(customerId);
-        ProductDto productDto = productService.retrieveProductById(productId);
-        if (null == productDto) {
-            LOGGER.warn("Product not found in this customers cart : {} ", customerId);
-            throw new ResourceNotFoundException("customerId" + customerId, "ProductId", productId);
+        if (cart == null) {
+            LOGGER.warn("cart not available");
+            throw new ResourceNotFoundException();
+        } else if (cart.getCartItems().isEmpty()) {
+            LOGGER.warn("cart is empty can't remove this customer's cart : id {}", customerId);
+            throw new EmptyCart("cart is Empty");
         }
+        productService.retrieveProductById(productId);
         LOGGER.info("Remove product from cart by product ID : {}", productId);
+        boolean flag = true;
         for (CartItem cartItems : cart.getCartItems()) {
             if (cartItems.getProduct().getId() == productId) {
                 cart.getCartItems().remove(cartItems);
                 cartItemService.deleteCartItem(cartItems);
+                cart.setTotalPrice(cart.getTotalPrice() - cartItems.getTotalPrice());
+                cart = cartDao.saveAndFlush(cart);
+                flag = false;
             }
+        }
+        if (flag) {
+            LOGGER.warn("product not available in this cart can't remove {}", productId);
+            throw new ResourceNotFoundException("productId", "this cart");
         }
         return CartResponseDto.builder()
                 .customerId(cart.getCustomer().getId())
@@ -131,6 +142,13 @@ public class CartServiceImpl implements CartService {
 
     public CartResponseDto updateProductQuantity(CartDto cartDto) {
         Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
+        if (cart == null) {
+            LOGGER.warn("cart not available update this customer's cart : id {}", cartDto.getCustomerId());
+            throw new ResourceNotFoundException();
+        } else if (cart.getCartItems().isEmpty()) {
+            LOGGER.warn("cart is empty can't update this customer's cart : id {}", cartDto.getCustomerId());
+            throw new EmptyCart("cart is Empty");
+        }
         for (CartItem cartItem : cart.getCartItems()) {
             if (cartItem.getProduct().getId() == cartDto.getProductId()) {
                 cartItem = cartItemService.updateProductToCartItem(cartItem, cartDto);
