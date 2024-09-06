@@ -18,7 +18,7 @@ public class ProductDto {
     private Long id;
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z]+( [a-zA-Z])*$", message = "Name only contains Characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]*$", message = "Name only contains Characters")
     private String name;
 
     @NotNull(message = "Price is mandatory")

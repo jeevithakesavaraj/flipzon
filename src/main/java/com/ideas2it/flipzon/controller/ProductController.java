@@ -2,6 +2,9 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.dto.UpsellDto;
+import com.ideas2it.flipzon.dto.UpsellResponseDto;
+import com.ideas2it.flipzon.service.UpsellService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,5 +99,20 @@ public class ProductController {
     @PatchMapping
     public ResponseEntity<ProductDto> updateProductPrice(@Valid @RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.updateProductPrice(productDto), HttpStatus.OK);
+    }
+
+
+
+    @Autowired
+    private UpsellService upsellService;
+
+    @PostMapping("/upsell")
+    public ResponseEntity<UpsellResponseDto> addUpsell(@RequestBody UpsellDto upsellDto) {
+        return ResponseEntity.ok(upsellService.addUpsell(upsellDto));
+    }
+
+    @DeleteMapping("/upsell")
+    public ResponseEntity<UpsellResponseDto> deleteUpsell(@RequestBody UpsellDto upsellDto) {
+        return ResponseEntity.ok(upsellService.deleteUpsell(upsellDto));
     }
 }
