@@ -18,7 +18,7 @@ public interface SubcategoryService {
      * Create the new Subcategory
      *
      * @param subcategoryDto : new subcategory details
-     * @return SubcategoryDto : subcategory details
+     * @return {@link SubcategoryDto}
      */
     SubcategoryDto addSubcategory(SubcategoryDto subcategoryDto);
 
@@ -41,7 +41,7 @@ public interface SubcategoryService {
      * Update the Subcategory details by its id
      *
      * @param subcategoryDto : new subcategory details
-     * @return SubcategoryDto : subcategory details
+     * @return {@link SubcategoryDto}
      */
     SubcategoryDto updateSubcategory(SubcategoryDto subcategoryDto);
 
@@ -49,6 +49,7 @@ public interface SubcategoryService {
      * Get subcategory details by its id
      *
      * @param id : id of the subcategory
+     * @return {@link SubcategoryDto}
      */
     SubcategoryDto retrieveSubcategoryById(long id);
 }

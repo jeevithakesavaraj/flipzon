@@ -20,7 +20,7 @@ public interface StockService {
      *
      * @param stockDto : {@link StockDto}
      * @param product : {@link Product}
-     * @return  stock : new stock details
+     * @return  {@link StockDto}
      */
     StockDto addStock(StockDto stockDto, Product product) ;
 
@@ -43,14 +43,14 @@ public interface StockService {
      * Update the Stock details by product id
      *
      * @param stockDto : new stock details
-     * @return StockDto : stock details
+     * @return {@link StockDto}
      */
     StockDto updateStock(StockDto stockDto);
     /**
      * Refill the Stock details by product id
      *
      * @param stockDto : new stock details
-     * @return StockDto : stock details
+     * @return {@link StockDto}
      */
     StockDto updateNewStock(StockDto stockDto);
 
@@ -58,6 +58,7 @@ public interface StockService {
      * Get stock details by its id
      *
      * @param id : id of the stock
+     * @return {@link StockDto}
      */
     StockDto retrieveStockByProductId(Long id);
 

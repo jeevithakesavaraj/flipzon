@@ -18,7 +18,7 @@ public interface BrandService {
      * Create the new Brand
      *
      * @param brandDto : new brand details
-     * @return BrandDto : brand details
+     * @return {@link BrandDto}
      */
     BrandDto addBrand(BrandDto brandDto);
 
@@ -41,7 +41,7 @@ public interface BrandService {
      * Update the Brand details by its id
      *
      * @param brandDto : new brand details
-     * @return BrandDto : brand details
+     * @return {@link BrandDto}
      */
     BrandDto updateBrand(BrandDto brandDto);
 
@@ -49,6 +49,7 @@ public interface BrandService {
      * Get brand details by its id
      *
      * @param id : id of the brand
+     * @return {@link BrandDto}
      */
     BrandDto retrieveBrandById(long id);
 }

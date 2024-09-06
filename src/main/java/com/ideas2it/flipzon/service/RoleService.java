@@ -43,8 +43,8 @@ public class RoleService {
      * <p>
      * Get the role by name
      * </p>
-     * @param userRole    {@link UserRole}
-     * @return  Role     Role which we have searched
+     * @param userRole {@link UserRole}
+     * @return  Role : Role which we have searched
      */
     public Role getRoleByName(UserRole userRole) {
         return roleDao.findByName(userRole);

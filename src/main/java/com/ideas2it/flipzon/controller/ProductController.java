@@ -2,6 +2,9 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.dto.CrossSellRequestDto;
+import com.ideas2it.flipzon.dto.CrossSellResponseDto;
+import com.ideas2it.flipzon.service.CrossSellService;
 import com.ideas2it.flipzon.dto.UpsellDto;
 import com.ideas2it.flipzon.dto.UpsellResponseDto;
 import com.ideas2it.flipzon.service.UpsellService;
@@ -33,9 +36,13 @@ import com.ideas2it.flipzon.service.ProductService;
 @RestController
 @RequestMapping("flipzon/api/v1/admin/products")
 public class ProductController {
-
+    @Autowired
+    private UpsellService upsellService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CrossSellService crossSellService;
+
 
     /**
      * Create the Product based on the Admin request
@@ -101,10 +108,25 @@ public class ProductController {
         return new ResponseEntity<>(productService.updateProductPrice(productDto), HttpStatus.OK);
     }
 
+    /**
+     * Add cross-sell product to the product by admin request
+     *
+     * @return {@link CrossSellResponseDto}
+     */
+    @PostMapping("/cross-sell")
+    public ResponseEntity<CrossSellResponseDto> addCrossSellProduct(@RequestBody CrossSellRequestDto crossSellRequestDto) {
+        return new ResponseEntity<>(crossSellService.addCrossSellProduct(crossSellRequestDto), HttpStatus.OK);
+    }
 
-
-    @Autowired
-    private UpsellService upsellService;
+    /**
+     * Add cross-sell product to the product by admin request
+     *
+     * @return {@link CrossSellResponseDto}
+     */
+    @DeleteMapping("/cross-sell")
+    public ResponseEntity<CrossSellResponseDto> removeCrossSellProduct(@RequestBody CrossSellRequestDto crossSellRequestDto) {
+        return new ResponseEntity<>(crossSellService.removeCrossSellProduct(crossSellRequestDto), HttpStatus.OK);
+    }
 
     @PostMapping("/upsell")
     public ResponseEntity<UpsellResponseDto> addUpsell(@RequestBody UpsellDto upsellDto) {
