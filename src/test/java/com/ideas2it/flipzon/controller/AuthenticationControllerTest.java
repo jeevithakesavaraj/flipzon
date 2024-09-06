@@ -1,6 +1,5 @@
 package com.ideas2it.flipzon.controller;
 
-import com.ideas2it.flipzon.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +16,11 @@ import static org.mockito.Mockito.when;
 import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.AuthenticationResponse;
 import com.ideas2it.flipzon.dto.CustomerDto;
-import com.ideas2it.flipzon.dto.DeliveryDto;
+import com.ideas2it.flipzon.dto.DeliveryPersonDto;
 import com.ideas2it.flipzon.dto.LoginDto;
 import com.ideas2it.flipzon.model.Customer;
 import com.ideas2it.flipzon.model.User;
+import com.ideas2it.flipzon.service.AuthenticationService;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthenticationControllerTest {
@@ -37,7 +37,7 @@ public class AuthenticationControllerTest {
 
     CustomerDto customerDto;
 
-    DeliveryDto deliveryDto;
+    DeliveryPersonDto deliveryPersonDto;
 
     Customer customer;
 
@@ -77,7 +77,7 @@ public class AuthenticationControllerTest {
                 .email("hermoine@xampp.com")
                 .build();
 
-        deliveryDto = DeliveryDto.builder()
+        deliveryPersonDto = DeliveryPersonDto.builder()
                 .name("Gowtham")
                 .id(1L)
                 .phoneNumber("9012345678")
@@ -97,11 +97,11 @@ public class AuthenticationControllerTest {
 
     @Test
     void registerDeliveryPerson() {
-        when(authenticationService.registerDeliveryPerson(deliveryDto)).thenReturn(apiResponse);
-        ResponseEntity<APIResponse> response = authenticationController.registerDeliveryPerson(deliveryDto);
+        when(authenticationService.registerDeliveryPerson(deliveryPersonDto)).thenReturn(apiResponse);
+        ResponseEntity<APIResponse> response = authenticationController.registerDeliveryPerson(deliveryPersonDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(apiResponse, response.getBody());
-        verify(authenticationService, times(1)).registerDeliveryPerson(deliveryDto);
+        verify(authenticationService, times(1)).registerDeliveryPerson(deliveryPersonDto);
     }
 
     @Test

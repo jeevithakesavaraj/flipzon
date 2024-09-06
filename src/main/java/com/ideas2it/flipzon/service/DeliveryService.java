@@ -3,8 +3,8 @@ package com.ideas2it.flipzon.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ideas2it.flipzon.dao.DeliveryDao;
-import com.ideas2it.flipzon.model.Delivery;
+import com.ideas2it.flipzon.dao.DeliveryPersonDao;
+import com.ideas2it.flipzon.model.DeliveryPerson;
 
 /**
  * <p>
@@ -17,16 +17,16 @@ import com.ideas2it.flipzon.model.Delivery;
 public class DeliveryService {
 
     @Autowired
-    private DeliveryDao deliveryDao;
+    private DeliveryPersonDao deliveryPersonDao;
 
     /**
      * <p>
      * Add Delivery person to the database
      * </p>
      *
-     * @param delivery  {@link Delivery}
+     * @param deliveryPerson  {@link DeliveryPerson}
      */
-    public Delivery createDelivery(Delivery delivery) {
-        return deliveryDao.save(delivery);
+    public DeliveryPerson createDelivery(DeliveryPerson deliveryPerson) {
+        return deliveryPersonDao.save(deliveryPerson);
     }
 }

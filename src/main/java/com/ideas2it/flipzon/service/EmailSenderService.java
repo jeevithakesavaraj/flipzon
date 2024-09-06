@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * <p>
  * This class is used to sends the mail to destined user once they successfully signed up
- * and place their orders along with verification otp.
+ * along with verification otp.
  * </p>
  *
  * @author Jeevithakesavaraj
@@ -20,18 +20,26 @@ public class EmailSenderService {
     @Autowired
     private JavaMailSender mailSender;
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final String userName = System.getenv("MAIL_USERNAME");
 
-    public void sendEmail(String to, String subject, String body) {
+    /**
+     * <p>
+     * Send otp mail
+     * </p>
+     * @param receiverMail receiver mailId who we have to send otp
+     * @param subject   subject of the mail
+     * @param body body which we have to send
+     */
+    public void sendEmail(String receiverMail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(userName);
-        message.setTo(to);
+        message.setTo(receiverMail);
         message.setSubject(subject);
         message.setText(body);
         mailSender.send(message);
-        logger.info("Email Sent successfully to Id :{}", to);
+        LOGGER.info("Email Sent successfully to Id :{}", receiverMail);
     }
 
 }

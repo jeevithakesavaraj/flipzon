@@ -3,7 +3,7 @@ package com.ideas2it.flipzon.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ideas2it.flipzon.model.Delivery;
+import com.ideas2it.flipzon.model.DeliveryPerson;
 /**
  * <p>
  * DeliveryDao manages CRUD operations for delivery person details.
@@ -12,5 +12,5 @@ import com.ideas2it.flipzon.model.Delivery;
  * @author Jeevithakesavaraj
  */
 @Repository
-public interface DeliveryDao extends JpaRepository<Delivery, Long> {
+public interface DeliveryPersonDao extends JpaRepository<DeliveryPerson, Long> {
 }

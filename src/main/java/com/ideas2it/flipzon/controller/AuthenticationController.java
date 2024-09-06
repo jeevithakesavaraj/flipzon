@@ -1,11 +1,9 @@
 package com.ideas2it.flipzon.controller;
 
-import com.ideas2it.flipzon.exception.AuthenticationException;
-import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import com.ideas2it.flipzon.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.common.APIResponse;
-import com.ideas2it.flipzon.dto.AuthenticationResponse;
-import com.ideas2it.flipzon.dto.CustomerDto;
-import com.ideas2it.flipzon.dto.DeliveryDto;
-import com.ideas2it.flipzon.dto.LoginDto;
+import com.ideas2it.flipzon.exception.AuthenticationException;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.service.AuthenticationService;
 
 /**
@@ -53,14 +49,14 @@ public class AuthenticationController {
      * <p>
      *  Register delivery person
      * </p>
-     * @param deliveryDto {@link DeliveryDto}
+     * @param deliveryPersonDto {@link DeliveryPersonDto}
      * @return String - Delivery person is registered or not
      */
     @PostMapping("/register/deliverypersons")
     public ResponseEntity<APIResponse> registerDeliveryPerson( @Valid
-            @RequestBody DeliveryDto deliveryDto
+            @RequestBody DeliveryPersonDto deliveryPersonDto
             ) {
-        apiResponse = authenticationService.registerDeliveryPerson(deliveryDto);
+        apiResponse = authenticationService.registerDeliveryPerson(deliveryPersonDto);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
@@ -84,5 +80,31 @@ public class AuthenticationController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(null);
         }
+    }
+
+    /**
+     * <p>
+     * Verify User using OTP
+     * </p>
+     * @param userVerifyDto  {@link UserVerifyDto}
+     * @return APIResponse {@link APIResponse}
+     */
+    @PostMapping("/verifyCustomer")
+    public ResponseEntity<APIResponse> verifyCustomer(@Valid @RequestBody UserVerifyDto userVerifyDto) {
+        APIResponse apiResponse = authenticationService.verifyCustomer(userVerifyDto);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    }
+
+    /**
+     * <p>
+     * Verify User using OTP
+     * </p>
+     * @param userVerifyDto  {@link UserVerifyDto}
+     * @return APIResponse {@link APIResponse}
+     */
+    @PostMapping("/verifyDeliveryPerson")
+    public ResponseEntity<APIResponse> verifyDeliveryPerson(@Valid @RequestBody UserVerifyDto userVerifyDto) {
+        APIResponse apiResponse = authenticationService.verifyDeliveryPerson(userVerifyDto);
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 }

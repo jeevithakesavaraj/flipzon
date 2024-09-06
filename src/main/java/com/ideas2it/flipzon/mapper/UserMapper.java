@@ -3,10 +3,10 @@ package com.ideas2it.flipzon.mapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.ideas2it.flipzon.dto.CustomerDto;
-import com.ideas2it.flipzon.dto.DeliveryDto;
+import com.ideas2it.flipzon.dto.DeliveryPersonDto;
 import com.ideas2it.flipzon.dto.UserDto;
 import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.model.Delivery;
+import com.ideas2it.flipzon.model.DeliveryPerson;
 import com.ideas2it.flipzon.model.User;
 /**
  * <p>
@@ -55,15 +55,15 @@ public class UserMapper {
      * <p>
      * Convert Delivery Dto to User Entity
      * </p>
-     * @param deliveryDto {@link DeliveryDto}
+     * @param deliveryPersonDto {@link DeliveryPersonDto}
      * @return {@link User}
      */
-    public static User convertUserEntity (DeliveryDto deliveryDto) {
+    public static User convertUserEntity (DeliveryPersonDto deliveryPersonDto) {
         return User.builder()
-                .name(deliveryDto.getName())
-                .email(deliveryDto.getEmail())
-                .password(encoder.encode(deliveryDto.getPassword()))
-                .phoneNumber(deliveryDto.getPhoneNumber())
+                .name(deliveryPersonDto.getName())
+                .email(deliveryPersonDto.getEmail())
+                .password(encoder.encode(deliveryPersonDto.getPassword()))
+                .phoneNumber(deliveryPersonDto.getPhoneNumber())
                 .build();
     }
 
@@ -71,14 +71,14 @@ public class UserMapper {
      * <p>
      * Convert Delivery Dto to Entity
      * </p>
-     * @param deliveryDto {@link DeliveryDto}
+     * @param deliveryPersonDto {@link DeliveryPersonDto}
      * @param user {@link User}
-     * @return {@link Delivery}
+     * @return {@link DeliveryPerson}
      */
-    public static Delivery convertDeliveryEntity (DeliveryDto deliveryDto, User user) {
-        return Delivery.builder()
+    public static DeliveryPerson convertDeliveryEntity (DeliveryPersonDto deliveryPersonDto, User user) {
+        return DeliveryPerson.builder()
                 .user(user)
-                .idProof(deliveryDto.getIdProof())
+                .idProof(deliveryPersonDto.getIdProof())
                 .build();
     }
 

@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class DeliveryDto {
+public class DeliveryPersonDto {
     private long id;
 
     @NotBlank(message = "Please enter Valid name")
