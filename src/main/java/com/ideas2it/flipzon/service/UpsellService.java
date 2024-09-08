@@ -7,4 +7,6 @@ public interface UpsellService {
     UpsellResponseDto addUpsell(UpsellDto upsellDto);
 
     UpsellResponseDto deleteUpsell(UpsellDto upsellDto);
+
+    UpsellResponseDto getUpSellProduct(long productId);
 }

@@ -25,7 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table
-public class CrossSell {
+public class Crosssell {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

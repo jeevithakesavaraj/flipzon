@@ -18,8 +18,11 @@ public class ProductDto {
     private Long id;
 
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9_.-]*$", message = "Name only contains Characters")
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]*$", message = "Name Not contains Special Characters ")
     private String name;
+
+    @NotBlank
+    private String description;
 
     @NotNull(message = "Price is mandatory")
     private double price;

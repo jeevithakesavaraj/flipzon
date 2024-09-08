@@ -41,6 +41,9 @@ public class Product {
     private boolean isDeleted;
 
     @Column
+    private String description;
+
+    @Column
     private double price;
 
     @ManyToOne

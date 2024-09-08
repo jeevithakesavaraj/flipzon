@@ -42,8 +42,7 @@ public class ProductController {
     private ProductService productService;
     @Autowired
     private CrossSellService crossSellService;
-
-
+    
     /**
      * Create the Product based on the Admin request
      *
@@ -119,7 +118,7 @@ public class ProductController {
     }
 
     /**
-     * Add cross-sell product to the product by admin request
+     * Delete cross-sell product to the product by admin request
      *
      * @return {@link CrossSellResponseDto}
      */
@@ -128,13 +127,43 @@ public class ProductController {
         return new ResponseEntity<>(crossSellService.removeCrossSellProduct(crossSellRequestDto), HttpStatus.OK);
     }
 
+    /**
+     * Add upsell product to the product by admin request
+     * @param upsellDto : {@link UpsellDto}
+     * @return {@link UpsellResponseDto}
+     */
     @PostMapping("/upsell")
     public ResponseEntity<UpsellResponseDto> addUpsell(@RequestBody UpsellDto upsellDto) {
         return ResponseEntity.ok(upsellService.addUpsell(upsellDto));
     }
 
+    /**
+     * Delete cross-sell product to the product by admin request
+     *
+     * @return {@link UpsellResponseDto} with HTTP status OK.
+     */
     @DeleteMapping("/upsell")
     public ResponseEntity<UpsellResponseDto> deleteUpsell(@RequestBody UpsellDto upsellDto) {
         return ResponseEntity.ok(upsellService.deleteUpsell(upsellDto));
+    }
+
+    /**
+     * Get the cross-sell products for this product id;
+     * @param productId : id of the product
+     * @return {@link CrossSellResponseDto} with HTTP status OK.
+     */
+    @GetMapping("/{id}/cross-sell")
+    public ResponseEntity<CrossSellResponseDto> getCrossSellProduct(@PathVariable long productId) {
+        return ResponseEntity.ok(crossSellService.getCrossSellProduct(productId));
+    }
+
+    /**
+     * Get the Up-sell products for this product id;
+     * @param productId : id of the product
+     * @return {@link UpsellResponseDto} with HTTP status OK.
+     */
+    @GetMapping("/{id}/upsell")
+    public ResponseEntity<UpsellResponseDto> getUpSellProduct(@PathVariable long productId) {
+        return ResponseEntity.ok(upsellService.getUpSellProduct(productId));
     }
 }

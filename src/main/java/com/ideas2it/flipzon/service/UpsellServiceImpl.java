@@ -74,4 +74,21 @@ public class UpsellServiceImpl implements UpsellService {
                         .collect(Collectors.toSet()))
                 .build();
     }
+
+    @Override
+    public UpsellResponseDto getUpSellProduct(long productId) {
+        Upsell upsell = upsellDao.findByProductId(productId);
+        if (upsell == null) {
+            LOGGER.warn("Up-sell products not available for this product Id {}", productId);
+            throw new ResourceNotFoundException("Up-sell products not available for this product Id {}", productId);
+        } else if (upsell.getProducts().isEmpty()) {
+            LOGGER.warn("Up-sell products are empty for this product Id {}", productId);
+            throw new ResourceNotFoundException("Up-sell products are empty for this product Id {}", productId);
+        }
+        return UpsellResponseDto.builder()
+                .productDtos(upsell.getProducts().stream()
+                        .map(ProductMapper :: convertEntityToDto)
+                        .collect(Collectors.toSet()))
+                .build();
+    }
 }

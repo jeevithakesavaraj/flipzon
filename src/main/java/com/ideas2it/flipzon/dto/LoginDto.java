@@ -26,6 +26,6 @@ public class LoginDto {
     @NotNull(message = "Password is mandatory")
     @NotBlank(message = "Password is minimum 8 characters")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,20}$",
-            message = "Please enter password contains atleast 1 Capital letter, 1 small letter, 1 special character, 1 number")
+            message = "Please enter password contains at least 1 Capital letter, 1 small letter, 1 special character, 1 number")
     private String password;
 }

@@ -5,7 +5,7 @@ import com.ideas2it.flipzon.dto.CrossSellRequestDto;
 import com.ideas2it.flipzon.dto.CrossSellResponseDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.ProductMapper;
-import com.ideas2it.flipzon.model.CrossSell;
+import com.ideas2it.flipzon.model.Crosssell;
 import com.ideas2it.flipzon.model.Product;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,9 +28,9 @@ public class CrossSellServiceImpl implements CrossSellService {
     public CrossSellResponseDto addCrossSellProduct(CrossSellRequestDto crossSellRequestDto) {
         Product mainProduct = productService.getProductById(crossSellRequestDto.getProductId());
         Product crossSellProduct = productService.getProductById(crossSellRequestDto.getCrossSellProductId());
-        CrossSell crossSell = crossSellDao.findByProductId(crossSellRequestDto.getProductId());
+        Crosssell crossSell = crossSellDao.findByProductId(crossSellRequestDto.getProductId());
         if (crossSell == null) {
-            crossSell = new CrossSell();
+            crossSell = new Crosssell();
             crossSell.setProduct(mainProduct);
             crossSell.setProducts(Set.of(crossSellProduct));
         } else {
@@ -56,7 +56,7 @@ public class CrossSellServiceImpl implements CrossSellService {
     public CrossSellResponseDto removeCrossSellProduct(CrossSellRequestDto crossSellRequestDto) {
         productService.getProductById(crossSellRequestDto.getProductId());
         Product crossSellProduct = productService.getProductById(crossSellRequestDto.getCrossSellProductId());
-        CrossSell crossSell = crossSellDao.findByProductId(crossSellRequestDto.getProductId());
+        Crosssell crossSell = crossSellDao.findByProductId(crossSellRequestDto.getProductId());
         if (crossSell == null) {
             LOGGER.warn("No Cross-sell products available for this product");
             throw new ResourceNotFoundException();
@@ -77,4 +77,20 @@ public class CrossSellServiceImpl implements CrossSellService {
                 .build();
     }
 
+    @Override
+    public CrossSellResponseDto getCrossSellProduct(long productId) {
+        Crosssell crossSell = crossSellDao.findByProductId(productId);
+        if (crossSell == null) {
+            LOGGER.warn("Cross-sell products not available for this product Id {}", productId);
+            throw new ResourceNotFoundException("Cross-sell products not available for this product Id {}", productId);
+        } else if (crossSell.getProducts().isEmpty()) {
+            LOGGER.warn("Cross-sell products are empty for this product Id {}", productId);
+            throw new ResourceNotFoundException("Cross-sell products are empty for this product Id {}", productId);
+        }
+        return CrossSellResponseDto.builder()
+                .productDtos(crossSell.getProducts().stream()
+                        .map(ProductMapper::convertEntityToDto)
+                        .collect(Collectors.toList()))
+                .build();
+    }
 }

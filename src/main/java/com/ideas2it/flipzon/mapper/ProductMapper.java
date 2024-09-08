@@ -24,6 +24,7 @@ public class ProductMapper {
                 .brandId(product.getBrand().getId())
                 .categoryId(product.getCategory().getId())
                 .subcategoryId(product.getSubcategory().getId())
+                .description(product.getDescription())
                 .build();
     }
 
@@ -38,6 +39,7 @@ public class ProductMapper {
                 .id(productDto.getId())
                 .name(productDto.getName())
                 .price(productDto.getPrice())
+                .description(productDto.getDescription())
                 .build();
     }
 }

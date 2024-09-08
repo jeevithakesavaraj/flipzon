@@ -2,7 +2,6 @@ package com.ideas2it.flipzon.service;
 
 import com.ideas2it.flipzon.dto.CrossSellRequestDto;
 import com.ideas2it.flipzon.dto.CrossSellResponseDto;
-import com.ideas2it.flipzon.model.CrossSell;
 
 /**
  *
@@ -21,4 +20,11 @@ public interface CrossSellService {
      * @return {@link CrossSellResponseDto}
      */
     CrossSellResponseDto removeCrossSellProduct(CrossSellRequestDto crossSellRequestDto) ;
+
+    /**
+     * Get cross-sell products
+     * @param productId id of the product
+     * @return {@link CrossSellResponseDto}
+     */
+    CrossSellResponseDto getCrossSellProduct(long productId);
 }
