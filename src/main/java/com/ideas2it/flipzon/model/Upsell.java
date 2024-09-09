@@ -9,6 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * <p>
+ * Upsell represents the details of products related to upsell.
+ * </p>
+ *
+ * @author Gowthamraj
+ */
 @Entity
 @Builder
 @Getter

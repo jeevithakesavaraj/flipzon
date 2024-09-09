@@ -20,6 +20,9 @@ public class ProductDto {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String description;
+
     @NotNull(message = "Price is mandatory")
     private double price;
 
