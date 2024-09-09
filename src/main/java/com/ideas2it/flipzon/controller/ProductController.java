@@ -2,12 +2,6 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
-import com.ideas2it.flipzon.dto.CrossSellRequestDto;
-import com.ideas2it.flipzon.dto.CrossSellResponseDto;
-import com.ideas2it.flipzon.service.CrossSellService;
-import com.ideas2it.flipzon.dto.UpsellDto;
-import com.ideas2it.flipzon.dto.UpsellResponseDto;
-import com.ideas2it.flipzon.service.UpsellService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.dto.CrossSellRequestDto;
+import com.ideas2it.flipzon.dto.CrossSellResponseDto;
+import com.ideas2it.flipzon.dto.UpsellDto;
+import com.ideas2it.flipzon.dto.UpsellResponseDto;
 import com.ideas2it.flipzon.service.ProductService;
+import com.ideas2it.flipzon.service.CrossSellService;
+import com.ideas2it.flipzon.service.UpsellService;
 
 /**
  * <p>

@@ -2,8 +2,6 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
-import com.ideas2it.flipzon.model.Product;
-import com.ideas2it.flipzon.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.dto.StockDto;
+import com.ideas2it.flipzon.model.Product;
+import com.ideas2it.flipzon.service.ProductService;
 import com.ideas2it.flipzon.service.StockService;
 
 /**

@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.dto.CustomerDto;
+import com.ideas2it.flipzon.dto.OrderDto;
 import com.ideas2it.flipzon.service.CustomerService;
-
+import com.ideas2it.flipzon.service.OrderService;
 /**
  * <p>
  * Admin controller is for admin-related operations
@@ -24,6 +25,8 @@ public class AdminController {
     @Autowired
     private CustomerService customerService;
 
+    @Autowired
+    private OrderService orderService;
     /**
      * <p>
      * Get all customers
@@ -33,5 +36,16 @@ public class AdminController {
     @GetMapping("/customers")
     public List<CustomerDto> getAllCustomers () {
         return customerService.getAllCustomers();
+    }
+
+    /**
+     * <p>
+     * Get all orders
+     * </p>
+     * @return List of orders {@link OrderDto}
+     */
+    @GetMapping("/orders")
+    public List<OrderDto> getOrders() {
+        return orderService.getOrders();
     }
 }

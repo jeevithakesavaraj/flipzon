@@ -113,7 +113,6 @@ public class CartServiceImpl implements CartService {
             throw new ResourceNotFoundException();
         } else if (cart.getCartItems().isEmpty()) {
             LOGGER.warn("cart is empty can't remove this customer's cart : id {}", customerId);
-            throw new EmptyCart("cart is Empty");
         }
         productService.retrieveProductById(productId);
         LOGGER.info("Remove product from cart by product ID : {}", productId);
@@ -127,7 +126,7 @@ public class CartServiceImpl implements CartService {
                 flag = false;
             }
         }
-        if (flag) {
+        if (!flag) {
             LOGGER.warn("product not available in this cart can't remove {}", productId);
             throw new ResourceNotFoundException("productId", "this cart");
         }
@@ -145,7 +144,6 @@ public class CartServiceImpl implements CartService {
             throw new ResourceNotFoundException();
         } else if (cart.getCartItems().isEmpty()) {
             LOGGER.warn("cart is empty can't update this customer's cart : id {}", cartDto.getCustomerId());
-            throw new EmptyCart("cart is Empty");
         }
         for (CartItem cartItem : cart.getCartItems()) {
             if (cartItem.getProduct().getId() == cartDto.getProductId()) {

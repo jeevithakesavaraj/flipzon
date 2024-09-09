@@ -1,12 +1,10 @@
 package com.ideas2it.flipzon.service;
 
-import org.springframework.stereotype.Service;
-
-import com.ideas2it.flipzon.common.APIResponse;
-import com.ideas2it.flipzon.dto.OrderDto;
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.ideas2it.flipzon.dto.OrderDto;
 /**
  * <p>
  * Order Service interface has methods for CRUD operations
@@ -44,4 +42,12 @@ public interface OrderService {
      * @return orderDto {@link OrderDto}
      */
     OrderDto cancelOrder(long customerId, long orderId);
+
+    /**
+     * <p>
+     * Get all orders
+     * </p>
+     * @return List of orders {@link OrderDto}
+     */
+    List<OrderDto> getOrders();
 }

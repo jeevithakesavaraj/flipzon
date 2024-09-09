@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
             orderItems.add(orderItem);
         }
         orderItems = orderItemService.addOrderItems(orderItems);
+        savedOrder.setOrderItems(orderItems);
         cart.getCartItems().forEach(cartItem -> {
             int quantity = cartItem.getQuantity();
             Product product = cartItem.getProduct();
@@ -90,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getOrdersByCustomerId(long customerId) {
-        List<Order> placedOrders = orderDao.findByCustomerIdAndIsDeletedFalse(customerId);
+        List<Order> placedOrders = orderDao.findByCustomerId(customerId);
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order order :  placedOrders) {
             List<OrderItemDto> orderItems = new ArrayList<>();
@@ -123,5 +125,12 @@ public class OrderServiceImpl implements OrderService {
         Order deletedOrder = orderDao.save(order);
         LOGGER.info("Order is cancelled in this Id:{} for the customer :{} ", orderId, order.getCustomer().getId());
         return OrderMapper.convertEntityToDto(deletedOrder);
+    }
+
+    @Override
+    public List<OrderDto> getOrders() {
+        return orderDao.findAll().stream()
+                .map(OrderMapper::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 }

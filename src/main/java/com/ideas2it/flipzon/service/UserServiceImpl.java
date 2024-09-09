@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber("9087654321")
         .build();
         Set<Role> roles = new HashSet<>();
-        roles.add(Role.builder().id(1).name(UserRole.ROLE_ADMIN).build());
+        roles.add(Role.builder().id(1L).name(UserRole.ROLE_ADMIN).build());
         user.setRole(roles);
         if (!userDao.existsByName("ADMIN")) {
             logger.info("{}admin is created.", user.getName());

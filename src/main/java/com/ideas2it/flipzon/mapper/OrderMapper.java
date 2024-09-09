@@ -1,12 +1,12 @@
 package com.ideas2it.flipzon.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ideas2it.flipzon.dto.OrderDto;
 import com.ideas2it.flipzon.dto.OrderItemDto;
 import com.ideas2it.flipzon.model.Order;
 import com.ideas2it.flipzon.model.OrderItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>

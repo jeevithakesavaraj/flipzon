@@ -1,6 +1,5 @@
 package com.ideas2it.flipzon.controller;
 
-import com.ideas2it.flipzon.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.common.APIResponse;
+import com.ideas2it.flipzon.dto.AuthenticationResponse;
+import com.ideas2it.flipzon.dto.CustomerDto;
+import com.ideas2it.flipzon.dto.DeliveryPersonDto;
+import com.ideas2it.flipzon.dto.LoginDto;
+import com.ideas2it.flipzon.dto.UserVerifyDto;
 import com.ideas2it.flipzon.exception.AuthenticationException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.service.AuthenticationService;

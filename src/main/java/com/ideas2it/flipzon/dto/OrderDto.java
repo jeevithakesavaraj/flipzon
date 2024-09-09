@@ -1,10 +1,8 @@
 package com.ideas2it.flipzon.dto;
 
-import com.ideas2it.flipzon.model.OrderItem;
 import com.ideas2it.flipzon.model.OrderStatus;
 import com.ideas2it.flipzon.model.PaymentStatus;
 import com.ideas2it.flipzon.model.PaymentType;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -22,19 +20,13 @@ import java.util.List;
 @Data
 @Builder
 public class OrderDto {
-    private long id;
+    private Long id;
 
     @NotNull(message = "Customer ID is mandatory")
-    @NotBlank(message = "Please enter the customer id")
-    private long customerId;
-
-    @NotNull(message = "Cart ID is mandatory")
-    @NotBlank(message = "Please enter the cart id")
-    private long cartId;
+    private Long customerId;
 
     @NotNull(message = "Address ID is mandatory")
-    @NotBlank(message = "Please enter the address id")
-    private long addressId;
+    private Long addressId;
 
     private List<OrderItemDto> orderItems;
     private PaymentType paymentType;
