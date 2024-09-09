@@ -150,7 +150,7 @@ public class OrderServiceTest {
         when(addressService.getAddressById(anyLong())).thenReturn(address);
         when(orderDao.save(any(Order.class))).thenReturn(order);
         when(orderItemService.addOrderItems(anyList())).thenReturn(orderItems);
-        OrderDto placeOrder = orderServiceImpl.placeOrder(orderDto);
+        OrderDto placeOrder = orderServiceImpl.placeOrder(1L, orderDto);
         assertNotNull(placeOrder);
         assertEquals(placeOrder.getId(),order.getId());
         verify(orderDao, times(1)).save(any(Order.class));

@@ -1,8 +1,8 @@
 package com.ideas2it.flipzon.controller;
 
 import java.util.List;
-
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ import com.ideas2it.flipzon.service.StockService;
  * @author Gokul
  */
 @RestController
-@RequestMapping("flipzon/api/v1/admin/stocks")
+@RequestMapping("flipzon/api/v1/admin/products")
 public class StockController {
 
     @Autowired
@@ -43,9 +43,9 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PostMapping
-    public ResponseEntity<StockDto> addStock(@Valid @RequestBody StockDto stockDto) {
-        Product product = productService.getProductById(stockDto.getProductId());
+    @PostMapping("/{productId}/stocks")
+    public ResponseEntity<StockDto> addStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
+        Product product = productService.getProductById(productId);
         return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.CREATED);
     }
 
@@ -54,10 +54,10 @@ public class StockController {
      *
      * @param id : id
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/stocks")
     public ResponseEntity<StockDto> deleteStock(@PathVariable long id) {
         stockService.deleteStock(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -65,7 +65,7 @@ public class StockController {
      *
      * @return List<StockDto> : list of stockDto
      */
-    @GetMapping
+    @GetMapping("{stocks}")
     public ResponseEntity<List<StockDto>> getAllStocks() {
         return new ResponseEntity<>(stockService.retrieveAllStock(), HttpStatus.OK);
     }
@@ -76,9 +76,9 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PutMapping
-    public ResponseEntity<StockDto> updateStock(@Valid @RequestBody StockDto stockDto) {
-        return new ResponseEntity<>(stockService.updateStock(stockDto), HttpStatus.OK);
+    @PutMapping("/{productId}/stocks")
+    public ResponseEntity<StockDto> updateStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
+        return new ResponseEntity<>(stockService.updateStock(productId, stockDto), HttpStatus.OK);
     }
 
     /**
@@ -87,18 +87,18 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PatchMapping
-    public ResponseEntity<StockDto> updateNewStock(@Valid @RequestBody StockDto stockDto) {
-        return new ResponseEntity<>(stockService.updateNewStock(stockDto), HttpStatus.OK);
+    @PatchMapping("{productId}/stocks")
+    public ResponseEntity<StockDto> updateNewStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
+        return new ResponseEntity<>(stockService.updateNewStock(productId, stockDto), HttpStatus.OK);
     }
 
     /**
-     * update the Stock based on the Admin request
+     * Get the Stock based on the Admin request
      *
      * @param id : id of the stock
      * @return StockDto with Http status Created.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/stocks")
     public ResponseEntity<StockDto> getStockByProductId(@PathVariable long id) {
         return new ResponseEntity<>(stockService.retrieveStockByProductId(id), HttpStatus.OK);
     }

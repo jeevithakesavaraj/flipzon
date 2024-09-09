@@ -1,5 +1,13 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dto.UpsellResponseDto;
 import com.ideas2it.flipzon.dao.UpsellDao;
 import com.ideas2it.flipzon.dto.UpsellDto;
@@ -7,13 +15,6 @@ import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.model.Upsell;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class UpsellServiceImpl implements UpsellService {
@@ -26,10 +27,10 @@ public class UpsellServiceImpl implements UpsellService {
     private UpsellDao upsellDao;
 
     @Override
-    public UpsellResponseDto addUpsell(UpsellDto upsellDto) {
-        Product product = productService.getProductById(upsellDto.getProductId());
+    public UpsellResponseDto addUpsell(Long productId, UpsellDto upsellDto) {
+        Product product = productService.getProductById(productId);
         Product upsellProduct = productService.getProductById(upsellDto.getUpsellProductId());
-        Upsell upsell = upsellDao.findByProductId(upsellDto.getProductId());
+        Upsell upsell = upsellDao.findByProductId(productId);
         if (null == upsell) {
             upsell = new Upsell();
             upsell.setProduct(product);
@@ -38,7 +39,7 @@ public class UpsellServiceImpl implements UpsellService {
             if (upsell.getProducts().isEmpty()) {
                 upsell.setProducts(Set.of(upsellProduct));
             } else {
-                var products = upsell.getProducts();
+                Set<Product> products = upsell.getProducts();
                 products.add(upsellProduct);
                 upsell.setProducts(products);
             }
@@ -52,10 +53,10 @@ public class UpsellServiceImpl implements UpsellService {
     }
 
     @Override
-    public UpsellResponseDto deleteUpsell(UpsellDto upsellDto) {
-        productService.getProductById(upsellDto.getProductId());
-        Product upsellProduct = productService.getProductById(upsellDto.getUpsellProductId());
-        Upsell upsell = upsellDao.findByProductId(upsellDto.getProductId());
+    public UpsellResponseDto deleteUpsell(Long productId, Long id) {
+        productService.getProductById(productId);
+        Product upsellProduct = productService.getProductById(id);
+        Upsell upsell = upsellDao.findByProductId(productId);
         if (upsell == null) {
             LOGGER.warn("No Cross-sell products available for this product");
             throw new ResourceNotFoundException();
@@ -66,7 +67,7 @@ public class UpsellServiceImpl implements UpsellService {
         } else {
             upsell.getProducts().remove(upsellProduct);
         }
-        upsellDao.saveAndFlush(upsell);
+        upsell = upsellDao.saveAndFlush(upsell);
         return UpsellResponseDto.builder()
                 .productName(upsellProduct.getName())
                 .price(upsellProduct.getPrice())
@@ -82,9 +83,6 @@ public class UpsellServiceImpl implements UpsellService {
         if (upsell == null) {
             LOGGER.warn("Up-sell products not available for this product Id {}", productId);
             throw new ResourceNotFoundException("Up-sell products not available for this product Id {}", productId);
-        } else if (upsell.getProducts().isEmpty()) {
-            LOGGER.warn("Up-sell products are empty for this product Id {}", productId);
-            throw new ResourceNotFoundException("Up-sell products are empty for this product Id {}", productId);
         }
         return UpsellResponseDto.builder()
                 .productName(upsell.getProduct().getName())

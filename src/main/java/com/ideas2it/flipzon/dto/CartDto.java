@@ -18,9 +18,6 @@ public class CartDto {
 
     private Long cartId;
 
-    @NotNull(message = "Customer ID is mandatory")
-    private long customerId;
-
     @NotNull(message = "Product ID is mandatory")
     private long productId;
 

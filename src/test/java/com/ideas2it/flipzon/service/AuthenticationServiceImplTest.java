@@ -49,9 +49,9 @@ public class AuthenticationServiceImplTest {
         Date date = Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
         Set<Role> roles = new HashSet<>();
         UserRole userRole = UserRole.ROLE_CUSTOMER;
-        Role role = new Role(1, userRole);
+        Role role = new Role(1L, userRole);
         roles.add(role);
-        user = new User(1, "Jeevitha",  "jeevitha@gmail.com", "jeevith@123", "9012345678", roles, date);
+        user = new User(1L, "Jeevitha",  "jeevitha@gmail.com", "jeevith@123", "9012345678", roles, date);
         customer = Customer.builder()
                 .id(1)
                 .user(user)

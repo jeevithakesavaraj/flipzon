@@ -37,9 +37,9 @@ public class CartController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/addproduct")
-    public ResponseEntity<CartResponseDto> addProductToCart(@Valid @RequestBody CartDto cartDto) {
-        CartResponseDto updatedCart = cartService.addProductToCart(cartDto);
+    @PostMapping("/{customerId}/products")
+    public ResponseEntity<CartResponseDto> addProductToCart(@Valid @PathVariable Long customerId ,@RequestBody CartDto cartDto) {
+        CartResponseDto updatedCart = cartService.addProductToCart(customerId, cartDto);
         return ResponseEntity.ok(updatedCart);
     }
 
@@ -51,7 +51,7 @@ public class CartController {
      * @param customerId To specify which customer.
      * @return CartItems {@link CartResponseDto}
      */
-    @GetMapping("/{customerId}/cart")
+    @GetMapping("/{customerId}/carts")
     public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
         return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
     }
@@ -67,7 +67,7 @@ public class CartController {
      */
     @DeleteMapping("/{customerId}/cart/{productId}")
     public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
-        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.OK);
+        return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -75,13 +75,12 @@ public class CartController {
      * Updates the quantity of the existing product in cart.
      * </p>
      *
-     * @param cartDto To specify which product and quantity of it.
+     * @param cartDto {@link CartDto}
      * @return Updated Cart. {@link CartResponseDto}
      */
-    @PutMapping("/update-quantity")
-    public ResponseEntity<CartResponseDto> updateProductQuantity(@Valid @RequestBody CartDto cartDto) {
-        CartResponseDto updatedCart = cartService.updateProductQuantity(cartDto);
-        return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+    @PutMapping("/{customerId}")
+    public ResponseEntity<CartResponseDto> updateProductQuantity(@Valid @PathVariable Long customerId, @RequestBody CartDto cartDto) {
+        return new ResponseEntity<>(cartService.updateProductQuantity(customerId, cartDto), HttpStatus.OK);
     }
 
     /**

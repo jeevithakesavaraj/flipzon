@@ -41,17 +41,17 @@ public class CartServiceImpl implements CartService {
 
     private static final Logger LOGGER = LogManager.getLogger(CartServiceImpl.class);
 
-    public CartResponseDto addProductToCart(CartDto cartDto) {
-        Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
+    public CartResponseDto addProductToCart(Long customerId, CartDto cartDto) {
+        Cart cart = cartDao.findByCustomerId(customerId);
         if (cart == null) {
-            return createCartAndAddProduct(cartDto);
+            return createCartAndAddProduct(customerId, cartDto);
         }
         return existCartAddProduct(cart, cartDto);
     }
 
-    private CartResponseDto createCartAndAddProduct(CartDto cartDto) {
+    private CartResponseDto createCartAndAddProduct(Long customerId, CartDto cartDto) {
         Cart cart = new Cart();
-        Customer customer = customerService.getCustomerById(cartDto.getCustomerId());
+        Customer customer = customerService.getCustomerById(customerId);
         cart.setCustomer(customer);
         Cart newCart = cartDao.saveAndFlush(cart);
         CartItem cartItem = cartItemService.addProductToCartItem(newCart, cartDto);
@@ -69,26 +69,25 @@ public class CartServiceImpl implements CartService {
 
     private CartResponseDto existCartAddProduct(Cart cart, CartDto cartDto) {
         double totalPrice = 0;
-        Cart existCart = cartDao.findByCustomerId(cartDto.getCustomerId());
-        CartItem cartItem = cartItemService.addProductToCartItem(existCart, cartDto);
-        if (existCart.getCartItems() == null) {
-            existCart.setCartItems(Set.of(cartItem));
-            existCart.setTotalPrice(cartItem.getTotalPrice());
+        CartItem cartItem = cartItemService.addProductToCartItem(cart, cartDto);
+        if (cart.getCartItems() == null) {
+            cart.setCartItems(Set.of(cartItem));
+            cart.setTotalPrice(cartItem.getTotalPrice());
         } else {
-            Set<CartItem> cartItems = existCart.getCartItems();
+            Set<CartItem> cartItems = cart.getCartItems();
             cartItems.add(cartItem);
-            existCart.setCartItems(cartItems);
+            cart.setCartItems(cartItems);
             for (CartItem item : cart.getCartItems()) {
                 totalPrice += item.getTotalPrice();
             }
-            existCart.setTotalPrice(totalPrice);
+            cart.setTotalPrice(totalPrice);
         }
-        existCart = cartDao.saveAndFlush(existCart);
+        cart = cartDao.saveAndFlush(cart);
         LOGGER.info("CartItem added in exist cart");
         return CartResponseDto.builder()
-                .customerId(existCart.getCustomer().getId())
-                .totalPrice(existCart.getTotalPrice())
-                .cartItemResponseDtos(existCart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
+                .customerId(cart.getCustomer().getId())
+                .totalPrice(cart.getTotalPrice())
+                .cartItemResponseDtos(cart.getCartItems().stream().map(CartItemMapper::convertEntityToDto).collect(Collectors.toSet()))
                 .build();
     }
 
@@ -137,13 +136,14 @@ public class CartServiceImpl implements CartService {
                 .build();
     }
 
-    public CartResponseDto updateProductQuantity(CartDto cartDto) {
-        Cart cart = cartDao.findByCustomerId(cartDto.getCustomerId());
+    public CartResponseDto updateProductQuantity(Long customerId, CartDto cartDto) {
+        Cart cart = cartDao.findByCustomerId(customerId);
         if (cart == null) {
-            LOGGER.warn("cart not available update this customer's cart : id {}", cartDto.getCustomerId());
+            LOGGER.warn("cart not available update this customer's cart : id {}", customerId);
             throw new ResourceNotFoundException();
         } else if (cart.getCartItems().isEmpty()) {
-            LOGGER.warn("cart is empty can't update this customer's cart : id {}", cartDto.getCustomerId());
+            LOGGER.warn("cart is empty can't update this customer's cart : id {}", customerId);
+            throw new EmptyCart("cart is empty");
         }
         for (CartItem cartItem : cart.getCartItems()) {
             if (cartItem.getProduct().getId() == cartDto.getProductId()) {
@@ -151,7 +151,7 @@ public class CartServiceImpl implements CartService {
                 cartItem.setQuantity(cartDto.getQuantity());
                 cartItem.setTotalPrice(cartItem.getPrice() * cartDto.getQuantity());
                 cart.getCartItems().add(cartItem);
-                Cart updatedCart = cartDao.findByCustomerId(cartDto.getCustomerId());
+                Cart updatedCart = cartDao.findByCustomerId(customerId);
                 LOGGER.info("Product Quantity updated in this cart");
                 return CartResponseDto.builder()
                         .customerId(updatedCart.getCustomer().getId())
@@ -161,7 +161,7 @@ public class CartServiceImpl implements CartService {
             }
         }
         LOGGER.warn("Product not found in this customers cart");
-        throw new ResourceNotFoundException("customerId" + cartDto.getCustomerId(), "ProductId", cartDto.getProductId());
+        throw new ResourceNotFoundException("customerId" + customerId, "ProductId", cartDto.getProductId());
     }
 
     public Cart getCartByCustomerId(long customerId) {

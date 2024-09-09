@@ -89,7 +89,6 @@ public class WishlistServiceTest {
                 .build();
 
         productDto = ProductDto.builder()
-                .id(1L)
                 .name("Hamam")
                 .brandId(1L)
                 .build();

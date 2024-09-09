@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MyException.class)
     public ResponseEntity<APIResponse> handleAlreadyPresent(MyException myException) {
         APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.ALREADY_REPORTED.value());
+        apiResponse.setStatus(HttpStatus.CONFLICT.value());
         apiResponse.setData(myException.getMessage());
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }

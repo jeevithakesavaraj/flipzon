@@ -63,7 +63,6 @@ class CartControllerTest {
                 .subcategoryId(1L)
                 .build();
         cartDto = CartDto.builder()
-                .customerId(1L)
                 .productId(1L)
                 .quantity(2)
                 .cartId(1L)
@@ -95,11 +94,11 @@ class CartControllerTest {
 
     @Test
     void testAddCart() {
-        when(cartService.addProductToCart(cartDto)).thenReturn(cartResponseDto);
-        ResponseEntity<CartResponseDto> response = cartController.addProductToCart(cartDto);
+        when(cartService.addProductToCart(1L, cartDto)).thenReturn(cartResponseDto);
+        ResponseEntity<CartResponseDto> response = cartController.addProductToCart(1L,cartDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cartResponseDto, response.getBody());
-        verify(cartService, times(1)).addProductToCart(cartDto);
+        verify(cartService, times(1)).addProductToCart(1L, cartDto);
     }
 
     @Test
@@ -120,8 +119,8 @@ class CartControllerTest {
 
     @Test
     void testUpdateProductQuantity_Success() {
-        when(cartService.updateProductQuantity(any(CartDto.class))).thenReturn(cartResponseDto);
-        ResponseEntity<CartResponseDto> response = cartController.updateProductQuantity(cartDto);
+        when(cartService.updateProductQuantity(1L, any(CartDto.class))).thenReturn(cartResponseDto);
+        ResponseEntity<CartResponseDto> response = cartController.updateProductQuantity(1L, cartDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cartResponseDto, response.getBody());
     }

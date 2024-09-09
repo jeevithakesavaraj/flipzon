@@ -15,9 +15,6 @@ public class StockDto {
 
     private Long id;
 
-    @NotNull(message = "Product ID is mandatory")
-    private Long productId;
-
     @NotNull(message = "Please enter initial quantity")
     private int initialQuantity;
 

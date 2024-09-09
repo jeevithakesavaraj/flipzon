@@ -100,7 +100,7 @@ public class StockServiceImplTest {
     void testUpdateStock_Empty() {
         when(stockDao.findByProductIdAndIsDeletedFalse(product.getId())).thenReturn(null);
         assertThrows(RuntimeException.class, ()-> {
-            stockService.updateStock(stockDto);
+            stockService.updateStock(1L, stockDto);
         });
     }
 
@@ -109,7 +109,7 @@ public class StockServiceImplTest {
         when(stockDao.findByProductIdAndIsDeletedFalse(product.getId())).thenReturn(stock);
         stock.setInitialQuantity(100);
         when(stockDao.saveAndFlush(any(Stock.class))).thenReturn(stock);
-        StockDto response = stockService.updateStock(stockDto);
+        StockDto response = stockService.updateStock(1L, stockDto);
         assertEquals(stock.getInitialQuantity(), response.getInitialQuantity());
     }
 
@@ -118,7 +118,7 @@ public class StockServiceImplTest {
         when(stockDao.findByProductIdAndIsDeletedFalse(product.getId())).thenReturn(stock);
         stock.setInitialQuantity(100);
         when(stockDao.saveAndFlush(any(Stock.class))).thenReturn(stock);
-        StockDto response = stockService.updateNewStock(stockDto);
+        StockDto response = stockService.updateNewStock(1L, stockDto);
         assertEquals(stock.getInitialQuantity(), response.getInitialQuantity());
     }
 

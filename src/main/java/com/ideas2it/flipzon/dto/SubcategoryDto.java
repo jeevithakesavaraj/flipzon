@@ -13,6 +13,7 @@ import lombok.Data;
 @Builder
 @Data
 public class SubcategoryDto {
+
     private Long id;
 
     @NotBlank(message = "Name is mandatory")

@@ -47,11 +47,11 @@ public class OrderControllerTest {
 
     @Test
     void placeOrder() {
-        when(orderService.placeOrder(orderDto)).thenReturn(orderDto);
-        ResponseEntity<OrderDto> response = orderController.placeOrder(orderDto);
+        when(orderService.placeOrder(1L, orderDto)).thenReturn(orderDto);
+        ResponseEntity<OrderDto> response = orderController.placeOrder(1L, orderDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(orderDto, response.getBody());
-        verify(orderService, times(1)).placeOrder(orderDto);
+        verify(orderService, times(1)).placeOrder(1L,orderDto);
     }
 
     @Test

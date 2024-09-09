@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -235,38 +236,38 @@ public class ProductServiceImplTest {
 
     @Test
     void testUpdatePriceEmptyProduct() {
-        when(productDao.findByIdAndIsDeletedFalse(productDto.getId())).thenReturn(null);
+        when(productDao.findByIdAndIsDeletedFalse(anyLong())).thenReturn(null);
         assertThrows(ResourceNotFoundException.class, ()-> {
-            productService.updateProductPrice(productDto);
+            productService.updateProductPrice(1L, productDto);
         });
     }
 
     @Test
     void testUpdatePrice() {
-        when(productDao.findByIdAndIsDeletedFalse(productDto.getId())).thenReturn(product);
+        when(productDao.findByIdAndIsDeletedFalse(anyLong())).thenReturn(product);
         product.setPrice(90000);
         when(productDao.saveAndFlush(product)).thenReturn(product);
-        var response = productService.updateProductPrice(productDto);
+        var response = productService.updateProductPrice(1L, productDto);
         assertEquals(product.getPrice(), response.getPrice());
     }
 
     @Test
     void testUpdateProductEmpty() {
-        when(productDao.findByIdAndIsDeletedFalse(productDto.getId())).thenReturn(null);
+        when(productDao.findByIdAndIsDeletedFalse(anyLong())).thenReturn(null);
         assertThrows(ResourceNotFoundException.class, ()-> {
-            productService.updateProduct(productDto);
+            productService.updateProduct(1L, productDto);
         });
     }
 
     @Test
     void testUpdateProduct() {
-        when(productDao.findByIdAndIsDeletedFalse(productDto.getId())).thenReturn(product);
+        when(productDao.findByIdAndIsDeletedFalse(anyLong())).thenReturn(product);
         when(brandService.retrieveBrandById(productDto.getBrandId())).thenReturn(brandDto);
         when(categoryService.retrieveCategoryById(productDto.getCategoryId())).thenReturn(categoryDto);
         when(subcategoryService.retrieveSubcategoryById(productDto.getSubcategoryId())).thenReturn(subcategoryDto);
         when(productDao.saveAndFlush(any(Product.class))).thenReturn(product);
         productDto.setPrice(20000);
-        ProductDto response = productService.updateProduct(productDto);
+        ProductDto response = productService.updateProduct(1L, productDto);
         assertEquals(productDto.getPrice(), response.getPrice());
     }
 }

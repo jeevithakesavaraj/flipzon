@@ -41,11 +41,11 @@ public interface ProductService {
 
     /**
      * Update the Product details by its id
-     *
+     * @param productId id of the product
      * @param productDto : new product details
      * @return ProductDto : product details
      */
-    ProductDto updateProduct(ProductDto productDto);
+    ProductDto updateProduct(Long productId, ProductDto productDto);
     
     /**
      * Update the Product price details by its id
@@ -53,7 +53,7 @@ public interface ProductService {
      * @param productDto : {@link ProductDto}
      * @return ProductDto : product details
      */
-    ProductDto updateProductPrice(ProductDto productDto);
+    ProductDto updateProductPrice(Long productId, ProductDto productDto);
 
     /**
      * Get product details by its id with check stock is available or not

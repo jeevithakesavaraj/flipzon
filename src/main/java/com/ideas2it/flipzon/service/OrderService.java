@@ -19,16 +19,17 @@ public interface OrderService {
      * <p>
      *  Place the order
      * </p>
+     * @param id : customer id
      * @param orderDto  {@link OrderDto}
      * @return  savedOrderDto {@link OrderDto}
      */
-    OrderDto placeOrder(OrderDto orderDto);
+    OrderDto placeOrder(Long id, OrderDto orderDto);
 
     /**
      * <p>
      * Get orders by customer Id
      * </p>
-     * @param customerId  Id of the customer
+     * @param customerId : customer id
      * @return list of orderDtos {@link OrderDto}
      */
     List<OrderDto> getOrdersByCustomerId(long customerId);

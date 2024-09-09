@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,7 +45,6 @@ public class StockControllerTest {
                 .build();
         stockDto = StockDto.builder()
                 .id(1L)
-                .productId(product.getId())
                 .initialQuantity(10)
                 .currentQuantity(5)
                 .build();
@@ -53,8 +53,8 @@ public class StockControllerTest {
     @Test
     void testAddStock() {
         when(stockService.addStock(stockDto, product)).thenReturn(stockDto);
-        when(productService.getProductById(stockDto.getProductId())).thenReturn(product);
-        ResponseEntity<StockDto> response = stockController.addStock(stockDto);
+        when(productService.getProductById(anyLong())).thenReturn(product);
+        ResponseEntity<StockDto> response = stockController.addStock(product.getId(), stockDto);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(stockDto, response.getBody());
         verify(stockService, times(1)).addStock(stockDto, product);
@@ -70,17 +70,17 @@ public class StockControllerTest {
 
     @Test
     void testUpdateStock() {
-        when(stockService.updateStock(stockDto)).thenReturn(stockDto);
-        ResponseEntity<StockDto> response = stockController.updateStock(stockDto);
+        when(stockService.updateStock(anyLong(), stockDto)).thenReturn(stockDto);
+        ResponseEntity<StockDto> response = stockController.updateStock(anyLong(), stockDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(stockDto, response.getBody());
-        verify(stockService, times(1)).updateStock(stockDto);
+        verify(stockService, times(1)).updateStock(1L, stockDto);
     }
 
     @Test
     void testRetrieveStockByProductId() {
-        when(stockService.retrieveStockByProductId(stockDto.getProductId())).thenReturn(stockDto);
-        ResponseEntity<StockDto> response = stockController.getStockByProductId(stockDto.getProductId());
+        when(stockService.retrieveStockByProductId(anyLong())).thenReturn(stockDto);
+        ResponseEntity<StockDto> response = stockController.getStockByProductId(anyLong());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(stockDto, response.getBody());
         verify(stockService, times(1)).retrieveStockByProductId(stockDto.getId());
@@ -96,9 +96,9 @@ public class StockControllerTest {
 
     @Test
     void TestUpdateNewStock() {
-        when(stockService.updateNewStock(stockDto)).thenReturn(stockDto);
-        ResponseEntity<StockDto> response = stockController.updateNewStock(stockDto);
+        when(stockService.updateNewStock(anyLong(), stockDto)).thenReturn(stockDto);
+        ResponseEntity<StockDto> response = stockController.updateNewStock(anyLong(), stockDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(stockService, times(1)).updateNewStock(stockDto);
+        verify(stockService, times(1)).updateNewStock(1L, stockDto);
     }
 }

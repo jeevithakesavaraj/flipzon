@@ -70,11 +70,11 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public SubcategoryDto updateSubcategory(SubcategoryDto subcategoryDto) {
-        Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(subcategoryDto.getId());
+    public SubcategoryDto updateSubcategory(Long id, SubcategoryDto subcategoryDto) {
+        Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(id);
         if (null == subcategory) {
-            LOGGER.warn("subcategory not found in this id {}", subcategoryDto.getId());
-            throw new ResourceNotFoundException("Subcategory", "Subcategory ID", subcategoryDto.getId());
+            LOGGER.warn("subcategory not found in this id {}", id);
+            throw new ResourceNotFoundException("Subcategory", "Subcategory ID", id);
         }
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         subcategory.setModifiedDate(modifiedDate);

@@ -22,7 +22,6 @@ public class StockMapper {
     public static StockDto convertEntityToDto(Stock stock) {
         return StockDto.builder()
                 .id(stock.getId())
-                .productId(stock.getProduct().getId())
                 .initialQuantity(stock.getInitialQuantity())
                 .currentQuantity(stock.getCurrentQuantity())
                 .build();

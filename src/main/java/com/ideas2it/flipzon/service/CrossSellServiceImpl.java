@@ -1,5 +1,11 @@
 package com.ideas2it.flipzon.service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.ideas2it.flipzon.dao.CrossSellDao;
 import com.ideas2it.flipzon.dto.CrossSellRequestDto;
 import com.ideas2it.flipzon.dto.CrossSellResponseDto;
@@ -7,13 +13,7 @@ import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.Crosssell;
 import com.ideas2it.flipzon.model.Product;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CrossSellServiceImpl implements CrossSellService {
@@ -25,10 +25,10 @@ public class CrossSellServiceImpl implements CrossSellService {
     private CrossSellDao crossSellDao;
 
     @Override
-    public CrossSellResponseDto addCrossSellProduct(CrossSellRequestDto crossSellRequestDto) {
-        Product mainProduct = productService.getProductById(crossSellRequestDto.getProductId());
+    public CrossSellResponseDto addCrossSellProduct(Long productId, CrossSellRequestDto crossSellRequestDto) {
+        Product mainProduct = productService.getProductById(productId);
         Product crossSellProduct = productService.getProductById(crossSellRequestDto.getCrossSellProductId());
-        Crosssell crossSell = crossSellDao.findByProductId(crossSellRequestDto.getProductId());
+        Crosssell crossSell = crossSellDao.findByProductId(productId);
         if (crossSell == null) {
             crossSell = new Crosssell();
             crossSell.setProduct(mainProduct);
@@ -43,7 +43,7 @@ public class CrossSellServiceImpl implements CrossSellService {
             }
         }
         crossSell = crossSellDao.saveAndFlush(crossSell);
-        LOGGER.info("Cross-sell product added to this id : {}", crossSellRequestDto.getProductId());
+        LOGGER.info("Cross-sell product added to this id : {}", productId);
         return CrossSellResponseDto.builder()
                 .ProductName(crossSell.getProduct().getName())
                 .price(crossSell.getProduct().getPrice())
@@ -53,10 +53,10 @@ public class CrossSellServiceImpl implements CrossSellService {
                 .build();
     }
 
-    public CrossSellResponseDto removeCrossSellProduct(CrossSellRequestDto crossSellRequestDto) {
-        productService.getProductById(crossSellRequestDto.getProductId());
-        Product crossSellProduct = productService.getProductById(crossSellRequestDto.getCrossSellProductId());
-        Crosssell crossSell = crossSellDao.findByProductId(crossSellRequestDto.getProductId());
+    public CrossSellResponseDto removeCrossSellProduct(Long productId, Long id) {
+        productService.getProductById(productId);
+        Product crossSellProduct = productService.getProductById(id);
+        Crosssell crossSell = crossSellDao.findByProductId(productId);
         if (crossSell == null) {
             LOGGER.warn("No Cross-sell products available for this product");
             throw new ResourceNotFoundException();

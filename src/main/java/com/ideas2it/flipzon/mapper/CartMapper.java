@@ -40,7 +40,6 @@ public class CartMapper {
     public static CartDto convertEntityToDto(Cart cart) {
         return CartDto.builder()
                 .cartId(cart.getId())
-                .customerId(cart.getCustomer().getId())
                 .build();
     }
 }

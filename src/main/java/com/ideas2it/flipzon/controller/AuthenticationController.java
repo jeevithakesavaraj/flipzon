@@ -36,9 +36,10 @@ public class AuthenticationController {
 
     /**
      * <p>
-     *  Register customers
+     * Register customers
      * </p>
-     * @param customerDto  {@link CustomerDto}
+     *
+     * @param customerDto {@link CustomerDto}
      * @return String - Customer is registered or not
      */
     @PostMapping("/register/customers")
@@ -51,30 +52,30 @@ public class AuthenticationController {
 
     /**
      * <p>
-     *  Register delivery person
+     * Register delivery person
      * </p>
+     *
      * @param deliveryPersonDto {@link DeliveryPersonDto}
      * @return String - Delivery person is registered or not
      */
     @PostMapping("/register/deliverypersons")
-    public ResponseEntity<APIResponse> registerDeliveryPerson( @Valid
-            @RequestBody DeliveryPersonDto deliveryPersonDto
-            ) {
+    public ResponseEntity<APIResponse> registerDeliveryPerson(@Valid
+                                                              @RequestBody DeliveryPersonDto deliveryPersonDto
+    ) {
         apiResponse = authenticationService.registerDeliveryPerson(deliveryPersonDto);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
     /**
      * <p>
-     *  Login for the user
+     * Login for the user
      * </p>
-     * @param loginDto  {@link LoginDto}
+     *
+     * @param loginDto {@link LoginDto}
      * @return {@link AuthenticationResponse}
      */
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@Valid
-            @RequestBody LoginDto loginDto
-            ) {
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginDto loginDto) {
         AuthenticationResponse authenticationResponse = null;
         try {
             authenticationResponse = authenticationService.authenticate(loginDto);
@@ -90,7 +91,8 @@ public class AuthenticationController {
      * <p>
      * Verify User using OTP
      * </p>
-     * @param userVerifyDto  {@link UserVerifyDto}
+     *
+     * @param userVerifyDto {@link UserVerifyDto}
      * @return APIResponse {@link APIResponse}
      */
     @PostMapping("/verifyCustomer")
@@ -103,7 +105,8 @@ public class AuthenticationController {
      * <p>
      * Verify User using OTP
      * </p>
-     * @param userVerifyDto  {@link UserVerifyDto}
+     *
+     * @param userVerifyDto {@link UserVerifyDto}
      * @return APIResponse {@link APIResponse}
      */
     @PostMapping("/verifyDeliveryPerson")

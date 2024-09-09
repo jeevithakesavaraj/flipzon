@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +39,10 @@ public class OrderController {
      * @param orderDto {@link OrderDto}
      * @return APIResponse {@link APIResponse}
      */
-    @PostMapping("/placeorder")
-    public ResponseEntity<OrderDto> placeOrder(@Valid @RequestBody OrderDto orderDto) {
+    @PostMapping("/{id}/orders")
+    public ResponseEntity<OrderDto> placeOrder(@Valid @PathVariable Long id, @RequestBody OrderDto orderDto) {
         System.out.println("order");
-        OrderDto savedOrderDto = orderService.placeOrder(orderDto);
+        OrderDto savedOrderDto = orderService.placeOrder(id, orderDto);
         return ResponseEntity.ok(savedOrderDto);
     }
 

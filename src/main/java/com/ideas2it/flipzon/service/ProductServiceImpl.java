@@ -90,11 +90,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto updateProduct(ProductDto productDto) {
-        Product product = productDao.findByIdAndIsDeletedFalse(productDto.getId());
+    public ProductDto updateProduct(Long productId, ProductDto productDto) {
+        Product product = productDao.findByIdAndIsDeletedFalse(productId);
         if (null == product) {
-            LOGGER.warn("product not found in this id {}", productDto.getId());
-            throw new ResourceNotFoundException("Product", "Product ID", productDto.getId());
+            LOGGER.warn("product not found in this id {}", productId);
+            throw new ResourceNotFoundException("Product", "Product ID", productId);
         }
         BrandDto brandDto = brandService.retrieveBrandById(productDto.getBrandId());
         CategoryDto categoryDto = categoryService.retrieveCategoryById(productDto.getCategoryId());
@@ -109,16 +109,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto updateProductPrice(ProductDto productDto) {
-        Product product = productDao.findByIdAndIsDeletedFalse(productDto.getId());
+    public ProductDto updateProductPrice(Long productId, ProductDto productDto) {
+        Product product = productDao.findByIdAndIsDeletedFalse(productId);
         if (null == product) {
-            LOGGER.warn("Product not found in this id {}", productDto.getId());
-            throw new ResourceNotFoundException("Product", "Product ID", productDto.getId());
+            LOGGER.warn("Product not found in this id {}", productId);
+            throw new ResourceNotFoundException("Product", "Product ID", productId);
         }
         product.setPrice(productDto.getPrice());
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         product.setModifiedDate(modifiedDate);
-        LOGGER.info("Product price updated successfully in this id {}", productDto.getId());
+        LOGGER.info("Product price updated successfully in this id {}", productId);
         return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 

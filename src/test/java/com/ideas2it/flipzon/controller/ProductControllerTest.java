@@ -74,11 +74,11 @@ public class ProductControllerTest {
 
     @Test
     void testUpdateProduct() {
-        when(productService.updateProduct(productDto)).thenReturn(productDto);
-        ResponseEntity<ProductDto> response = productController.updateProduct(productDto);
+        when(productService.updateProduct(1L, productDto)).thenReturn(productDto);
+        ResponseEntity<ProductDto> response = productController.updateProduct(1L, productDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(productDto, response.getBody());
-        verify(productService, times(1)).updateProduct(productDto);
+        verify(productService, times(1)).updateProduct(1L, productDto);
     }
 
     @Test
@@ -100,9 +100,9 @@ public class ProductControllerTest {
 
     @Test
     void testUpdateProductPrice() {
-        when(productService.updateProductPrice(productDto)).thenReturn(productDto);
-        ResponseEntity<ProductDto> response = productController.updateProductPrice(productDto);
+        when(productService.updateProductPrice(1L, productDto)).thenReturn(productDto);
+        ResponseEntity<ProductDto> response = productController.updateProductPrice(1L, productDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(productService, times(1)).updateProductPrice(productDto);
+        verify(productService, times(1)).updateProductPrice(1L, productDto);
     }
 }

@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.OrderDao;
 import com.ideas2it.flipzon.dto.OrderDto;
-import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.dto.OrderItemDto;
+import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.OrderItemMapper;
 import com.ideas2it.flipzon.mapper.OrderMapper;
 import com.ideas2it.flipzon.model.Address;
@@ -54,8 +54,8 @@ public class OrderServiceImpl implements OrderService {
     private StockService stockService;
 
     @Override
-    public OrderDto placeOrder(OrderDto orderDto) {
-        Cart cart = cartService.getCartByCustomerId(orderDto.getCustomerId());
+    public OrderDto placeOrder(Long customerId, OrderDto orderDto) {
+        Cart cart = cartService.getCartByCustomerId(customerId);
         Address address = addressService.getAddressById(orderDto.getAddressId());
         Order order = new Order();
         order.setCustomer(cart.getCustomer());

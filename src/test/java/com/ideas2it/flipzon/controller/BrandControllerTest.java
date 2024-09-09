@@ -67,7 +67,7 @@ public class BrandControllerTest {
     @Test
     void testUpdateBrand() {
         when(brandService.updateBrand(brandDto)).thenReturn(brandDto);
-        ResponseEntity<BrandDto> response = brandController.updateBrand(brandDto);
+        ResponseEntity<BrandDto> response = brandController.updateBrand(1L, brandDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(brandDto, response.getBody());
         verify(brandService, times(1)).updateBrand(brandDto);

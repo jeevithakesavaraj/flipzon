@@ -51,12 +51,12 @@ public class CategoryController {
     /**
      * Create the Category based on the Admin request
      *
-     * @param id : id
+     * @param id : Category id
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<CategoryDto> deleteCategory(@PathVariable long id) {
         categoryService.deleteCategory(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -82,7 +82,7 @@ public class CategoryController {
 
     /**
      * update the Category based on the Admin request
-     * @param id The id of the category
+     * @param id : category id
      * @return CategoryDto with Http status Created.
      */
     @GetMapping("/{id}")

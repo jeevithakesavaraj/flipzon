@@ -1,8 +1,8 @@
 package com.ideas2it.flipzon.controller;
 
 import java.util.List;
-
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,12 +51,12 @@ public class BrandController {
     /**
      * Create the Brand based on the Admin request
      *
-     * @param id : id
+     * @param id : id of the brand
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<BrandDto> deleteBrand(@PathVariable long id) {
         brandService.deleteBrand(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -75,10 +75,12 @@ public class BrandController {
      * @param brandDto {@link BrandDto}
      * @return BrandDto with Http status Created.
      */
-    @PutMapping
-    public ResponseEntity<BrandDto> updateBrand(@Valid @RequestBody BrandDto brandDto) {
+    @PutMapping("/{brandId}")
+    public ResponseEntity<BrandDto> updateBrand(@Valid @PathVariable Long id,@RequestBody BrandDto brandDto) {
+        brandDto.setId(id);
         return new ResponseEntity<>(brandService.updateBrand(brandDto), HttpStatus.OK);
     }
+
     /**
      * update the Brand based on the Admin request
      *

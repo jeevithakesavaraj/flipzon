@@ -56,7 +56,7 @@ public class SubcategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<SubcategoryDto> deleteSubcategory(@PathVariable long id) {
         subcategoryService.deleteSubcategory(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -75,9 +75,9 @@ public class SubcategoryController {
      * @param subcategoryDto {@link SubcategoryDto}
      * @return SubcategoryDto with Http status Created.
      */
-    @PutMapping
-    public ResponseEntity<SubcategoryDto> updateSubcategory(@Valid @RequestBody SubcategoryDto subcategoryDto) {
-        return new ResponseEntity<>(subcategoryService.updateSubcategory(subcategoryDto), HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<SubcategoryDto> updateSubcategory(@Valid @PathVariable Long id, @RequestBody SubcategoryDto subcategoryDto) {
+        return new ResponseEntity<>(subcategoryService.updateSubcategory(1L, subcategoryDto), HttpStatus.OK);
     }
 
     /**

@@ -57,26 +57,28 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public StockDto updateStock(StockDto stockDto) {
-        Stock stock = stockDao.findByProductIdAndIsDeletedFalse(stockDto.getProductId());
+    public StockDto updateStock(Long productId, StockDto stockDto) {
+        Stock stock = stockDao.findByProductIdAndIsDeletedFalse(productId);
         if (null == stock) {
-            LOGGER.warn("Stock not found in this product id {}", stockDto.getProductId());
+            LOGGER.warn("Stock not found in this product id {}", productId);
             throw new ResourceNotFoundException("Stock", "productId", stockDto.getId());
         }
-        LOGGER.info("Get stocks in thi product id {}", stockDto.getProductId());
+        LOGGER.info("Get stocks by the product id {}", productId);
+        stock.setInitialQuantity(stockDto.getInitialQuantity());
+        stock.setCurrentQuantity(stockDto.getInitialQuantity());
         return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
     }
 
     @Override
-    public StockDto updateNewStock(StockDto stockDto) {
-        Stock stock = stockDao.findByProductIdAndIsDeletedFalse(stockDto.getProductId());
+    public StockDto updateNewStock(Long productId, StockDto stockDto) {
+        Stock stock = stockDao.findByProductIdAndIsDeletedFalse(productId);
         if (null == stock) {
-            LOGGER.warn("Stock not found in this product id {}", stockDto.getProductId());
+            LOGGER.warn("Stock not found in this product id {}", productId);
             throw new ResourceNotFoundException("Stock", "productId", stockDto.getId());
         }
         stock.setInitialQuantity(stockDto.getInitialQuantity() + stock.getInitialQuantity());
         stock.setCurrentQuantity(stock.getCurrentQuantity() + stockDto.getInitialQuantity());
-        LOGGER.info("New stocks updated in this Product id {} ", stockDto.getProductId());
+        LOGGER.info("New stocks updated in this Product id {} ", productId);
         return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
     }
 

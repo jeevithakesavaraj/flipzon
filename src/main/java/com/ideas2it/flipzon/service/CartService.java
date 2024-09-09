@@ -15,13 +15,13 @@ import com.ideas2it.flipzon.dto.CartDto;
 public interface CartService {
     /**
      * <p>
-     * Adds the product to cart.
+     * Add the product to the cart.
      * </p>
      *
      * @param cartDto {@link CartDto}
      * @return {@link CartResponseDto}
      */
-    CartResponseDto addProductToCart(CartDto cartDto);
+    CartResponseDto addProductToCart(Long customerId, CartDto cartDto);
 
     /**
      * <p>
@@ -48,11 +48,11 @@ public interface CartService {
      * <p>
      * Specifically updates the quantity of a product in cart.
      * </p>
-     *
+     * @param customerId id of the customer
      * @param cartDto To update the quantity.
      * @return Updated Cart. {@link CartResponseDto}
      */
-    CartResponseDto updateProductQuantity(CartDto cartDto);
+    CartResponseDto updateProductQuantity(Long customerId, CartDto cartDto);
 
     /**
      * <p>

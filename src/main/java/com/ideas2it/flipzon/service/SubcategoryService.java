@@ -43,7 +43,7 @@ public interface SubcategoryService {
      * @param subcategoryDto : new subcategory details
      * @return {@link SubcategoryDto}
      */
-    SubcategoryDto updateSubcategory(SubcategoryDto subcategoryDto);
+    SubcategoryDto updateSubcategory(Long id, SubcategoryDto subcategoryDto);
 
     /**
      * Get subcategory details by its id
