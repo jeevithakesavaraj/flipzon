@@ -88,36 +88,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * <p>
-     * Checks if the current authenticated user is authorized to access the requested path.
-     * </p>
-     * @param request Http request
-     * @return boolean If the user is authorized, return true or false
-     */
-    private boolean isAuthorized(HttpServletRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            return false;
-        }
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        List<String> roles = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-        Map<String, List<String>> allowedPaths = new HashMap<>();
-        allowedPaths.put("DELIVERYPERSON", List.of("/v1/deliverypersons/**", "/v1/customers/**"));
-        allowedPaths.put("CUSTOMER", List.of("/v1/customers/**"));
-        allowedPaths.put("ADMIN", List.of("/v1/admin/**", "/v1/deliverypersons/**", "/v1/customers/**"));
-        String requestPath = request.getServletPath();
-        for (Map.Entry<String, List<String>> entry : allowedPaths.entrySet()) {
-            String role = entry.getKey();
-            List<String> allowedPathsForRole = entry.getValue();
-            for (String pathPattern : allowedPathsForRole) {
-                if (new AntPathMatcher().match(pathPattern, requestPath) && roles.contains(role)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 }

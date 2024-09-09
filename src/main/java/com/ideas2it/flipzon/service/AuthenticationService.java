@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import com.ideas2it.flipzon.model.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,11 +26,6 @@ import com.ideas2it.flipzon.dto.DeliveryPersonDto;
 import com.ideas2it.flipzon.dto.LoginDto;
 import com.ideas2it.flipzon.dto.UserVerifyDto;
 import com.ideas2it.flipzon.mapper.UserMapper;
-import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.model.DeliveryPerson;
-import com.ideas2it.flipzon.model.Role;
-import com.ideas2it.flipzon.model.User;
-import com.ideas2it.flipzon.model.UserRole;
 import com.ideas2it.flipzon.util.OtpGenerator;
 /**
  * <p>
@@ -67,9 +63,6 @@ public class AuthenticationService {
     private EmailSenderService emailSenderService;
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(15);
-    private static final Map<String, String> otpSaver = new HashMap<>();
-    private static final Map<String, CustomerDto> cacheMemory = new HashMap<>();
-    private static final Map<String, DeliveryPersonDto> secondCacheMemory = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(AuthenticationService.class);
 
     /**
@@ -101,8 +94,8 @@ public class AuthenticationService {
                     + " Already Exist.Please Login or use Another EmailId");
         }
         boolean isMailSend = true;
-        for (Map.Entry<String, String> entry : otpSaver.entrySet()) {
-            if (entry.getKey().equals(customerDto.getEmail())) {
+        for (Otp otp : emailSenderService.getOtpAndMailId()) {
+            if (otp.getMailId().equals(customerDto.getEmail())) {
                 isMailSend = false;
                 break;
             }
@@ -115,10 +108,9 @@ public class AuthenticationService {
         String receiverMail = customerDto.getEmail();
         String subject = "OTP for registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());
-        String body = "OTP for signUp Verification" + otp;
-        otpSaver.put(customerDto.getEmail(), otp);
+        String body = "OTP for signUp Verification " + otp;
+        emailSenderService.addOtp(customerDto.getName(), customerDto.getEmail(),customerDto.getPassword(), customerDto.getPhoneNumber(), otp);
         emailSenderService.sendEmail(receiverMail, subject, body);
-        cacheMemory.put(customerDto.getEmail(), customerDto);
         apiResponse.setStatus(HttpStatus.OK.value());
         return apiResponse;
     }
@@ -152,8 +144,8 @@ public class AuthenticationService {
                     + " Already Exist.Please Login or use Another EmailId");
         }
         boolean isMailSend = true;
-        for (Map.Entry<String, String> entry : otpSaver.entrySet()) {
-            if (entry.getKey().equals(deliveryPersonDto.getEmail())) {
+        for (Otp otp : emailSenderService.getOtpAndMailId()) {
+            if (otp.getMailId().equals(deliveryPersonDto.getEmail())) {
                 isMailSend = false;
                 break;
             }
@@ -167,9 +159,9 @@ public class AuthenticationService {
         String subject = "OTP for Registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());
         String body = "OTP for signUp Verification" + otp;
-        otpSaver.put(deliveryPersonDto.getEmail(), otp);
+        //otpSaver.put(deliveryPersonDto.getEmail(), otp);
         emailSenderService.sendEmail(receiverMail, subject, body);
-        secondCacheMemory.put(deliveryPersonDto.getEmail(), deliveryPersonDto);
+        //secondCacheMemory.put(deliveryPersonDto.getEmail(), deliveryPersonDto);
         apiResponse.setStatus(HttpStatus.OK.value());
         return apiResponse;
     }
@@ -222,28 +214,34 @@ public class AuthenticationService {
 
     /**
      * <p>
-     * Verify the customer using Otp
+     * Verify the customer using Otpl
      * </p>
      * @param userVerifyDto {@link UserVerifyDto}
      * @return APIResponse  {@link APIResponse}
      */
     public APIResponse verifyCustomer(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
-        for (Map.Entry<String, String> entry : otpSaver.entrySet()) {
-            if (entry.getKey().equals(userVerifyDto.getMailID()) && entry.getValue().equals(userVerifyDto.getOtp())) {
-                otpSaver.remove(entry.getKey());
+        for (Otp otp : emailSenderService.getOtpAndMailId()) {
+            if (otp.getMailId().equals(userVerifyDto.getMailID()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
                 isVerifyOtp = true;
             }
         }
         if (isVerifyOtp) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
-            for (Map.Entry<String, CustomerDto> entry : cacheMemory.entrySet()) {
-                if (entry.getKey().equals(userVerifyDto.getMailID())) {
-                    User user = UserMapper.convertUserEntity(entry.getValue());
+            for (Otp otp : emailSenderService.getOtpAndMailId()) {
+                if (otp.getMailId().equals(userVerifyDto.getMailID())) {
+                    CustomerDto customerDto = CustomerDto.builder()
+                            .name(otp.getName())
+                            .email(otp.getMailId())
+                            .password(otp.getPassword())
+                            .phoneNumber(otp.getPhoneNumber())
+                            .build();
+                    User user = UserMapper.convertUserEntity(customerDto);
                     user.setRole(Collections.singleton(roles));
                     User savedUser = userService.addUser(user);
-                    Customer customer = UserMapper.convertCustomerEntity(entry.getValue(), savedUser);
+                    Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
                     customerService.addCustomer(customer);
+                    emailSenderService.deleteOtp(otp);
                     apiResponse.setData(savedUser.getEmail() + " registered successfully.");
                     apiResponse.setStatus(HttpStatus.CREATED.value());
                     return apiResponse;
@@ -265,20 +263,26 @@ public class AuthenticationService {
      */
     public APIResponse verifyDeliveryPerson(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
-        for (Map.Entry<String, String> entry : otpSaver.entrySet()) {
-            if (entry.getKey().equals(userVerifyDto.getMailID()) && entry.getValue().equals(userVerifyDto.getOtp())) {
-                otpSaver.remove(entry.getKey());
+        for (Otp otp : emailSenderService.getOtpAndMailId()) {
+            if (otp.getMailId().equals(userVerifyDto.getMailID()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
                 isVerifyOtp = true;
             }
         }
         if (isVerifyOtp) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
-            for (Map.Entry<String, DeliveryPersonDto> entry : secondCacheMemory.entrySet()) {
-                if (entry.getKey().equals(userVerifyDto.getMailID())) {
-                    User user = UserMapper.convertUserEntity(entry.getValue());
+            for (Otp otp : emailSenderService.getOtpAndMailId()) {
+                if (otp.getMailId().equals(userVerifyDto.getMailID())) {
+                    DeliveryPersonDto deliveryPersonDto = DeliveryPersonDto.builder()
+                            .name(otp.getName())
+                            .email(otp.getMailId())
+                            .password(otp.getPassword())
+                            .phoneNumber(otp.getPhoneNumber())
+                            .idProof(otp.getIdProof())
+                            .build();
+                    User user = UserMapper.convertUserEntity(deliveryPersonDto);
                     user.setRole(Collections.singleton(roles));
                     User savedUser = userService.addUser(user);
-                    DeliveryPerson deliveryPerson = UserMapper.convertDeliveryEntity(entry.getValue(), savedUser);
+                    DeliveryPerson deliveryPerson = UserMapper.convertDeliveryEntity(deliveryPersonDto, savedUser);
                     deliveryService.createDelivery(deliveryPerson);
                     apiResponse.setData(savedUser.getEmail() + " registered successfully.");
                     apiResponse.setStatus(HttpStatus.CREATED.value());
