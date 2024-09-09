@@ -22,7 +22,6 @@ import com.ideas2it.flipzon.dto.AddressDto;
 import com.ideas2it.flipzon.mapper.AddressMapper;
 import com.ideas2it.flipzon.model.Address;
 import com.ideas2it.flipzon.model.Customer;
-import com.ideas2it.flipzon.common.APIResponse;
 
 class AddressServiceTest {
 

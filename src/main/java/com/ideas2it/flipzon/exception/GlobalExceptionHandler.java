@@ -10,33 +10,22 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.ideas2it.flipzon.common.APIResponse;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MyException.class)
-    public ResponseEntity<APIResponse> handleAlreadyPresent(MyException myException) {
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.CONFLICT.value());
-        apiResponse.setData(myException.getMessage());
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    public ResponseEntity<String> handleAlreadyPresent(MyException myException) {
+        return new ResponseEntity<>(myException.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(OutOfStock.class)
-    public ResponseEntity<APIResponse> handleStockNotAvailable(OutOfStock outOfStock) {
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.OK.value());
-        apiResponse.setData(outOfStock.getMessage());
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    public ResponseEntity<String> handleStockNotAvailable(OutOfStock outOfStock) {
+        return new ResponseEntity<>(outOfStock.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(EmptyCart.class)
-    public ResponseEntity<APIResponse> handleCartIsEmpty(EmptyCart emptyCart) {
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.OK.value());
-        apiResponse.setData(emptyCart.getMessage());
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    public ResponseEntity<String> handleCartIsEmpty(EmptyCart emptyCart) {
+        return new ResponseEntity<>(emptyCart.getMessage(), HttpStatus.NO_CONTENT);
 
     }
 
@@ -52,17 +41,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<APIResponse> accessDeniedException(AccessDeniedException accessDeniedException) {
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    public ResponseEntity<String> accessDeniedException(AccessDeniedException accessDeniedException) {
+        return new ResponseEntity<>(accessDeniedException.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<APIResponse> handleResourceNotFoundException(ResourceNotFoundException resourceNotFoundException) {
-        APIResponse apiResponse = new APIResponse();
-        apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        apiResponse.setData(resourceNotFoundException.getMessage());
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException resourceNotFoundException) {
+        return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

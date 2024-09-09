@@ -1,4 +1,4 @@
-package com.ideas2it.flipzon.configuaration;
+package com.ideas2it.flipzon.configuration;
 
 import java.security.Key;
 import java.util.Date;

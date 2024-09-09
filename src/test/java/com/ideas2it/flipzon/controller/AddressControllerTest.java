@@ -14,7 +14,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.AddressDto;
 import com.ideas2it.flipzon.model.Customer;
 import com.ideas2it.flipzon.model.User;

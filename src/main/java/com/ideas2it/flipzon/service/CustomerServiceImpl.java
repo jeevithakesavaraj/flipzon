@@ -27,9 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
 
-    public Customer addCustomer(Customer customer) {
+    public CustomerDto addCustomer(Customer customer) {
+        CustomerDto savedCustomerDto = CustomerMapper.convertEntityToDto(customerDao.save(customer));
         logger.info("{}customer is added", customer.getUser().getName());
-        return customerDao.save(customer);
+        return savedCustomerDto;
     }
 
     public List<CustomerDto> getAllCustomers() {

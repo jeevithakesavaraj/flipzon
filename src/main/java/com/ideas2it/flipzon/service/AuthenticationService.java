@@ -1,8 +1,6 @@
 package com.ideas2it.flipzon.service;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import com.ideas2it.flipzon.model.*;
@@ -16,8 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ideas2it.flipzon.common.APIResponse;
-import com.ideas2it.flipzon.configuaration.JwtService;
+import com.ideas2it.flipzon.configuration.JwtService;
 import com.ideas2it.flipzon.exception.MyException;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.dto.AuthenticationResponse;
@@ -37,9 +34,6 @@ import com.ideas2it.flipzon.util.OtpGenerator;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
-    @Autowired
-    private APIResponse apiResponse;
 
     @Autowired
     private UserService userService;
@@ -71,9 +65,9 @@ public class AuthenticationService {
      * </p>
      *
      * @param customerDto {@link CustomerDto}
-     * @return APIResponse {@link APIResponse}
+     * @return String - OTP verification
      */
-    public APIResponse registerCustomer(CustomerDto customerDto) {
+    public String registerCustomer(CustomerDto customerDto) {
         Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
         if (userService.checkByEmail(customerDto.getEmail())) {
             User existingUser = userService.getByEmail(customerDto.getEmail());
@@ -86,9 +80,7 @@ public class AuthenticationService {
                 User savedUser = userService.addUser(existingUser);
                 Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
                 customerService.addCustomer(customer);
-                apiResponse.setData(savedUser.getEmail() + " registered successfully.");
-                apiResponse.setStatus(HttpStatus.CREATED.value());
-                return apiResponse;
+                return "User registered successfully in customer role.";
             }
             throw new MyException("Email Id - " + customerDto.getEmail()
                     + " Already Exist.Please Login or use Another EmailId");
@@ -101,9 +93,7 @@ public class AuthenticationService {
             }
         }
         if (!isMailSend) {
-            apiResponse.setStatus(HttpStatus.OK.value());
-            apiResponse.setData("Verify your mail with OTP");
-            return apiResponse;
+            return "Verify your mailID with OTP";
         }
         String receiverMail = customerDto.getEmail();
         String subject = "OTP for registration";
@@ -111,8 +101,7 @@ public class AuthenticationService {
         String body = "OTP for signUp Verification " + otp;
         emailSenderService.addOtp(customerDto.getName(), customerDto.getEmail(),customerDto.getPassword(), customerDto.getPhoneNumber(), otp);
         emailSenderService.sendEmail(receiverMail, subject, body);
-        apiResponse.setStatus(HttpStatus.OK.value());
-        return apiResponse;
+        return "Verify your mailID with OTP";
     }
 
     /**
@@ -121,9 +110,9 @@ public class AuthenticationService {
      * </p>
      *
      * @param deliveryPersonDto {@link DeliveryPersonDto}
-     * @return APIResponse {@link APIResponse}
+     * @return String - OTP verification
      */
-    public APIResponse registerDeliveryPerson(DeliveryPersonDto deliveryPersonDto) {
+    public String registerDeliveryPerson(DeliveryPersonDto deliveryPersonDto) {
         Role role = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
         if (userService.checkByEmail(deliveryPersonDto.getEmail())) {
             User user = userService.getByEmail(deliveryPersonDto.getEmail());
@@ -136,9 +125,7 @@ public class AuthenticationService {
                 User savedUser = userService.addUser(user);
                 DeliveryPerson deliveryPerson = UserMapper.convertDeliveryEntity(deliveryPersonDto, savedUser);
                 deliveryService.createDelivery(deliveryPerson);
-                apiResponse.setData(savedUser.getEmail() + " registered successfully.");
-                apiResponse.setStatus(HttpStatus.CREATED.value());
-                return apiResponse;
+                return "User registered successfully in delivery person role.";
             }
             throw new MyException("Email Id - " + deliveryPersonDto.getEmail()
                     + " Already Exist.Please Login or use Another EmailId");
@@ -151,19 +138,15 @@ public class AuthenticationService {
             }
         }
         if (!isMailSend) {
-            apiResponse.setStatus(HttpStatus.OK.value());
-            apiResponse.setData("Verify your mail with OTP");
-            return apiResponse;
+            return "Verify your mailID with OTP";
         }
         String receiverMail = deliveryPersonDto.getEmail();
         String subject = "OTP for Registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());
         String body = "OTP for signUp Verification" + otp;
-        //otpSaver.put(deliveryPersonDto.getEmail(), otp);
+        emailSenderService.addOtp(deliveryPersonDto.getName(), deliveryPersonDto.getEmail(),deliveryPersonDto.getPassword(), deliveryPersonDto.getPhoneNumber(), deliveryPersonDto.getIdProof(), otp);
         emailSenderService.sendEmail(receiverMail, subject, body);
-        //secondCacheMemory.put(deliveryPersonDto.getEmail(), deliveryPersonDto);
-        apiResponse.setStatus(HttpStatus.OK.value());
-        return apiResponse;
+        return "Verify your mailID with OTP";
     }
 
     /**
@@ -188,7 +171,6 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(user);
         LOGGER.info("User authenticated successfully!");
         return AuthenticationResponse.builder()
-                .status(HttpStatus.OK.value())
                 .token(jwtToken)
                 .build();
 
@@ -217,9 +199,9 @@ public class AuthenticationService {
      * Verify the customer using Otpl
      * </p>
      * @param userVerifyDto {@link UserVerifyDto}
-     * @return APIResponse  {@link APIResponse}
+     * @return savedCustomerDto {@link CustomerDto}
      */
-    public APIResponse verifyCustomer(UserVerifyDto userVerifyDto) {
+    public CustomerDto verifyCustomer(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
         for (Otp otp : emailSenderService.getOtpAndMailId()) {
             if (otp.getMailId().equals(userVerifyDto.getMailID()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
@@ -240,18 +222,13 @@ public class AuthenticationService {
                     user.setRole(Collections.singleton(roles));
                     User savedUser = userService.addUser(user);
                     Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
-                    customerService.addCustomer(customer);
+                    CustomerDto savedCustomerDto = customerService.addCustomer(customer);
                     emailSenderService.deleteOtp(otp);
-                    apiResponse.setData(savedUser.getEmail() + " registered successfully.");
-                    apiResponse.setStatus(HttpStatus.CREATED.value());
-                    return apiResponse;
+                    return savedCustomerDto;
                 }
             }
-            apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return apiResponse;
         }
-        apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        return apiResponse;
+        throw new ResourceNotFoundException();
     }
 
     /**
@@ -259,9 +236,9 @@ public class AuthenticationService {
      * Verify the delivery person using Otp
      * </p>
      * @param userVerifyDto {@link UserVerifyDto}
-     * @return APIResponse  {@link APIResponse}
+     * @return savedDeliveryPersonDto {@link DeliveryPersonDto}
      */
-    public APIResponse verifyDeliveryPerson(UserVerifyDto userVerifyDto) {
+    public DeliveryPersonDto verifyDeliveryPerson(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
         for (Otp otp : emailSenderService.getOtpAndMailId()) {
             if (otp.getMailId().equals(userVerifyDto.getMailID()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
@@ -283,16 +260,11 @@ public class AuthenticationService {
                     user.setRole(Collections.singleton(roles));
                     User savedUser = userService.addUser(user);
                     DeliveryPerson deliveryPerson = UserMapper.convertDeliveryEntity(deliveryPersonDto, savedUser);
-                    deliveryService.createDelivery(deliveryPerson);
-                    apiResponse.setData(savedUser.getEmail() + " registered successfully.");
-                    apiResponse.setStatus(HttpStatus.CREATED.value());
-                    return apiResponse;
+                    DeliveryPersonDto savedDeliveryPersonDto = deliveryService.createDelivery(deliveryPerson);
+                    return savedDeliveryPersonDto;
                 }
             }
-            apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return apiResponse;
         }
-        apiResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        return apiResponse;
+        throw new ResourceNotFoundException();
     }
 }

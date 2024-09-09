@@ -8,6 +8,8 @@ public class CustomerMapper {
         return CustomerDto.builder()
                 .id(customer.getId())
                 .name(customer.getUser().getName())
+                .email(customer.getUser().getEmail())
+                .phoneNumber(customer.getUser().getPhoneNumber())
                 .build();
     }
 

@@ -13,7 +13,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.AuthenticationResponse;
 import com.ideas2it.flipzon.dto.CustomerDto;
 import com.ideas2it.flipzon.dto.DeliveryPersonDto;

@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.service;
 
+import com.ideas2it.flipzon.dto.DeliveryPersonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,14 @@ public class DeliveryService {
      *
      * @param deliveryPerson  {@link DeliveryPerson}
      */
-    public DeliveryPerson createDelivery(DeliveryPerson deliveryPerson) {
-        return deliveryPersonDao.save(deliveryPerson);
+    public DeliveryPersonDto createDelivery(DeliveryPerson deliveryPerson) {
+        DeliveryPerson savedDeliveryPerson = deliveryPersonDao.save(deliveryPerson);
+        return DeliveryPersonDto.builder()
+                .id(savedDeliveryPerson.getId())
+                .name(savedDeliveryPerson.getUser().getName())
+                .email(savedDeliveryPerson.getUser().getEmail())
+                .phoneNumber(savedDeliveryPerson.getUser().getPhoneNumber())
+                .idProof(savedDeliveryPerson.getIdProof())
+                .build();
     }
 }

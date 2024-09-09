@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.controller;
 
+import com.ideas2it.flipzon.model.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ideas2it.flipzon.common.APIResponse;
 import com.ideas2it.flipzon.dto.AuthenticationResponse;
 import com.ideas2it.flipzon.dto.CustomerDto;
 import com.ideas2it.flipzon.dto.DeliveryPersonDto;
@@ -27,11 +27,10 @@ import com.ideas2it.flipzon.service.AuthenticationService;
  * @author Jeevithakesavaraj
  */
 @RestController
-@RequestMapping("flipzon/api/v1/authentication")
+@RequestMapping("flipzon/api/v1")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private APIResponse apiResponse;
     private final AuthenticationService authenticationService;
 
     /**
@@ -40,14 +39,14 @@ public class AuthenticationController {
      * </p>
      *
      * @param customerDto {@link CustomerDto}
-     * @return String - Customer is registered or not
+     * @return String - Otp verification
      */
-    @PostMapping("/register/customers")
-    public ResponseEntity<APIResponse> registerCustomer(
+    @PostMapping("/customers/register")
+    public ResponseEntity<String> registerCustomer(
             @Valid @RequestBody CustomerDto customerDto
     ) {
-        apiResponse = authenticationService.registerCustomer(customerDto);
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+        String statement = authenticationService.registerCustomer(customerDto);
+        return new ResponseEntity<>(statement, HttpStatus.OK);
     }
 
     /**
@@ -56,14 +55,14 @@ public class AuthenticationController {
      * </p>
      *
      * @param deliveryPersonDto {@link DeliveryPersonDto}
-     * @return String - Delivery person is registered or not
+     * @return String - OTP verification
      */
-    @PostMapping("/register/deliverypersons")
-    public ResponseEntity<APIResponse> registerDeliveryPerson(@Valid
+    @PostMapping("/deliverypersons/register")
+    public ResponseEntity<String> registerDeliveryPerson(@Valid
                                                               @RequestBody DeliveryPersonDto deliveryPersonDto
     ) {
-        apiResponse = authenticationService.registerDeliveryPerson(deliveryPersonDto);
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+        String statement = authenticationService.registerDeliveryPerson(deliveryPersonDto);
+        return new ResponseEntity<>(statement, HttpStatus.OK);
     }
 
     /**
@@ -93,12 +92,12 @@ public class AuthenticationController {
      * </p>
      *
      * @param userVerifyDto {@link UserVerifyDto}
-     * @return APIResponse {@link APIResponse}
+     * @return savedCustomer {@link CustomerDto}
      */
-    @PostMapping("/verifyCustomer")
-    public ResponseEntity<APIResponse> verifyCustomer(@Valid @RequestBody UserVerifyDto userVerifyDto) {
-        APIResponse apiResponse = authenticationService.verifyCustomer(userVerifyDto);
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    @PostMapping("/customers/verify")
+    public ResponseEntity<CustomerDto> verifyCustomer(@Valid @RequestBody UserVerifyDto userVerifyDto) {
+        CustomerDto savedCustomerDto = authenticationService.verifyCustomer(userVerifyDto);
+        return new ResponseEntity<>(savedCustomerDto, HttpStatus.CREATED);
     }
 
     /**
@@ -107,11 +106,11 @@ public class AuthenticationController {
      * </p>
      *
      * @param userVerifyDto {@link UserVerifyDto}
-     * @return APIResponse {@link APIResponse}
+     * @return savedDeliveryPerson {@link DeliveryPersonDto}
      */
-    @PostMapping("/verifyDeliveryPerson")
-    public ResponseEntity<APIResponse> verifyDeliveryPerson(@Valid @RequestBody UserVerifyDto userVerifyDto) {
-        APIResponse apiResponse = authenticationService.verifyDeliveryPerson(userVerifyDto);
-        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    @PostMapping("/deliverypersons/verify")
+    public ResponseEntity<DeliveryPersonDto> verifyDeliveryPerson(@Valid @RequestBody UserVerifyDto userVerifyDto) {
+        DeliveryPersonDto deliveryPersonDto = authenticationService.verifyDeliveryPerson(userVerifyDto);
+        return new ResponseEntity<>(deliveryPersonDto, HttpStatus.CREATED);
     }
 }

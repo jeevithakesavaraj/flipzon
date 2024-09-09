@@ -21,7 +21,7 @@ public interface CustomerService {
      * @param customer {@link Customer}
      * @return savedCustomer {@link Customer}
      */
-    Customer addCustomer(Customer customer);
+    CustomerDto addCustomer(Customer customer);
 
     /**
      * <p>

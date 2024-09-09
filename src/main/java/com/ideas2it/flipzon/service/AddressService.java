@@ -1,9 +1,20 @@
 package com.ideas2it.flipzon.service;
 
-import com.ideas2it.flipzon.common.APIResponse;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.ideas2it.flipzon.dto.AddressDto;
 import com.ideas2it.flipzon.model.Address;
 
+/**
+ * <p>
+ *  This class has methods for CRUD operations of address
+ * </p>
+ *
+ * @author Jeevithakesavaraj
+ */
+@Service
 public interface AddressService {
 
     /**
@@ -12,18 +23,18 @@ public interface AddressService {
      * </p>
      * @param customerId id of the customer to whom we have to add address
      * @param addressDto  {@link AddressDto}
-     * @return APIResponse {@link APIResponse}
+     * @return savedAddressDto {@link AddressDto}
      */
-    APIResponse addAddress(long customerId, AddressDto addressDto);
+    AddressDto addAddress(long customerId, AddressDto addressDto);
 
     /**
      * <p>
      * Get list of address for the particular customer by customer Id
      * </p>
      * @param customerId : id of the customer
-     * @return APIResponse {@link APIResponse}
+     * @return list of address {@link AddressDto}
      */
-    APIResponse getAddressesByCustomerId(long customerId);
+    List<AddressDto> getAddressesByCustomerId(long customerId);
 
     /**
      * <p>
@@ -31,9 +42,9 @@ public interface AddressService {
      * </p>
      * @param customerId : id of the customer
      * @param addressDto  {@link AddressDto}
-     * @return APIResponse {@link APIResponse}
+     * @return updatedAddressDto {@link AddressDto}
      */
-    APIResponse updateAddressByCustomerId(long customerId, AddressDto addressDto);
+    AddressDto updateAddressByCustomerId(long customerId, AddressDto addressDto);
 
 
     /**
@@ -42,9 +53,8 @@ public interface AddressService {
      * </p>
      * @param customerId : id of the customer
      * @param addressId : id of the address
-     * @return APIResponse {@link APIResponse}
      */
-    APIResponse deleteAddressByCustomerId(long customerId, long addressId);
+    void deleteAddressByCustomerId(long customerId, long addressId);
 
     /**
      * @param id : id of the address
