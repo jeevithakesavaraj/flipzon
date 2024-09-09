@@ -149,21 +149,21 @@ public class ProductController {
 
     /**
      * Get the cross-sell products for this product id;
-     * @param productId : id of the product
+     * @param id : id of the product
      * @return {@link CrossSellResponseDto} with HTTP status OK.
      */
     @GetMapping("/{id}/cross-sell")
-    public ResponseEntity<CrossSellResponseDto> getCrossSellProduct(@PathVariable long productId) {
-        return ResponseEntity.ok(crossSellService.getCrossSellProduct(productId));
+    public ResponseEntity<CrossSellResponseDto> getCrossSellProduct(@PathVariable long id) {
+        return ResponseEntity.ok(crossSellService.getCrossSellProduct(id));
     }
 
     /**
      * Get the Up-sell products for this product id;
-     * @param productId : id of the product
+     * @param id : id of the product
      * @return {@link UpsellResponseDto} with HTTP status OK.
      */
     @GetMapping("/{id}/upsell")
-    public ResponseEntity<UpsellResponseDto> getUpSellProduct(@PathVariable long productId) {
-        return ResponseEntity.ok(upsellService.getUpSellProduct(productId));
+    public ResponseEntity<UpsellResponseDto> getUpSellProduct(@PathVariable long id) {
+        return ResponseEntity.ok(upsellService.getUpSellProduct(id));
     }
 }

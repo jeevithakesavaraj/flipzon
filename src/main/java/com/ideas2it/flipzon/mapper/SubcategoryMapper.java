@@ -18,7 +18,7 @@ public class SubcategoryMapper {
         return SubcategoryDto.builder()
                 .id(subcategory.getId())
                 .name(subcategory.getName())
-                .categoryId(subcategory.getId())
+                .categoryId(subcategory.getCategory().getId())
                 .build();
     }
 

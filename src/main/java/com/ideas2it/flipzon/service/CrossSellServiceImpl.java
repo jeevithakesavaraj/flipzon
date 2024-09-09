@@ -60,8 +60,7 @@ public class CrossSellServiceImpl implements CrossSellService {
         if (crossSell == null) {
             LOGGER.warn("No Cross-sell products available for this product");
             throw new ResourceNotFoundException();
-        }
-        if (crossSell.getProducts().isEmpty()) {
+        } else if (crossSell.getProducts().isEmpty()) {
             LOGGER.warn("Cross-sell products not available for this product");
             throw new ResourceNotFoundException();
         } else {
@@ -83,11 +82,10 @@ public class CrossSellServiceImpl implements CrossSellService {
         if (crossSell == null) {
             LOGGER.warn("Cross-sell products not available for this product Id {}", productId);
             throw new ResourceNotFoundException("Cross-sell products not available for this product Id {}", productId);
-        } else if (crossSell.getProducts().isEmpty()) {
-            LOGGER.warn("Cross-sell products are empty for this product Id {}", productId);
-            throw new ResourceNotFoundException("Cross-sell products are empty for this product Id {}", productId);
         }
         return CrossSellResponseDto.builder()
+                .ProductName(crossSell.getProduct().getName())
+                .price(crossSell.getProduct().getPrice())
                 .productDtos(crossSell.getProducts().stream()
                         .map(ProductMapper::convertEntityToDto)
                         .collect(Collectors.toList()))
