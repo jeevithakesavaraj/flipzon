@@ -42,6 +42,11 @@ public class Category {
     @JsonIgnore
     private Set<Product> product;
 
+    @ManyToOne
+    @JoinColumn(name = "brandId")
+    @JsonIgnore
+    private Brand brand;
+
     @OneToMany(mappedBy = "category")
     @JsonIgnore
     private Set<Subcategory> subcategories;

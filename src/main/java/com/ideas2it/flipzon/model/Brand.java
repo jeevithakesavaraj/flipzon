@@ -54,6 +54,10 @@ public class Brand {
 
     @OneToMany(mappedBy = "brand")
     @JsonIgnore
+    private Set<Category> categories;
+
+    @OneToMany(mappedBy = "brand")
+    @JsonIgnore
     private Set<Product> products;
 
     @CreatedDate
