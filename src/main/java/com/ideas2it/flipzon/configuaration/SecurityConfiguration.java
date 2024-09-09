@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,9 +28,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/flipzon/api/v1/authentication/**").permitAll()
+                        .requestMatchers("/flipzon/api/v1/authentication/**", "/swagger-ui/**", "/v3/api-docs", "/flipzon/api/v1/swagger-resources/**").permitAll()
                         .requestMatchers("/flipzon/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/flipzon/api/v1/customers/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .requestMatchers("/flipzon/api/v1/deliverypersons/**").hasAnyRole("DELIVERYPERSON", "ADMIN")
