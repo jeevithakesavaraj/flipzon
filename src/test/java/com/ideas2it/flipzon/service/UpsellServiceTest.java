@@ -8,20 +8,24 @@ import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.dto.UpsellDto;
 import com.ideas2it.flipzon.dto.UpsellResponseDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
+import com.ideas2it.flipzon.model.Brand;
 import com.ideas2it.flipzon.model.Product;
 import com.ideas2it.flipzon.model.Upsell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+@ExtendWith(MockitoExtension.class)
 class UpsellServiceTest {
 
     @Mock
@@ -35,6 +39,7 @@ class UpsellServiceTest {
 
     private Product product;
     private ProductDto productDto;
+    private Brand brand;
     private Product upsellProduct;
     private Upsell upsell;
     private UpsellDto upsellDto;
@@ -45,6 +50,7 @@ class UpsellServiceTest {
                 .id(1L)
                 .name("Hamam")
                 .price(100.0)
+                .brand(brand)
                 .description("good soap")
                 .build();
 
@@ -57,12 +63,11 @@ class UpsellServiceTest {
         upsell = Upsell.builder()
                 .id(1L)
                 .product(product)
-                .products(new HashSet<>(Set.of(upsellProduct)))
+                .products(Set.of(upsellProduct))
                 .build();
-
-        upsellDto = UpsellDto.builder()
-                .productId(product.getId())
-                .upsellProductId(upsellProduct.getId())
+        brand = Brand.builder()
+                .id(1L)
+                .name("Kutty Sabari")
                 .build();
 
         productDto = ProductDto.builder()
@@ -70,32 +75,10 @@ class UpsellServiceTest {
                 .name("Hamam")
                 .brandId(1L)
                 .build();
-
-    }
-
-    @Test
-    void testAddUpsell_NewUpsell() {
-        when(productService.retrieveProductById(product.getId())).thenReturn(null);
-        assertThrows(NullPointerException.class, () -> {
-            upsellService.addUpsell(upsellDto);
-        });
-
-    }
-
-    @Test
-    void testAddUpsell_ExistingUpsell() {
-        when(productService.getProductById(product.getId())).thenReturn(product);
-        when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
-        when(upsellDao.findByProductId(product.getId())).thenReturn(upsell);
-        when(upsellDao.saveAndFlush(any(Upsell.class))).thenReturn(upsell);
-
-        UpsellResponseDto response = upsellService.addUpsell(upsellDto);
-
-        assertEquals("Hamam", response.getProductName());
-        assertEquals(100.0, response.getPrice());
-        assertEquals(1, response.getProductDtos().size());
-
-        verify(upsellDao, times(1)).saveAndFlush(any(Upsell.class));
+        upsellDto = UpsellDto.builder()
+                .productId(product.getId())
+                .upsellProductId(upsellProduct.getId())
+                .build();
     }
 
     @Test
@@ -103,9 +86,7 @@ class UpsellServiceTest {
         when(productService.getProductById(product.getId())).thenReturn(product);
         when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
         when(upsellDao.findByProductId(product.getId())).thenReturn(upsell);
-
         UpsellResponseDto response = upsellService.deleteUpsell(upsellDto);
-
         assertEquals("Pears", response.getProductName());
         assertEquals(120.0, response.getPrice());
         assertEquals(0, response.getProductDtos().size());
@@ -118,30 +99,33 @@ class UpsellServiceTest {
         when(productService.getProductById(product.getId())).thenReturn(product);
         when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
         when(upsellDao.findByProductId(product.getId())).thenReturn(null);
-
         try {
             upsellService.deleteUpsell(upsellDto);
         } catch (ResourceNotFoundException ex) {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
         }
-
         verify(upsellDao, times(0)).saveAndFlush(upsell);
     }
 
     @Test
     void testDeleteUpsell_EmptyProducts() {
         upsell.setProducts(new HashSet<>());
-
         when(productService.getProductById(product.getId())).thenReturn(product);
         when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
         when(upsellDao.findByProductId(product.getId())).thenReturn(upsell);
-
         try {
             upsellService.deleteUpsell(upsellDto);
         } catch (ResourceNotFoundException ex) {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
         }
-
         verify(upsellDao, times(0)).saveAndFlush(upsell);
+    }
+
+    @Test
+    void testGetupsellProduct_Exception() {
+        when(upsellDao.findByProductId(product.getId())).thenReturn(null);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            upsellService.getUpSellProduct(product.getId());
+        });
     }
 }

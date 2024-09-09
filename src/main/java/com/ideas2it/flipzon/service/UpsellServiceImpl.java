@@ -34,14 +34,15 @@ public class UpsellServiceImpl implements UpsellService {
             upsell = new Upsell();
             upsell.setProduct(product);
             upsell.setProducts(Set.of(upsellProduct));
-        }else {
-        if (upsell.getProducts().isEmpty()) {
-            upsell.setProducts(Set.of(upsellProduct));
         } else {
-            var products = upsell.getProducts();
-            products.add(upsellProduct);
-            upsell.setProducts(products);
-        }}
+            if (upsell.getProducts().isEmpty()) {
+                upsell.setProducts(Set.of(upsellProduct));
+            } else {
+                var products = upsell.getProducts();
+                products.add(upsellProduct);
+                upsell.setProducts(products);
+            }
+        }
         upsell = upsellDao.saveAndFlush(upsell);
         return UpsellResponseDto.builder()
                 .productName(product.getName())
@@ -86,8 +87,10 @@ public class UpsellServiceImpl implements UpsellService {
             throw new ResourceNotFoundException("Up-sell products are empty for this product Id {}", productId);
         }
         return UpsellResponseDto.builder()
+                .productName(upsell.getProduct().getName())
+                .price(upsell.getProduct().getPrice())
                 .productDtos(upsell.getProducts().stream()
-                        .map(ProductMapper :: convertEntityToDto)
+                        .map(ProductMapper::convertEntityToDto)
                         .collect(Collectors.toSet()))
                 .build();
     }
