@@ -22,7 +22,7 @@ public class CustomerDto {
 
     @NotNull(message = "Name is mandatory")
     @NotBlank(message = "Please enter Valid name")
-    @Pattern(regexp = "^[a-zA-Z]+( [a-zA-Z])*$", message = "Name only contains Characters")
+    @Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$", message = "Name only contains Characters")
     private String name;
 
     @NotNull(message = "Email is mandatory")
@@ -32,7 +32,7 @@ public class CustomerDto {
 
     @NotNull(message = "Password is mandatory")
     @NotBlank(message = "Password is minimum 8 characters")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,20}$",
+    @Pattern(regexp = "^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
             message = "Please enter password contains atleast 1 Capital letter, 1 small letter, 1 special character, 1 number")
     private String password;
 

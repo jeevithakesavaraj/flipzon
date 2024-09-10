@@ -58,7 +58,6 @@ public class WishlistController {
      */
     @DeleteMapping("/{customerId}/wishlist/products/{productId}")
     public ResponseEntity<WishlistResponseDto> removeProductFromWishlist(@PathVariable long customerId, @PathVariable long productId) {
-        return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.OK);
+        return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.NO_CONTENT);
     }
-
 }
