@@ -129,16 +129,8 @@ public class ProductServiceImpl implements ProductService {
             LOGGER.warn("Product not found in this id {}", id);
             throw new ResourceNotFoundException("Product", "Product ID", id);
         } else {
-            Stock stock = StockMapper.convertDtoToEntity(stockService.retrieveStockByProductId(product.getId()));
-            if (stock == null) {
-                LOGGER.warn("No stocks available in this product id {}", id);
-                throw new OutOfStock("Out of Stocks");
-            } else if (stock.getCurrentQuantity() == 0) {
-                LOGGER.warn("No stocks available in this product id {}", id);
-                throw new OutOfStock("Out of Stocks");
-            }
+            StockMapper.convertDtoToEntity(stockService.retrieveStockByProductId(product.getId()));
         }
-
         LOGGER.info("Get product by its id {}", id);
         return ProductMapper.convertEntityToDto(product);
     }

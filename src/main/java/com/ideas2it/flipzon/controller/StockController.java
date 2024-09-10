@@ -43,8 +43,8 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PostMapping("/{productId}/products")
-    public ResponseEntity<StockDto> addStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
+    @PostMapping("/products/{productId}")
+    public ResponseEntity<StockDto> addStock(@PathVariable Long productId, @Valid @RequestBody StockDto stockDto) {
         Product product = productService.getProductById(productId);
         return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.CREATED);
     }
@@ -54,8 +54,9 @@ public class StockController {
      *
      * @param id : id
      */
-    @DeleteMapping("/{id}/product")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<StockDto> deleteStock(@PathVariable long id) {
+        productService.retrieveProductById(id);
         stockService.deleteStock(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -76,8 +77,9 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PutMapping("/{productId}/product")
-    public ResponseEntity<StockDto> updateStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<StockDto> updateStock(@PathVariable Long productId, @Valid @RequestBody StockDto stockDto) {
+        productService.retrieveProductById(productId);
         return new ResponseEntity<>(stockService.updateStock(productId, stockDto), HttpStatus.OK);
     }
 
@@ -87,8 +89,9 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PatchMapping("{productId}/products")
-    public ResponseEntity<StockDto> updateNewStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
+    @PatchMapping("/products/{productId}")
+    public ResponseEntity<StockDto> updateNewStock(@PathVariable Long productId, @Valid @RequestBody StockDto stockDto) {
+        productService.retrieveProductById(productId);
         return new ResponseEntity<>(stockService.updateNewStock(productId, stockDto), HttpStatus.OK);
     }
 
@@ -98,8 +101,9 @@ public class StockController {
      * @param id : id of the stock
      * @return StockDto with Http status Created.
      */
-    @GetMapping("/{id}/products")
+    @GetMapping("/products/{id}")
     public ResponseEntity<StockDto> getStockByProductId(@PathVariable long id) {
+        productService.retrieveProductById(id);
         return new ResponseEntity<>(stockService.retrieveStockByProductId(id), HttpStatus.OK);
     }
 }
