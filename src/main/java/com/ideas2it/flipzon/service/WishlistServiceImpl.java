@@ -34,7 +34,7 @@ public class WishlistServiceImpl implements WishlistService {
     @Override
     public WishlistResponseDto addProductToWishlist(long customerId, long productId) {
         Customer customer = customerService.getCustomerById(customerId);
-        Product product = ProductMapper.convertDtoToEntity(productService.retrieveProductById(productId));
+        Product product = productService.retrieveProductByIdWithStock(productId);
         if (!wishlistDao.existsByCustomerId(customerId)) {
             Wishlist wishlist = new Wishlist();
             wishlist.setCustomer(customer);

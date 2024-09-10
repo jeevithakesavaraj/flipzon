@@ -29,7 +29,7 @@ public class WishlistController {
      * @param productId To specify a product has to be added.
      * @return {@link WishlistResponseDto} with Http status OK
      */
-    @PutMapping("/{customerId}/wishlist/products/{productId}")
+    @PutMapping("/{customerId}/wishlists/products/{productId}")
     public ResponseEntity<WishlistResponseDto> addProductToWishlist(@PathVariable long customerId, @PathVariable long productId) {
         WishlistResponseDto updatedWishlist = wishlistService.addProductToWishlist(customerId, productId);
         return ResponseEntity.ok(updatedWishlist);
@@ -42,7 +42,7 @@ public class WishlistController {
      * @param customerId Specify the customer
      * @return {@link WishlistResponseDto} with Http status OK
      */
-    @GetMapping("/{customerId}/wishlist")
+    @GetMapping("/{customerId}/wishlists")
     public ResponseEntity<WishlistResponseDto> getProductsFromWishlist(@PathVariable long customerId) {
         return new ResponseEntity<>(wishlistService.getProductsFromWishlist(customerId), HttpStatus.OK);
     }
@@ -56,7 +56,7 @@ public class WishlistController {
      * @param productId Specifies which product needs to be removed.
      * @return {@link WishlistResponseDto} with Http status OK
      */
-    @DeleteMapping("/{customerId}/wishlist/products/{productId}")
+    @DeleteMapping("/{customerId}/wishlists/products/{productId}")
     public ResponseEntity<WishlistResponseDto> removeProductFromWishlist(@PathVariable long customerId, @PathVariable long productId) {
         return new ResponseEntity<>(wishlistService.removeProductFromWishlist(customerId, productId), HttpStatus.NO_CONTENT);
     }
