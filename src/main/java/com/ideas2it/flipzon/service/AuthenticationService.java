@@ -3,12 +3,10 @@ package com.ideas2it.flipzon.service;
 import java.util.Collections;
 import java.util.Set;
 
-import com.ideas2it.flipzon.model.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,8 +20,16 @@ import com.ideas2it.flipzon.dto.CustomerDto;
 import com.ideas2it.flipzon.dto.DeliveryPersonDto;
 import com.ideas2it.flipzon.dto.LoginDto;
 import com.ideas2it.flipzon.dto.UserVerifyDto;
+import com.ideas2it.flipzon.exception.AccessDeniedException;
+import com.ideas2it.flipzon.model.Customer;
+import com.ideas2it.flipzon.model.DeliveryPerson;
+import com.ideas2it.flipzon.model.Otp;
+import com.ideas2it.flipzon.model.Role;
+import com.ideas2it.flipzon.model.User;
+import com.ideas2it.flipzon.model.UserRole;
 import com.ideas2it.flipzon.mapper.UserMapper;
 import com.ideas2it.flipzon.util.OtpGenerator;
+
 /**
  * <p>
  * This class represents for service for user authentication
@@ -86,7 +92,7 @@ public class AuthenticationService {
                     + " Already Exist.Please Login or use Another EmailId");
         }
         boolean isMailSend = true;
-        for (Otp otp : emailSenderService.getOtpAndMailId()) {
+        for (Otp otp : emailSenderService.getOtps()) {
             if (otp.getMailId().equals(customerDto.getEmail())) {
                 isMailSend = false;
                 break;
@@ -99,7 +105,7 @@ public class AuthenticationService {
         String subject = "OTP for registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());
         String body = "OTP for signUp Verification " + otp;
-        emailSenderService.addOtp(customerDto.getName(), customerDto.getEmail(),customerDto.getPassword(), customerDto.getPhoneNumber(), otp);
+        emailSenderService.addOtp(customerDto.getName(), customerDto.getEmail(), customerDto.getPassword(), customerDto.getPhoneNumber(), otp);
         emailSenderService.sendEmail(receiverMail, subject, body);
         return "Verify your mailID with OTP";
     }
@@ -131,7 +137,7 @@ public class AuthenticationService {
                     + " Already Exist.Please Login or use Another EmailId");
         }
         boolean isMailSend = true;
-        for (Otp otp : emailSenderService.getOtpAndMailId()) {
+        for (Otp otp : emailSenderService.getOtps()) {
             if (otp.getMailId().equals(deliveryPersonDto.getEmail())) {
                 isMailSend = false;
                 break;
@@ -144,7 +150,7 @@ public class AuthenticationService {
         String subject = "OTP for Registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());
         String body = "OTP for signUp Verification" + otp;
-        emailSenderService.addOtp(deliveryPersonDto.getName(), deliveryPersonDto.getEmail(),deliveryPersonDto.getPassword(), deliveryPersonDto.getPhoneNumber(), deliveryPersonDto.getIdProof(), otp);
+        emailSenderService.addOtp(deliveryPersonDto.getName(), deliveryPersonDto.getEmail(), deliveryPersonDto.getPassword(), deliveryPersonDto.getPhoneNumber(), deliveryPersonDto.getIdProof(), otp);
         emailSenderService.sendEmail(receiverMail, subject, body);
         return "Verify your mailID with OTP";
     }
@@ -198,73 +204,60 @@ public class AuthenticationService {
      * <p>
      * Verify the customer using Otpl
      * </p>
+     *
      * @param userVerifyDto {@link UserVerifyDto}
      * @return savedCustomerDto {@link CustomerDto}
      */
     public CustomerDto verifyCustomer(UserVerifyDto userVerifyDto) {
-        boolean isVerifyOtp = false;
-        for (Otp otp : emailSenderService.getOtpAndMailId()) {
-            if (otp.getMailId().equals(userVerifyDto.getEmailId()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
-                isVerifyOtp = true;
-            }
-        }
-        if (isVerifyOtp) {
+        Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getMailID());
+        if (savedOtp.getOtp().equals(userVerifyDto.getOtp())) {
+            System.out.println(savedOtp);
             Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
-            for (Otp otp : emailSenderService.getOtpAndMailId()) {
-                if (otp.getMailId().equals(userVerifyDto.getEmailId())) {
-                    CustomerDto customerDto = CustomerDto.builder()
-                            .name(otp.getName())
-                            .email(otp.getMailId())
-                            .password(otp.getPassword())
-                            .phoneNumber(otp.getPhoneNumber())
-                            .build();
-                    User user = UserMapper.convertUserEntity(customerDto);
-                    user.setRole(Collections.singleton(roles));
-                    User savedUser = userService.addUser(user);
-                    Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
-                    CustomerDto savedCustomerDto = customerService.addCustomer(customer);
-                    emailSenderService.deleteOtp(otp);
-                    return savedCustomerDto;
-                }
-            }
+            CustomerDto customerDto = CustomerDto.builder()
+                    .name(savedOtp.getName())
+                    .email(savedOtp.getMailId())
+                    .password(savedOtp.getPassword())
+                    .phoneNumber(savedOtp.getPhoneNumber())
+                    .build();
+            User user = UserMapper.convertUserEntity(customerDto);
+            user.setRole(Collections.singleton(roles));
+            User savedUser = userService.addUser(user);
+            Customer customer = UserMapper.convertCustomerEntity(customerDto, savedUser);
+            CustomerDto savedCustomerDto = customerService.addCustomer(customer);
+            emailSenderService.deleteOtp(savedOtp);
+            return savedCustomerDto;
         }
-        throw new ResourceNotFoundException();
+        throw new AccessDeniedException("OTP is Invalid");
     }
 
     /**
      * <p>
      * Verify the delivery person using Otp
      * </p>
+     *
      * @param userVerifyDto {@link UserVerifyDto}
      * @return savedDeliveryPersonDto {@link DeliveryPersonDto}
      */
     public DeliveryPersonDto verifyDeliveryPerson(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
-        for (Otp otp : emailSenderService.getOtpAndMailId()) {
-            if (otp.getMailId().equals(userVerifyDto.getEmailId()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
-                isVerifyOtp = true;
-            }
-        }
-        if (isVerifyOtp) {
+        Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getMailID());
+        if (savedOtp.getOtp().equals(userVerifyDto.getOtp())) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
-            for (Otp otp : emailSenderService.getOtpAndMailId()) {
-                if (otp.getMailId().equals(userVerifyDto.getEmailId())) {
-                    DeliveryPersonDto deliveryPersonDto = DeliveryPersonDto.builder()
-                            .name(otp.getName())
-                            .email(otp.getMailId())
-                            .password(otp.getPassword())
-                            .phoneNumber(otp.getPhoneNumber())
-                            .idProof(otp.getIdProof())
-                            .build();
-                    User user = UserMapper.convertUserEntity(deliveryPersonDto);
-                    user.setRole(Collections.singleton(roles));
-                    User savedUser = userService.addUser(user);
-                    DeliveryPerson deliveryPerson = UserMapper.convertDeliveryEntity(deliveryPersonDto, savedUser);
-                    DeliveryPersonDto savedDeliveryPersonDto = deliveryService.createDelivery(deliveryPerson);
-                    return savedDeliveryPersonDto;
-                }
-            }
+            DeliveryPersonDto deliveryPersonDto = DeliveryPersonDto.builder()
+                    .name(savedOtp.getName())
+                    .email(savedOtp.getMailId())
+                    .password(savedOtp.getPassword())
+                    .phoneNumber(savedOtp.getPhoneNumber())
+                    .idProof(savedOtp.getIdProof())
+                    .build();
+            User user = UserMapper.convertUserEntity(deliveryPersonDto);
+            user.setRole(Collections.singleton(roles));
+            User savedUser = userService.addUser(user);
+            DeliveryPerson deliveryPerson = UserMapper.convertDeliveryEntity(deliveryPersonDto, savedUser);
+            DeliveryPersonDto savedDeliveryPersonDto = deliveryService.createDelivery(deliveryPerson);
+            emailSenderService.deleteOtp(savedOtp);
+            return savedDeliveryPersonDto;
         }
-        throw new ResourceNotFoundException();
+        throw new AccessDeniedException("OTP is Invalid");
     }
 }

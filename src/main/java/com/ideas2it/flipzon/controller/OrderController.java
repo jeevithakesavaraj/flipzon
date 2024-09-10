@@ -49,7 +49,7 @@ public class OrderController {
      * Get the list of orders by customer Id
      * </p>
      * @param customerId Id of the customer whose order history we want
-     * @return APIResponse {@link APIResponse}
+     * @return list of orders {@link OrderDto}
      */
     @GetMapping("/{customerId}/orders")
     public ResponseEntity<List<OrderDto>> getOrdersByCustomer(@PathVariable long customerId) {
@@ -62,9 +62,9 @@ public class OrderController {
      * </p>
      * @param customerId Id of the customer whose order we want to cancel
      * @param orderId  Id of the order which we want to cancel
-     * @return APIResponse {@link APIResponse}
+     * @return orderDto {@link OrderDto}
      */
-    @DeleteMapping("/{customerId}/orders/cancelorder/{orderId}")
+    @DeleteMapping("/{customerId}/orders/{orderId}")
     public ResponseEntity<OrderDto> cancelOrder(@PathVariable long customerId, @PathVariable long orderId) {
         return ResponseEntity.ok(orderService.cancelOrder(customerId, orderId));
     }
