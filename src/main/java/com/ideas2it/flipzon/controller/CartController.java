@@ -38,7 +38,7 @@ public class CartController {
     private ProductService productService;
 
     @PostMapping("/{customerId}/products")
-    public ResponseEntity<CartResponseDto> addProductToCart(@Valid @PathVariable Long customerId ,@Valid @RequestBody CartDto cartDto) {
+    public ResponseEntity<CartResponseDto> addProductToCart(@PathVariable Long customerId , @Valid @RequestBody CartDto cartDto) {
         CartResponseDto updatedCart = cartService.addProductToCart(customerId, cartDto);
         return ResponseEntity.ok(updatedCart);
     }

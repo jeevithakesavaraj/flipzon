@@ -27,7 +27,6 @@ public interface ProductService {
      * Delete the product by its id
      *
      * @param id : id of the product
-     *
      * @return boolean
      */
     boolean deleteProduct(long id);
@@ -41,12 +40,13 @@ public interface ProductService {
 
     /**
      * Update the Product details by its id
-     * @param productId id of the product
+     *
+     * @param productId  id of the product
      * @param productDto : new product details
      * @return ProductDto : product details
      */
     ProductDto updateProduct(Long productId, ProductDto productDto);
-    
+
     /**
      * Update the Product price details by its id
      *
@@ -59,6 +59,7 @@ public interface ProductService {
      * Get product details by its id with check stock is available or not
      *
      * @param id : id of the product
+     * @return {@link ProductDto}
      */
     ProductDto retrieveProductById(Long id);
 
@@ -66,15 +67,17 @@ public interface ProductService {
      * Get product details by its id
      *
      * @param id : id of the product
+     * @return {@link Product}
      */
     Product getProductById(Long id);
+
     /**
      * Get All product details by brand id
      *
      * @param id : id of the brand
      * @return List<ProductDto> : List of {@link ProductDto}
      */
-    List<ProductDto>retrieveAllProductByBrandId(Long id);
+    List<ProductDto> retrieveAllProductByBrandId(Long id);
 
     /**
      * Get All product details by Category id
@@ -82,7 +85,7 @@ public interface ProductService {
      * @param id : id of the Category
      * @return List<ProductDto> : List of {@link ProductDto}
      */
-    List<ProductDto>retrieveAllProductByCategoryId(Long id);
+    List<ProductDto> retrieveAllProductByCategoryId(Long id);
 
     /**
      * Get All product details by Subcategory id
@@ -90,7 +93,13 @@ public interface ProductService {
      * @param id : id of the Subcategory
      * @return List<ProductDto> : List of {@link ProductDto}
      */
-    List<ProductDto>retrieveAllProductBySubcategoryId(Long id);
+    List<ProductDto> retrieveAllProductBySubcategoryId(Long id);
 
+    /**
+     * Get product and stock details by its id
+     *
+     * @param id : id of the product
+     * @return {@link Product}
+     */
     Product retrieveProductByIdWithStock(Long id);
 }

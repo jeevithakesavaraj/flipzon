@@ -203,7 +203,7 @@ public class AuthenticationService {
      * @return savedCustomerDto {@link CustomerDto}
      */
     public CustomerDto verifyCustomer(UserVerifyDto userVerifyDto) {
-        Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getEmailId());
+        Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getMailId());
         if (savedOtp.getOtp().equals(userVerifyDto.getOtp())) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
             CustomerDto customerDto = CustomerDto.builder()
@@ -233,7 +233,7 @@ public class AuthenticationService {
      */
     public DeliveryPersonDto verifyDeliveryPerson(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
-        Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getEmailId());
+        Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getMailId());
         if (savedOtp.getOtp().equals(userVerifyDto.getOtp())) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
             DeliveryPersonDto deliveryPersonDto = DeliveryPersonDto.builder()

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.CartItemDao;
 import com.ideas2it.flipzon.dto.CartDto;
-import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.model.Cart;
 import com.ideas2it.flipzon.model.CartItem;
 import com.ideas2it.flipzon.model.Product;

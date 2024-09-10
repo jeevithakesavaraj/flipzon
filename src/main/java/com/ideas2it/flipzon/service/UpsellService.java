@@ -20,5 +20,10 @@ public interface UpsellService {
      */
     UpsellResponseDto deleteUpsell(Long productId, Long id);
 
+    /**
+     * Get the all upsell products for this product
+     * @param productId product id
+     * @return {@link UpsellResponseDto}
+     */
     UpsellResponseDto getUpSellProduct(long productId);
 }

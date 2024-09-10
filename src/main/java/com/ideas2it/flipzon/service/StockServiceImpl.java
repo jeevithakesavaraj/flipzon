@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.service;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.exception.MyException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,21 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto addStock(StockDto stockDto, Product product) {
-        Stock stock = StockMapper.convertDtoToEntity(stockDto);
+        Stock stock = stockDao.findByProductId(product.getId());
+        if (stock != null && !stock.isDeleted()) {
+            LOGGER.warn("stock already added for this product name {}", product.getName());
+            throw new MyException("stock already added");
+        } else if (stock != null && stock.isDeleted()) {
+            stock.setDeleted(false);
+            stock.setInitialQuantity(stockDto.getInitialQuantity());
+            stock.setCurrentQuantity(stockDto.getInitialQuantity());
+            LOGGER.info("Stock added successfully");
+            return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
+        }
+        stock = new Stock();
         stock.setProduct(product);
+        stock.setInitialQuantity(stockDto.getInitialQuantity());
+        stock.setCurrentQuantity(stockDto.getInitialQuantity());
         LOGGER.info("Stock added successfully");
         return StockMapper.convertEntityToDto(stockDao.saveAndFlush(stock));
     }

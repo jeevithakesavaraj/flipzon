@@ -22,6 +22,13 @@ public interface StockDao extends JpaRepository<Stock, Long>{
      * @return Stock {@link Stock}
      */
     Stock findByProductIdAndIsDeletedFalse(long id);
+    /**
+     * Find the stock details  by product id.
+     *
+     * @param id : id of the product
+     * @return Stock {@link Stock}
+     */
+    Stock findByProductId(long id);
 
     /**
      * Get the list of active Stocks.

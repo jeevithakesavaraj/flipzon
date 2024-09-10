@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.exception.MyException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +41,17 @@ public class UpsellServiceImpl implements UpsellService {
                 upsell.setProducts(Set.of(upsellProduct));
             } else {
                 Set<Product> products = upsell.getProducts();
+                if (products.contains(upsellProduct)) {
+                    LOGGER.warn("upsell product already added {}", upsellProduct.getId());
+                    throw new MyException("product already added " + upsellProduct.getId());
+                }
                 products.add(upsellProduct);
                 upsell.setProducts(products);
             }
         }
         upsell = upsellDao.saveAndFlush(upsell);
         return UpsellResponseDto.builder()
+                .productId(productId)
                 .productName(product.getName())
                 .price(product.getPrice())
                 .productDtos(upsell.getProducts().stream().map(ProductMapper::convertEntityToDto).collect(Collectors.toSet()))

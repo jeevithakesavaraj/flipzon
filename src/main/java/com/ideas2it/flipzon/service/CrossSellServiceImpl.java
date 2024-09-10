@@ -2,6 +2,8 @@ package com.ideas2it.flipzon.service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.ideas2it.flipzon.exception.MyException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,10 @@ public class CrossSellServiceImpl implements CrossSellService {
                 crossSell.setProducts(Set.of(crossSellProduct));
             } else {
                 var products = crossSell.getProducts();
+                if (products.contains(crossSellProduct)) {
+                    LOGGER.warn("cross-sell product already added {}", crossSellProduct.getId());
+                    throw new MyException("product already added " + crossSellProduct.getId());
+                }
                 products.add(crossSellProduct);
                 crossSell.setProducts(products);
             }

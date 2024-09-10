@@ -76,7 +76,7 @@ public class SubcategoryController {
      * @return SubcategoryDto with Http status Created.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<SubcategoryDto> updateSubcategory(@Valid @PathVariable Long id, @RequestBody SubcategoryDto subcategoryDto) {
+    public ResponseEntity<SubcategoryDto> updateSubcategory(@PathVariable Long id, @Valid @RequestBody SubcategoryDto subcategoryDto) {
         return new ResponseEntity<>(subcategoryService.updateSubcategory(id, subcategoryDto), HttpStatus.OK);
     }
 

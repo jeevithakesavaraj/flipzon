@@ -111,14 +111,14 @@ public class ProductController {
 
     /**
      * Add cross-sell product to the product by admin request
+     * @param productId product id
      * @param crossSellRequestDto {@link CrossSellRequestDto}
      * @return {@link CrossSellResponseDto}
      */
-    @PostMapping("/{productId}/cross-sells")
+    @PostMapping("/{productId}/crosssells")
     public ResponseEntity<CrossSellResponseDto> addCrossSellProduct(@PathVariable Long productId, @Valid @RequestBody CrossSellRequestDto crossSellRequestDto) {
         return new ResponseEntity<>(crossSellService.addCrossSellProduct(productId, crossSellRequestDto), HttpStatus.OK);
     }
-
 
     /**
      * Delete cross-sell product to the product by admin request
@@ -126,7 +126,7 @@ public class ProductController {
      * @param id id of the cross-sell product
      * @return Http status NoContent
      */
-    @DeleteMapping("/{productId}/cross-sells/{id}")
+    @DeleteMapping("/{productId}/crosssells/{id}")
     public ResponseEntity<CrossSellResponseDto> removeCrossSellProduct(@PathVariable Long productId, @PathVariable Long id) {
         crossSellService.removeCrossSellProduct(productId, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -134,21 +134,23 @@ public class ProductController {
 
     /**
      * Add upsell product to the product by admin request
+     * @param productId product id
      * @param upsellDto : {@link UpsellDto}
      * @return {@link UpsellResponseDto}
      */
     @PostMapping("/{productId}/upsells")
-    public ResponseEntity<UpsellResponseDto> addUpsell(@PathVariable Long productId, @Valid @RequestBody UpsellDto upsellDto) {
+    public ResponseEntity<UpsellResponseDto> addUpsellProduct(@PathVariable Long productId, @Valid @RequestBody UpsellDto upsellDto) {
         return ResponseEntity.ok(upsellService.addUpsell(productId, upsellDto));
     }
 
     /**
      * Delete cross-sell product to the product by admin request
-     *
+     * @param productId product id
+     * @param id id of the upsell product
      * @return {@link UpsellResponseDto} with HTTP status OK.
      */
     @DeleteMapping("/{productId}/upsells/{id}")
-    public ResponseEntity<UpsellResponseDto> deleteUpsell(@PathVariable Long productId, @Valid  @PathVariable Long id) {
+    public ResponseEntity<UpsellResponseDto> removeUpsellProduct(@PathVariable Long productId, @Valid  @PathVariable Long id) {
         return ResponseEntity.ok(upsellService.deleteUpsell(productId, id));
     }
 
@@ -157,7 +159,7 @@ public class ProductController {
      * @param id : id of the product
      * @return {@link CrossSellResponseDto} with HTTP status OK.
      */
-    @GetMapping("/{id}/cross-sells")
+    @GetMapping("/{id}/crosssells")
     public ResponseEntity<CrossSellResponseDto> getCrossSellProduct(@PathVariable long id) {
         return ResponseEntity.ok(crossSellService.getCrossSellProduct(id));
     }
