@@ -140,9 +140,6 @@ public class AuthenticationService {
                 break;
             }
         }
-        if (!isMailSend) {
-            return "Verify your mailID with OTP";
-        }
         String receiverMail = deliveryPersonDto.getEmail();
         String subject = "OTP for Registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());

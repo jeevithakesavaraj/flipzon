@@ -91,4 +91,6 @@ public interface ProductService {
      * @return List<ProductDto> : List of {@link ProductDto}
      */
     List<ProductDto>retrieveAllProductBySubcategoryId(Long id);
+
+    Product retrieveProductByIdWithStock(Long id);
 }

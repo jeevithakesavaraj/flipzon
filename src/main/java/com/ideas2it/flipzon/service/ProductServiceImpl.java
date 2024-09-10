@@ -136,6 +136,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product retrieveProductByIdWithStock(Long id) {
+        Product product = productDao.findByIdAndIsDeletedFalse(id);
+        if (null == product) {
+            LOGGER.warn("Product not found in this id {}", id);
+            throw new ResourceNotFoundException("Product", "Product ID", id);
+        } else {
+            StockMapper.convertDtoToEntity(stockService.retrieveStockByProductId(product.getId()));
+        }
+        LOGGER.info("Get product by its id {}", id);
+        return product;
+    }
+    @Override
     public Product getProductById(Long id) {
         Product product = productDao.findByIdAndIsDeletedFalse(id);
         if (null == product) {

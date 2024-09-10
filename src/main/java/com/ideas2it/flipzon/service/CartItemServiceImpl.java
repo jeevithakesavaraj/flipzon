@@ -24,7 +24,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public CartItem addProductToCartItem(Cart cart, CartDto cartDto) {
         CartItem item = cartItemDao.findByProductId(cartDto.getProductId());
-        Product product = productService.getProductById(cartDto.getProductId());
+        Product product = productService.retrieveProductByIdWithStock(cartDto.getProductId());
         if (item == null) {
             CartItem cartItem = new CartItem();
             cartItem.setCart(cart);
