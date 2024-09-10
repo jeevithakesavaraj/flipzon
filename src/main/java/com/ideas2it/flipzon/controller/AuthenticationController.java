@@ -1,6 +1,5 @@
 package com.ideas2it.flipzon.controller;
 
-import com.ideas2it.flipzon.model.Customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,7 @@ import com.ideas2it.flipzon.service.AuthenticationService;
  * @author Jeevithakesavaraj
  */
 @RestController
-@RequestMapping("flipzon/api/v1")
+@RequestMapping("flipzon/api/v1/authentication")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

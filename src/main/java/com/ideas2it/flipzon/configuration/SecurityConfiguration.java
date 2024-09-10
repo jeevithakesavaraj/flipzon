@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/flipzon/api/v1/**", "/swagger-ui/**", "/v3/api-docs", "/flipzon/api/v1/swagger-resources/**").permitAll()
+                        .requestMatchers("/flipzon/api/v1/authentication/**", "/swagger-ui/**", "/v3/api-docs", "/flipzon/api/v1/swagger-resources/**").permitAll()
                         .requestMatchers("/flipzon/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/flipzon/api/v1/customers/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .requestMatchers("/flipzon/api/v1/deliverypersons/**").hasAnyRole("DELIVERYPERSON", "ADMIN")
