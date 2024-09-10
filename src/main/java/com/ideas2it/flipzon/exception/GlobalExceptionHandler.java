@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(OutOfStock.class)
     public ResponseEntity<String> handleStockNotAvailable(OutOfStock outOfStock) {
-        return new ResponseEntity<>(outOfStock.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(outOfStock.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @ExceptionHandler(EmptyCart.class)

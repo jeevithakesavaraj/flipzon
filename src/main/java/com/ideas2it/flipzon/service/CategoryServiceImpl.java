@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public boolean deleteCategory(long id) {
         Category category = categoryDao.findByIdAndIsDeletedFalse(id);
-        if (category.isDeleted()) {
+        if (null == category) {
             LOGGER.warn("Category not found in this id {}", id);
             throw new ResourceNotFoundException("Category", "Category ID", id);
         }
@@ -54,24 +54,25 @@ public class CategoryServiceImpl implements CategoryService{
         List<CategoryDto> categoryDtos =  categoryDao.findByIsDeletedFalse().stream()
                 .map(CategoryMapper::convertEntityToDto).toList();
         if (categoryDtos.isEmpty()) {
-            LOGGER.warn("No Categories found ");
-            throw new ResourceNotFoundException("Category", "");
+            LOGGER.warn("No Categories found");
+            throw new ResourceNotFoundException();
         }
         LOGGER.info("Get All categories");
         return categoryDtos;
     }
 
     @Override
-    public CategoryDto updateCategory(CategoryDto categoryDto) {
-        Category category = categoryDao.findByIdAndIsDeletedFalse(categoryDto.getId());
+    public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
+        Category category = categoryDao.findByIdAndIsDeletedFalse(id);
         if (null == category) {
-            LOGGER.warn("Category not Available in this id {}", categoryDto.getId());
-            throw new ResourceNotFoundException("Category", "Category ID", categoryDto.getId());
+            LOGGER.warn("Category not Available in this id {}", id);
+            throw new ResourceNotFoundException("Category", "Category ID", id);
         }
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         category.setModifiedDate(modifiedDate);
+        category.setName(categoryDto.getName());
         LOGGER.info("Category updated");
-        return CategoryMapper.convertEntityToDto(categoryDao.saveAndFlush(CategoryMapper.convertDtoToEntity(categoryDto)));
+        return CategoryMapper.convertEntityToDto(categoryDao.saveAndFlush(category));
     }
 
     @Override

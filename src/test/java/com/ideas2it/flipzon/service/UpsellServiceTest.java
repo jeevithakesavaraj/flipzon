@@ -20,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -84,7 +85,7 @@ class UpsellServiceTest {
         when(productService.getProductById(product.getId())).thenReturn(product);
         when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
         when(upsellDao.findByProductId(product.getId())).thenReturn(upsell);
-        UpsellResponseDto response = upsellService.deleteUpsell(upsellDto);
+        UpsellResponseDto response = upsellService.deleteUpsell(anyLong(), anyLong());
         assertEquals("Pears", response.getProductName());
         assertEquals(120.0, response.getPrice());
         assertEquals(0, response.getProductDtos().size());
@@ -98,7 +99,7 @@ class UpsellServiceTest {
         when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
         when(upsellDao.findByProductId(product.getId())).thenReturn(null);
         try {
-            upsellService.deleteUpsell(upsellDto);
+            upsellService.deleteUpsell(anyLong(), anyLong());
         } catch (ResourceNotFoundException ex) {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
         }
@@ -112,7 +113,7 @@ class UpsellServiceTest {
         when(productService.getProductById(upsellProduct.getId())).thenReturn(upsellProduct);
         when(upsellDao.findByProductId(product.getId())).thenReturn(upsell);
         try {
-            upsellService.deleteUpsell(upsellDto);
+            upsellService.deleteUpsell(anyLong(), anyLong());
         } catch (ResourceNotFoundException ex) {
             assertEquals(ResourceNotFoundException.class, ex.getClass());
         }

@@ -204,14 +204,14 @@ public class AuthenticationService {
     public CustomerDto verifyCustomer(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
         for (Otp otp : emailSenderService.getOtpAndMailId()) {
-            if (otp.getMailId().equals(userVerifyDto.getMailID()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
+            if (otp.getMailId().equals(userVerifyDto.getEmailId()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
                 isVerifyOtp = true;
             }
         }
         if (isVerifyOtp) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
             for (Otp otp : emailSenderService.getOtpAndMailId()) {
-                if (otp.getMailId().equals(userVerifyDto.getMailID())) {
+                if (otp.getMailId().equals(userVerifyDto.getEmailId())) {
                     CustomerDto customerDto = CustomerDto.builder()
                             .name(otp.getName())
                             .email(otp.getMailId())
@@ -241,14 +241,14 @@ public class AuthenticationService {
     public DeliveryPersonDto verifyDeliveryPerson(UserVerifyDto userVerifyDto) {
         boolean isVerifyOtp = false;
         for (Otp otp : emailSenderService.getOtpAndMailId()) {
-            if (otp.getMailId().equals(userVerifyDto.getMailID()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
+            if (otp.getMailId().equals(userVerifyDto.getEmailId()) && otp.getOtp().equals(userVerifyDto.getOtp())) {
                 isVerifyOtp = true;
             }
         }
         if (isVerifyOtp) {
             Role roles = roleService.getRoleByName(UserRole.ROLE_DELIVERYPERSON);
             for (Otp otp : emailSenderService.getOtpAndMailId()) {
-                if (otp.getMailId().equals(userVerifyDto.getMailID())) {
+                if (otp.getMailId().equals(userVerifyDto.getEmailId())) {
                     DeliveryPersonDto deliveryPersonDto = DeliveryPersonDto.builder()
                             .name(otp.getName())
                             .email(otp.getMailId())

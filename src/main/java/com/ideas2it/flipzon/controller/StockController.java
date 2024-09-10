@@ -29,7 +29,7 @@ import com.ideas2it.flipzon.service.StockService;
  * @author Gokul
  */
 @RestController
-@RequestMapping("flipzon/api/v1/admin/products")
+@RequestMapping("flipzon/api/v1/admin/stocks")
 public class StockController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PostMapping("/{productId}/stocks")
+    @PostMapping("/{productId}/products")
     public ResponseEntity<StockDto> addStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
         Product product = productService.getProductById(productId);
         return new ResponseEntity<>(stockService.addStock(stockDto, product), HttpStatus.CREATED);
@@ -54,7 +54,7 @@ public class StockController {
      *
      * @param id : id
      */
-    @DeleteMapping("/{id}/stocks")
+    @DeleteMapping("/{id}/product")
     public ResponseEntity<StockDto> deleteStock(@PathVariable long id) {
         stockService.deleteStock(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -65,7 +65,7 @@ public class StockController {
      *
      * @return List<StockDto> : list of stockDto
      */
-    @GetMapping("{stocks}")
+    @GetMapping
     public ResponseEntity<List<StockDto>> getAllStocks() {
         return new ResponseEntity<>(stockService.retrieveAllStock(), HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PutMapping("/{productId}/stocks")
+    @PutMapping("/{productId}/product")
     public ResponseEntity<StockDto> updateStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
         return new ResponseEntity<>(stockService.updateStock(productId, stockDto), HttpStatus.OK);
     }
@@ -87,7 +87,7 @@ public class StockController {
      * @param stockDto {@link StockDto}
      * @return StockDto with Http status Created.
      */
-    @PatchMapping("{productId}/stocks")
+    @PatchMapping("{productId}/products")
     public ResponseEntity<StockDto> updateNewStock(@Valid @PathVariable Long productId, @RequestBody StockDto stockDto) {
         return new ResponseEntity<>(stockService.updateNewStock(productId, stockDto), HttpStatus.OK);
     }
@@ -98,7 +98,7 @@ public class StockController {
      * @param id : id of the stock
      * @return StockDto with Http status Created.
      */
-    @GetMapping("/{id}/stocks")
+    @GetMapping("/{id}/products")
     public ResponseEntity<StockDto> getStockByProductId(@PathVariable long id) {
         return new ResponseEntity<>(stockService.retrieveStockByProductId(id), HttpStatus.OK);
     }

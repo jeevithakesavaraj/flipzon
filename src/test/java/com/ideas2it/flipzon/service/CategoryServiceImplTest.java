@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
@@ -113,7 +114,7 @@ public class CategoryServiceImplTest {
         when(categoryDao.findByIdAndIsDeletedFalse(categoryDto.getId())).thenReturn(category);
         category.setName("samsung");
         when(categoryDao.saveAndFlush(any(Category.class))).thenReturn(category);
-        CategoryDto response = categoryService.updateCategory(categoryDto);
+        CategoryDto response = categoryService.updateCategory(anyLong(), categoryDto);
         assertNotNull(response);
         assertEquals(response.getName(), category.getName());
         verify(categoryDao, times(1)).saveAndFlush(any(Category.class));

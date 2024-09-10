@@ -39,11 +39,11 @@ public interface CategoryService {
 
     /**
      * Update the Category details by its id
-     *
+     * @param id category id
      * @param categoryDto : new category details
      * @return CategoryDto : category details
      */
-    CategoryDto updateCategory(CategoryDto categoryDto);
+    CategoryDto updateCategory(Long id, CategoryDto categoryDto);
 
     /**
      * Get category details by its id

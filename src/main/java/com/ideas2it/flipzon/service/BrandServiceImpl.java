@@ -64,11 +64,11 @@ public class BrandServiceImpl implements BrandService{
     }
 
     @Override
-    public BrandDto updateBrand(BrandDto brandDto) {
-        Brand brand = brandDao.findByIdAndIsDeletedFalse(brandDto.getId());
+    public BrandDto updateBrand(Long id, BrandDto brandDto) {
+        Brand brand = brandDao.findByIdAndIsDeletedFalse(id);
         if (null == brand) {
-            LOGGER.warn("This Brand id not found in this id : {}", brandDto.getId());
-            throw new ResourceNotFoundException("Brand", "BrandId", brandDto.getId());
+            LOGGER.warn("This Brand id not found in this id : {}", id);
+            throw new ResourceNotFoundException("Brand", "BrandId", id);
         } else if (brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())) {
             LOGGER.warn("Brand name already exist : {}", brandDto.getName());
             throw new MyException("Brand name already present : " + brandDto.getName());
@@ -76,7 +76,8 @@ public class BrandServiceImpl implements BrandService{
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         brand.setModifiedDate(modifiedDate);
         LOGGER.info("Brand updated successfully ");
-        return BrandMapper.convertEntityToDto(brandDao.saveAndFlush(BrandMapper.convertDtoToEntity(brandDto)));
+        brand.setName(brandDto.getName());
+        return BrandMapper.convertEntityToDto(brandDao.saveAndFlush(brand));
     }
 
     @Override

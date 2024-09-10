@@ -238,7 +238,7 @@ public class ProductServiceImplTest {
     void testUpdatePriceEmptyProduct() {
         when(productDao.findByIdAndIsDeletedFalse(anyLong())).thenReturn(null);
         assertThrows(ResourceNotFoundException.class, ()-> {
-            productService.updateProductPrice(1L, productDto);
+            productService.updateProductPrice(1L, productDto.getPrice());
         });
     }
 
@@ -247,7 +247,7 @@ public class ProductServiceImplTest {
         when(productDao.findByIdAndIsDeletedFalse(anyLong())).thenReturn(product);
         product.setPrice(90000);
         when(productDao.saveAndFlush(product)).thenReturn(product);
-        var response = productService.updateProductPrice(1L, productDto);
+        var response = productService.updateProductPrice(1L, productDto.getPrice());
         assertEquals(product.getPrice(), response.getPrice());
     }
 

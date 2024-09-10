@@ -76,9 +76,8 @@ public class BrandController {
      * @return BrandDto with Http status Created.
      */
     @PutMapping("/{brandId}")
-    public ResponseEntity<BrandDto> updateBrand(@Valid @PathVariable Long id,@RequestBody BrandDto brandDto) {
-        brandDto.setId(id);
-        return new ResponseEntity<>(brandService.updateBrand(brandDto), HttpStatus.OK);
+    public ResponseEntity<BrandDto> updateBrand(@Valid @PathVariable Long brandId,@RequestBody BrandDto brandDto) {
+        return new ResponseEntity<>(brandService.updateBrand(brandId, brandDto), HttpStatus.OK);
     }
 
     /**

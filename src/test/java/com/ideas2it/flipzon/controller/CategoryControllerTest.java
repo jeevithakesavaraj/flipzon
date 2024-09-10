@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -61,11 +62,11 @@ public class CategoryControllerTest {
     }
     @Test
     void testUpdateCategory() {
-        when(categoryService.updateCategory(categoryDto)).thenReturn(categoryDto);
-        ResponseEntity<CategoryDto> response = categoryController.updateCategory(categoryDto);
+        when(categoryService.updateCategory(anyLong(), categoryDto)).thenReturn(categoryDto);
+        ResponseEntity<CategoryDto> response = categoryController.updateCategory(anyLong(), categoryDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(categoryDto, response.getBody());
-        verify(categoryService, times(1)).updateCategory(categoryDto);
+        verify(categoryService, times(1)).updateCategory(1L, categoryDto);
     }
     @Test
     void testRetrieveCategory() {

@@ -87,7 +87,7 @@ public class StockServiceImpl implements StockService {
         Stock stock = stockDao.findByProductIdAndIsDeletedFalse(id);
         if (null == stock) {
             LOGGER.warn("Stock not found in this product id {}", id);
-            throw new ResourceNotFoundException("Stock", "Stock ID", id);
+            throw new OutOfStock("Out of Stock");
         } else if (stock.getCurrentQuantity() == 0) {
             LOGGER.warn("Out of Stock need to be refill this product id {}", id);
             throw new OutOfStock("Out of Stock");

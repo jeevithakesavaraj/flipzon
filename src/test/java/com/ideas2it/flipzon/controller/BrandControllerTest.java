@@ -17,6 +17,7 @@ import com.ideas2it.flipzon.service.BrandService;
 import com.ideas2it.flipzon.service.ProductService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -66,11 +67,11 @@ public class BrandControllerTest {
 
     @Test
     void testUpdateBrand() {
-        when(brandService.updateBrand(brandDto)).thenReturn(brandDto);
+        when(brandService.updateBrand(anyLong(), brandDto)).thenReturn(brandDto);
         ResponseEntity<BrandDto> response = brandController.updateBrand(1L, brandDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(brandDto, response.getBody());
-        verify(brandService, times(1)).updateBrand(brandDto);
+        verify(brandService, times(1)).updateBrand(1L,brandDto);
     }
 
     @Test

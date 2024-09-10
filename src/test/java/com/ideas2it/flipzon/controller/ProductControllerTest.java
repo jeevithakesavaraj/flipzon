@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.dto.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,10 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.ideas2it.flipzon.dto.BrandDto;
-import com.ideas2it.flipzon.dto.CategoryDto;
-import com.ideas2it.flipzon.dto.ProductDto;
-import com.ideas2it.flipzon.dto.SubcategoryDto;
 import com.ideas2it.flipzon.service.ProductService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -100,9 +97,10 @@ public class ProductControllerTest {
 
     @Test
     void testUpdateProductPrice() {
-        when(productService.updateProductPrice(1L, productDto)).thenReturn(productDto);
-        ResponseEntity<ProductDto> response = productController.updateProductPrice(1L, productDto);
+        when(productService.updateProductPrice(1L, productDto.getPrice())).thenReturn(productDto);
+        ResponseEntity<ProductDto> response = productController.updateProductPrice(1L, ProductPriceDto.builder()
+                .price(12000).build());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(productService, times(1)).updateProductPrice(1L, productDto);
+        verify(productService, times(1)).updateProductPrice(1L, productDto.getPrice());
     }
 }

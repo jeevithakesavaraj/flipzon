@@ -16,6 +16,7 @@ import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.model.Brand;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
@@ -106,7 +107,7 @@ public class BrandServiceImplTest {
     void testUpdateBrandNotPresent() {
         when(brandDao.findByIdAndIsDeletedFalse(brandDto.getId())).thenThrow(ResourceNotFoundException.class);
         assertThrows(ResourceNotFoundException.class, () -> {
-            brandService.updateBrand(brandDto);
+            brandService.updateBrand(anyLong(), brandDto);
         });
     }
 
@@ -116,7 +117,7 @@ public class BrandServiceImplTest {
         when(brandDao.existsByNameAndIsDeletedFalse(brandDto.getName())).thenReturn(false);
         brand.setName("samsung");
         when(brandDao.saveAndFlush(any(Brand.class))).thenReturn(brand);
-        BrandDto response = brandService.updateBrand(brandDto);
+        BrandDto response = brandService.updateBrand(1L, brandDto);
         assertNotNull(response);
         assertEquals(response.getName(), brand.getName());
         verify(brandDao, times(1)).saveAndFlush(any(Brand.class));

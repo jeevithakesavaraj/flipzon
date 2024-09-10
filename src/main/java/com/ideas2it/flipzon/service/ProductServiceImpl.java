@@ -105,17 +105,17 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(CategoryMapper.convertDtoToEntity(categoryDto));
         product.setSubcategory(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
         LOGGER.info("product details updated successfully");
-        return ProductMapper.convertEntityToDto(productDao.saveAndFlush(ProductMapper.convertDtoToEntity(productDto)));
+        return ProductMapper.convertEntityToDto(productDao.saveAndFlush(product));
     }
 
     @Override
-    public ProductDto updateProductPrice(Long productId, ProductDto productDto) {
+    public ProductDto updateProductPrice(Long productId, double price) {
         Product product = productDao.findByIdAndIsDeletedFalse(productId);
         if (null == product) {
             LOGGER.warn("Product not found in this id {}", productId);
             throw new ResourceNotFoundException("Product", "Product ID", productId);
         }
-        product.setPrice(productDto.getPrice());
+        product.setPrice(price);
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         product.setModifiedDate(modifiedDate);
         LOGGER.info("Product price updated successfully in this id {}", productId);
@@ -130,11 +130,15 @@ public class ProductServiceImpl implements ProductService {
             throw new ResourceNotFoundException("Product", "Product ID", id);
         } else {
             Stock stock = StockMapper.convertDtoToEntity(stockService.retrieveStockByProductId(product.getId()));
-            if (stock.getCurrentQuantity() == 0) {
+            if (stock == null) {
+                LOGGER.warn("No stocks available in this product id {}", id);
+                throw new OutOfStock("Out of Stocks");
+            } else if (stock.getCurrentQuantity() == 0) {
                 LOGGER.warn("No stocks available in this product id {}", id);
                 throw new OutOfStock("Out of Stocks");
             }
         }
+
         LOGGER.info("Get product by its id {}", id);
         return ProductMapper.convertEntityToDto(product);
     }

@@ -39,11 +39,11 @@ public interface BrandService {
 
     /**
      * Update the Brand details by its id
-     *
+     * @param id brand id
      * @param brandDto : new brand details
      * @return {@link BrandDto}
      */
-    BrandDto updateBrand(BrandDto brandDto);
+    BrandDto updateBrand(Long id, BrandDto brandDto);
 
     /**
      * Get brand details by its id

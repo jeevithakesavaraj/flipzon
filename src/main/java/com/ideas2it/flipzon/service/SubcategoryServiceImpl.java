@@ -5,6 +5,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import com.ideas2it.flipzon.model.Category;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Override
     public boolean deleteSubcategory(long id) {
         Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(id);
-        if (subcategory.isDeleted()) {
+        if (subcategory == null) {
             LOGGER.warn("Subcategory not found in this id{}", id);
             throw new ResourceNotFoundException("Subcategory", "Subcategory ID", id);
         }
@@ -72,14 +73,17 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Override
     public SubcategoryDto updateSubcategory(Long id, SubcategoryDto subcategoryDto) {
         Subcategory subcategory = subcategoryDao.findByIdAndIsDeletedFalse(id);
+        Category category = CategoryMapper.convertDtoToEntity(categoryService.retrieveCategoryById(subcategoryDto.getCategoryId()));
         if (null == subcategory) {
             LOGGER.warn("subcategory not found in this id {}", id);
             throw new ResourceNotFoundException("Subcategory", "Subcategory ID", id);
         }
         Date modifiedDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         subcategory.setModifiedDate(modifiedDate);
+        subcategory.setName(subcategoryDto.getName());
+        subcategory.setCategory(category);
         LOGGER.info("subcategory updated successfully");
-        subcategory = subcategoryDao.saveAndFlush(SubcategoryMapper.convertDtoToEntity(subcategoryDto));
+        subcategory = subcategoryDao.saveAndFlush(subcategory);
         return SubcategoryMapper.convertEntityToDto(subcategory);
     }
 

@@ -3,12 +3,7 @@ package com.ideas2it.flipzon.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ideas2it.flipzon.dto.WishlistResponseDto;
 import com.ideas2it.flipzon.service.WishlistService;
@@ -32,9 +27,9 @@ public class WishlistController {
      *
      * @param customerId To specify a customer.
      * @param productId To specify a product has to be added.
-     * @return wishlistDto
+     * @return {@link WishlistResponseDto} with Http status OK
      */
-    @PostMapping("/{customerId}/wishlist/products/{productId}")
+    @PutMapping("/{customerId}/wishlist/products/{productId}")
     public ResponseEntity<WishlistResponseDto> addProductToWishlist(@PathVariable long customerId, @PathVariable long productId) {
         WishlistResponseDto updatedWishlist = wishlistService.addProductToWishlist(customerId, productId);
         return ResponseEntity.ok(updatedWishlist);
@@ -45,7 +40,7 @@ public class WishlistController {
      * Retrieves all products from a wishlist of a particular customer.
      * </p>
      * @param customerId Specify the customer
-     * @return wishlist of a customer
+     * @return {@link WishlistResponseDto} with Http status OK
      */
     @GetMapping("/{customerId}/wishlist")
     public ResponseEntity<WishlistResponseDto> getProductsFromWishlist(@PathVariable long customerId) {
@@ -59,7 +54,7 @@ public class WishlistController {
      *
      * @param customerId Specifies which customer.
      * @param productId Specifies which product needs to be removed.
-     * @return a updated wishlist.
+     * @return {@link WishlistResponseDto} with Http status OK
      */
     @DeleteMapping("/{customerId}/wishlist/products/{productId}")
     public ResponseEntity<WishlistResponseDto> removeProductFromWishlist(@PathVariable long customerId, @PathVariable long productId) {

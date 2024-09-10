@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import com.ideas2it.flipzon.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ideas2it.flipzon.dto.ProductDto;
-import com.ideas2it.flipzon.dto.CrossSellRequestDto;
-import com.ideas2it.flipzon.dto.CrossSellResponseDto;
-import com.ideas2it.flipzon.dto.UpsellDto;
-import com.ideas2it.flipzon.dto.UpsellResponseDto;
 import com.ideas2it.flipzon.service.ProductService;
 import com.ideas2it.flipzon.service.CrossSellService;
 import com.ideas2it.flipzon.service.UpsellService;
@@ -62,7 +58,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -81,7 +77,7 @@ public class ProductController {
      * @param productDto {@link ProductDto}
      * @return ProductDto with Http status Created.
      */
-    @PutMapping("{productId}")
+    @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@Valid @PathVariable Long productId, @RequestBody ProductDto productDto) {
         return new ResponseEntity<>(productService.updateProduct(productId,productDto), HttpStatus.OK);
     }
@@ -100,12 +96,12 @@ public class ProductController {
     /**
      * update the Product price based on the Admin request
      * @param productId product Id
-     * @param productDto {@link ProductDto}
+     * @param productPriceDto {@link ProductPriceDto}
      * @return ProductDto with Http status OK.
      */
-    @PatchMapping("/{id}")
-    public ResponseEntity<ProductDto> updateProductPrice(@Valid @PathVariable Long productId,  @RequestBody ProductDto productDto) {
-        return new ResponseEntity<>(productService.updateProductPrice(productId, productDto), HttpStatus.OK);
+    @PutMapping("/{id}/price")
+    public ResponseEntity<ProductDto> updateProductPrice(@Valid @PathVariable Long productId,  @RequestBody ProductPriceDto productPriceDto) {
+        return new ResponseEntity<>(productService.updateProductPrice(productId, productPriceDto.getPrice()), HttpStatus.OK);
     }
 
     /**
