@@ -15,6 +15,6 @@ import lombok.Data;
 @Builder
 public class UserVerifyDto {
     @Email
-    private String mailID;
+    private String emailId;
     private String otp;
 }
