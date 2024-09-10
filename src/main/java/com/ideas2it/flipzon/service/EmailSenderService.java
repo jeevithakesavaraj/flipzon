@@ -67,7 +67,7 @@ public class EmailSenderService {
         Otp otp = Otp.builder()
                 .name(name)
                 .mailId(mailId)
-                .password(encoder.encode(password))
+                .password(password)
                 .phoneNumber(phoneNumber)
                 .otp(userOtp)
                 .build();
@@ -89,7 +89,7 @@ public class EmailSenderService {
         Otp otp = Otp.builder()
                 .name(name)
                 .mailId(mailId)
-                .password(encoder.encode(password))
+                .password(password)
                 .phoneNumber(phoneNumber)
                 .idProof(idProof)
                 .otp(userOtp)

@@ -125,10 +125,10 @@ public class CartServiceImpl implements CartService {
                 flag = false;
             }
         }
-        if (flag) {
-            LOGGER.warn("product not available in this cart can't remove {}", productId);
-            throw new ResourceNotFoundException("productId", "this cart");
-        }
+//        if (!flag) {
+//            LOGGER.warn("product not available in this cart can't remove {}", productId);
+//            throw new ResourceNotFoundException("productId", "this cart");
+//        }
         return CartResponseDto.builder()
                 .customerId(cart.getCustomer().getId())
                 .totalPrice(cart.getTotalPrice())

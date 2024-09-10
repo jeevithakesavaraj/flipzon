@@ -98,9 +98,6 @@ public class AuthenticationService {
                 break;
             }
         }
-        if (!isMailSend) {
-            return "Verify your mailID with OTP";
-        }
         String receiverMail = customerDto.getEmail();
         String subject = "OTP for registration";
         String otp = String.valueOf(OtpGenerator.generateOtp());
@@ -211,7 +208,6 @@ public class AuthenticationService {
     public CustomerDto verifyCustomer(UserVerifyDto userVerifyDto) {
         Otp savedOtp = emailSenderService.getOtpDetailsByMailId(userVerifyDto.getEmailId());
         if (savedOtp.getOtp().equals(userVerifyDto.getOtp())) {
-            System.out.println(savedOtp);
             Role roles = roleService.getRoleByName(UserRole.ROLE_CUSTOMER);
             CustomerDto customerDto = CustomerDto.builder()
                     .name(savedOtp.getName())
