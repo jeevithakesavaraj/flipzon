@@ -125,7 +125,7 @@ public class CartServiceImpl implements CartService {
                 flag = false;
             }
         }
-        if (!flag) {
+        if (flag) {
             LOGGER.warn("product not available in this cart can't remove {}", productId);
             throw new ResourceNotFoundException("productId", "this cart");
         }

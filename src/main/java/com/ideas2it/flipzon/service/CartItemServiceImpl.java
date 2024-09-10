@@ -24,7 +24,7 @@ public class CartItemServiceImpl implements CartItemService {
 
     public CartItem addProductToCartItem(Cart cart, CartDto cartDto) {
         CartItem item = cartItemDao.findByProductId(cartDto.getProductId());
-        Product product = ProductMapper.convertDtoToEntity(productService.retrieveProductById(cartDto.getProductId()));
+        Product product = productService.getProductById(cartDto.getProductId());
         if (item == null) {
             CartItem cartItem = new CartItem();
             cartItem.setCart(cart);
@@ -33,7 +33,8 @@ public class CartItemServiceImpl implements CartItemService {
             cartItem.setPrice(product.getPrice());
             cartItem.setTotalPrice(cartDto.getQuantity() * product.getPrice());
             LOGGER.info("Product added in cartItem ");
-            return cartItemDao.save(cartItem);
+            CartItem savedCartItem = cartItemDao.saveAndFlush(cartItem);
+            return savedCartItem;
         } else {
             return updateProductToCartItem(item, cartDto);
         }

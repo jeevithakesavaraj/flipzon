@@ -35,11 +35,10 @@ public class OrderController {
      * Place the order
      * </p>
      * @param orderDto {@link OrderDto}
-     * @return APIResponse {@link APIResponse}
+     * @return {@link OrderDto}
      */
     @PostMapping("/{id}/orders")
     public ResponseEntity<OrderDto> placeOrder(@Valid @PathVariable Long id, @RequestBody OrderDto orderDto) {
-        System.out.println("order");
         OrderDto savedOrderDto = orderService.placeOrder(id, orderDto);
         return ResponseEntity.ok(savedOrderDto);
     }
