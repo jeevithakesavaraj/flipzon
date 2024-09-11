@@ -20,5 +20,5 @@ public interface CartItemDao extends JpaRepository<CartItem, Long> {
      * @param id : id of the product
      * @return {@link CartItem}
      */
-    CartItem findByProductId(long id);
+    CartItem findByProductIdAndCartId(long id, long cartId);
 }
