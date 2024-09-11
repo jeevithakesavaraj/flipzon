@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -116,8 +117,19 @@ public class ProductController {
      * @return {@link CrossSellResponseDto}
      */
     @PostMapping("/{productId}/crosssells")
-    public ResponseEntity<CrossSellResponseDto> addCrossSellProduct(@PathVariable Long productId, @Valid @RequestBody CrossSellRequestDto crossSellRequestDto) {
-        return new ResponseEntity<>(crossSellService.addCrossSellProduct(productId, crossSellRequestDto), HttpStatus.OK);
+    public ResponseEntity<CrossSellResponseDto> addCrosssellProduct(@PathVariable Long productId, @Valid @RequestBody CrossSellRequestDto crossSellRequestDto) {
+        return ResponseEntity.ok(crossSellService.addCrossSellProduct(productId, crossSellRequestDto));
+    }
+
+    /**
+     * Add upsell product to the product by admin request
+     * @param productId product id
+     * @param upsellDto : {@link UpsellDto}
+     * @return {@link UpsellResponseDto}
+     */
+    @PostMapping("/{productId}/upsells")
+    public ResponseEntity<UpsellResponseDto> addUpsellProduct(@PathVariable Long productId, @Valid @RequestBody UpsellDto upsellDto) {
+        return ResponseEntity.ok(upsellService.addUpsell(productId, upsellDto));
     }
 
     /**
@@ -130,17 +142,6 @@ public class ProductController {
     public ResponseEntity<CrossSellResponseDto> removeCrossSellProduct(@PathVariable Long productId, @PathVariable Long id) {
         crossSellService.removeCrossSellProduct(productId, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    /**
-     * Add upsell product to the product by admin request
-     * @param productId product id
-     * @param upsellDto : {@link UpsellDto}
-     * @return {@link UpsellResponseDto}
-     */
-    @PostMapping("/{productId}/upsells")
-    public ResponseEntity<UpsellResponseDto> addUpsellProduct(@PathVariable Long productId, @Valid @RequestBody UpsellDto upsellDto) {
-        return ResponseEntity.ok(upsellService.addUpsell(productId, upsellDto));
     }
 
     /**

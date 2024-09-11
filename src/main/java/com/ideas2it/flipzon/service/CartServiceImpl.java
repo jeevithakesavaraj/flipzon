@@ -143,10 +143,9 @@ public class CartServiceImpl implements CartService {
         for (CartItem cartItem : cart.getCartItems()) {
             if (cartItem.getProduct().getId() == cartDto.getProductId()) {
                 cartItem = cartItemService.updateProductToCartItem(cartItem, cartDto);
-                cartItem.setQuantity(cartDto.getQuantity());
-                cartItem.setTotalPrice(cartItem.getPrice() * cartDto.getQuantity());
-                cart.getCartItems().add(cartItem);
                 Cart updatedCart = cartDao.findByCustomerId(customerId);
+                updatedCart.setTotalPrice(updatedCart.getCartItems().stream().mapToDouble(CartItem::getTotalPrice).sum());
+                cartDao.saveAndFlush(updatedCart);
                 LOGGER.info("Product Quantity updated in this cart");
                 return CartResponseDto.builder()
                         .customerId(updatedCart.getCustomer().getId())

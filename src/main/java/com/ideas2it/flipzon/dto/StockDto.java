@@ -17,7 +17,6 @@ public class StockDto {
     private Long id;
 
     @NotNull(message = "Please enter initial quantity")
-    @NotBlank(message = "Please enter initial quantity")
     private int initialQuantity;
 
     private int currentQuantity;

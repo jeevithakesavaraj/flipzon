@@ -1,6 +1,5 @@
 package com.ideas2it.flipzon.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +13,6 @@ import lombok.Setter;
 @Setter
 public class ProductPriceDto {
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Enter valid price")
     private double price;
 }

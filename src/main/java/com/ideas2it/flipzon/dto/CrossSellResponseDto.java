@@ -11,6 +11,7 @@ import lombok.Data;
 @Builder
 @Data
 public class CrossSellResponseDto {
+    private Long id;
     private String ProductName;
     private double price;
     private List<ProductDto> productDtos;

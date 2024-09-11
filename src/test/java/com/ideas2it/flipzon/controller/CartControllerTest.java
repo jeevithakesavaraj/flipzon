@@ -95,7 +95,7 @@ class CartControllerTest {
     @Test
     void testAddCart() {
         when(cartService.addProductToCart(1L, cartDto)).thenReturn(cartResponseDto);
-        ResponseEntity<CartResponseDto> response = cartController.addProductToCart(1L,cartDto);
+        ResponseEntity<CartResponseDto> response = cartController.addProductToCart(cartDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cartResponseDto, response.getBody());
         verify(cartService, times(1)).addProductToCart(1L, cartDto);
@@ -104,7 +104,7 @@ class CartControllerTest {
     @Test
     void testGetProductsFromCart_Success() {
         when(cartService.getProductsFromCart(anyLong())).thenReturn(cartResponseDto);
-        ResponseEntity<CartResponseDto> response = cartController.getProductsFromCart(1L);
+        ResponseEntity<CartResponseDto> response = cartController.getProductsFromCart();
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cartResponseDto, response.getBody());
     }
@@ -112,7 +112,7 @@ class CartControllerTest {
     @Test
     void testRemoveProductFromCart_Success() {
         when(cartService.removeProductFromCart(anyLong(), anyLong())).thenReturn(cartResponseDto);
-        ResponseEntity<CartResponseDto> response = cartController.removeProductFromCart(1L, 1L);
+        ResponseEntity<CartResponseDto> response = cartController.removeProductFromCart(1L);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cartResponseDto, response.getBody());
     }
@@ -120,32 +120,8 @@ class CartControllerTest {
     @Test
     void testUpdateProductQuantity_Success() {
         when(cartService.updateProductQuantity(1L, any(CartDto.class))).thenReturn(cartResponseDto);
-        ResponseEntity<CartResponseDto> response = cartController.updateProductQuantity(1L, cartDto);
+        ResponseEntity<CartResponseDto> response = cartController.updateProductQuantity(cartDto);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(cartResponseDto, response.getBody());
-    }
-
-    @Test
-    void testGetAllProducts_Success() {
-        when(productService.retrieveAllProduct()).thenReturn(productDtoList);
-        ResponseEntity<List<ProductDto>> response = cartController.getAllProducts();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(productDtoList, response.getBody());
-    }
-
-    @Test
-    void testGetAllProductsByBrandId_Success() {
-        when(productService.retrieveAllProductByBrandId(anyLong())).thenReturn(productDtoList);
-        ResponseEntity<List<ProductDto>> response = cartController.getAllProductsByBrandId(1L);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(productDtoList, response.getBody());
-    }
-
-    @Test
-    void testGetAllProductsByCategoryId_Success() {
-        when(productService.retrieveAllProductByCategoryId(anyLong())).thenReturn(productDtoList);
-        ResponseEntity<List<ProductDto>> response = cartController.getAllProductsByCategoryId(1L);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(productDtoList, response.getBody());
     }
 }

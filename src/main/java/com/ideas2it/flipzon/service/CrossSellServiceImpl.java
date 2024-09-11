@@ -51,6 +51,7 @@ public class CrossSellServiceImpl implements CrossSellService {
         crossSell = crossSellDao.saveAndFlush(crossSell);
         LOGGER.info("Cross-sell product added to this id : {}", productId);
         return CrossSellResponseDto.builder()
+                .id(mainProduct.getId())
                 .ProductName(crossSell.getProduct().getName())
                 .price(crossSell.getProduct().getPrice())
                 .productDtos(crossSell.getProducts().stream()
@@ -60,7 +61,7 @@ public class CrossSellServiceImpl implements CrossSellService {
     }
 
     public CrossSellResponseDto removeCrossSellProduct(Long productId, Long id) {
-        productService.getProductById(productId);
+        Product mainProduct = productService.getProductById(productId);
         Product crossSellProduct = productService.getProductById(id);
         Crosssell crossSell = crossSellDao.findByProductId(productId);
         if (crossSell == null) {
@@ -74,8 +75,9 @@ public class CrossSellServiceImpl implements CrossSellService {
         }
         crossSellDao.saveAndFlush(crossSell);
         return CrossSellResponseDto.builder()
-                .ProductName(crossSellProduct.getName())
-                .price(crossSellProduct.getPrice())
+                .id(mainProduct.getId())
+                .ProductName(crossSell.getProduct().getName())
+                .price(crossSell.getProduct().getPrice())
                 .productDtos(crossSell.getProducts().stream()
                         .map(ProductMapper::convertEntityToDto)
                         .collect(Collectors.toList()))
@@ -87,9 +89,10 @@ public class CrossSellServiceImpl implements CrossSellService {
         Crosssell crossSell = crossSellDao.findByProductId(productId);
         if (crossSell == null) {
             LOGGER.warn("Cross-sell products not available for this product Id {}", productId);
-            throw new ResourceNotFoundException("Cross-sell products not available for this product Id {}", productId);
+            throw new ResourceNotFoundException("Cross-sell products not available for this product Id", productId);
         }
         return CrossSellResponseDto.builder()
+                .id(productId)
                 .ProductName(crossSell.getProduct().getName())
                 .price(crossSell.getProduct().getPrice())
                 .productDtos(crossSell.getProducts().stream()
