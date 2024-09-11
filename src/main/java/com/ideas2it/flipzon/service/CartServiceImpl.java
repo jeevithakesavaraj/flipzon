@@ -91,7 +91,7 @@ public class CartServiceImpl implements CartService {
                 .build();
     }
 
-    public CartResponseDto getProductsFromCart(long customerId) {
+    public CartResponseDto getProductsFromCart(Long customerId) {
         Cart cart = cartDao.findByCustomerId(customerId);
         if (cart == null) {
             LOGGER.warn("Cart is empty in this customer id : {}", customerId);
@@ -113,7 +113,6 @@ public class CartServiceImpl implements CartService {
         } else if (cart.getCartItems().isEmpty()) {
             LOGGER.warn("cart is empty can't remove this customer's cart : id {}", customerId);
         }
-        productService.retrieveProductById(productId);
         LOGGER.info("Remove product from cart by product ID : {}", productId);
         boolean flag = true;
         for (CartItem cartItems : cart.getCartItems()) {

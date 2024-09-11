@@ -18,6 +18,7 @@ public interface CartService {
      * Add the product to the cart.
      * </p>
      *
+     * @param customerId Id of the customer
      * @param cartDto {@link CartDto}
      * @return {@link CartResponseDto}
      */
@@ -31,7 +32,7 @@ public interface CartService {
      * @param customerId To specify which customer.
      * @return List of cartItems. {@link CartResponseDto}
      */
-    CartResponseDto getProductsFromCart(long customerId);
+    CartResponseDto getProductsFromCart(Long customerId);
 
     /**
      * <p>

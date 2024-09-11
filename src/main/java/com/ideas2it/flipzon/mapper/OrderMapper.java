@@ -35,9 +35,11 @@ public class OrderMapper {
                 .customerId(order.getCustomer().getId())
                 .orderItems(orderItemDtos)
                 .addressId(order.getAddress().getId())
+                .totalPrice(order.getTotalPrice())
                 .paymentStatus(order.getPaymentStatus())
                 .paymentType(order.getPaymentType())
                 .orderStatus(order.getOrderStatus())
+                .orderedDate(order.getOrderedDate())
                 .build();
     }
 }

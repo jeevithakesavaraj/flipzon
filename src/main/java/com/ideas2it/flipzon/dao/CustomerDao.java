@@ -31,4 +31,13 @@ public interface CustomerDao extends JpaRepository<Customer, Long> {
      * @return Customer {@link Customer}
      */
     Customer findByIdAndIsDeletedFalse(long customerId);
+
+    /**
+     * <p>
+     *  Get Customer by user Id
+     * </p>
+     * @param userId - userId of the customer
+     * @return Customer {@link Customer}
+     */
+    Customer findByUserId(long userId);
 }

@@ -19,6 +19,8 @@ import com.ideas2it.flipzon.dto.CartDto;
 import com.ideas2it.flipzon.dto.CartResponseDto;
 import com.ideas2it.flipzon.service.CartService;
 import com.ideas2it.flipzon.dto.ProductDto;
+import com.ideas2it.flipzon.helper.JwtHelper;
+import com.ideas2it.flipzon.service.CustomerService;
 import com.ideas2it.flipzon.service.ProductService;
 
 /**
@@ -35,10 +37,14 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
+    private CustomerService customerService;
+
+    @Autowired
     private ProductService productService;
 
-    @PostMapping("/{customerId}/products")
-    public ResponseEntity<CartResponseDto> addProductToCart(@PathVariable Long customerId , @Valid @RequestBody CartDto cartDto) {
+    @PostMapping("/me/carts/products")
+    public ResponseEntity<CartResponseDto> addProductToCart(@Valid @RequestBody CartDto cartDto) {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         CartResponseDto updatedCart = cartService.addProductToCart(customerId, cartDto);
         return ResponseEntity.ok(updatedCart);
     }
@@ -48,11 +54,11 @@ public class CartController {
      * Retrieve all the products from wishlist of a customer.
      * </p>
      *
-     * @param customerId To specify which customer.
      * @return CartItems {@link CartResponseDto}
      */
-    @GetMapping("/{customerId}/carts")
-    public ResponseEntity<CartResponseDto> getProductsFromCart(@PathVariable long customerId) {
+    @GetMapping("/me/carts")
+    public ResponseEntity<CartResponseDto> getProductsFromCart() {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         return new ResponseEntity<>(cartService.getProductsFromCart(customerId), HttpStatus.OK);
     }
 
@@ -61,12 +67,12 @@ public class CartController {
      * Removes the product from the wishlist of a customer.
      * </p>
      *
-     * @param customerId To specify which customer.
      * @param productId To specify which product needs to be deleted.
      * @return Updated Cart. {@link CartResponseDto}
      */
-    @DeleteMapping("/{customerId}/cart/{productId}")
-    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long customerId, @PathVariable long productId) {
+    @DeleteMapping("/me/carts/products/{productId}")
+    public ResponseEntity<CartResponseDto> removeProductFromCart(@PathVariable long productId) {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         return new ResponseEntity<>(cartService.removeProductFromCart(customerId, productId), HttpStatus.NO_CONTENT);
     }
 
@@ -78,8 +84,9 @@ public class CartController {
      * @param cartDto {@link CartDto}
      * @return Updated Cart. {@link CartResponseDto}
      */
-    @PutMapping("/{customerId}")
-    public ResponseEntity<CartResponseDto> updateProductQuantity(@Valid @PathVariable Long customerId, @RequestBody CartDto cartDto) {
+    @PutMapping("/me/carts")
+    public ResponseEntity<CartResponseDto> updateProductQuantity(@RequestBody CartDto cartDto) {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         return new ResponseEntity<>(cartService.updateProductQuantity(customerId, cartDto), HttpStatus.OK);
     }
 
@@ -87,6 +94,7 @@ public class CartController {
      * <p>
      *  Get the list of products
      * </p>
+     *
      * @return List<ProductDto> {@link ProductDto}
      */
     @GetMapping("/products")
@@ -101,7 +109,7 @@ public class CartController {
      * @param id : id of the brand
      * @return List<ProductDto> {@link ProductDto}
      */
-    @GetMapping("/products/brands/{id}")
+    @GetMapping("/brands/{brandId}/products")
     public ResponseEntity<List<ProductDto>> getAllProductsByBrandId(@PathVariable Long id) {
         return new ResponseEntity<>(productService.retrieveAllProductByBrandId(id), HttpStatus.OK);
     }
@@ -113,8 +121,20 @@ public class CartController {
      * @param id : id of the category
      * @return List<ProductDto> {@link ProductDto}
      */
-    @GetMapping("/products/categories/{id}")
+    @GetMapping("/categories/{id}/products")
     public ResponseEntity<List<ProductDto>> getAllProductsByCategoryId(@PathVariable Long id) {
         return new ResponseEntity<>(productService.retrieveAllProductByCategoryId(id), HttpStatus.OK);
+    }
+
+    /**
+     * <p>
+     * Get products by category
+     * </p>
+     * @param subCategoryId : id of the sub category
+     * @return List<ProductDto> {@link ProductDto}
+     */
+    @GetMapping("/subcategories/{subCategoryId}/products")
+    public ResponseEntity<List<ProductDto>> getAllProductsBySubcategoryId(@PathVariable Long subCategoryId) {
+        return new ResponseEntity<>(productService.retrieveAllProductBySubcategoryId(subCategoryId), HttpStatus.OK);
     }
 }

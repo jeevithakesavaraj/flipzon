@@ -1,14 +1,16 @@
 package com.ideas2it.flipzon.dto;
 
-import com.ideas2it.flipzon.model.OrderStatus;
-import com.ideas2it.flipzon.model.PaymentStatus;
-import com.ideas2it.flipzon.model.PaymentType;
+import java.util.Date;
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
+import com.ideas2it.flipzon.model.OrderStatus;
+import com.ideas2it.flipzon.model.PaymentStatus;
+import com.ideas2it.flipzon.model.PaymentType;
 
 /**
  * <p>
@@ -36,5 +38,8 @@ public class OrderDto {
 
     @NotBlank(message = "Payment status is mandatory (PAID/UNPAID)")
     private PaymentStatus paymentStatus;
+
+    private double totalPrice;
     private OrderStatus orderStatus;
+    private Date orderedDate;
 }

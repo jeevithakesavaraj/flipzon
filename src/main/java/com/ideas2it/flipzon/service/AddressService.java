@@ -21,7 +21,7 @@ public interface AddressService {
      * <p>
      *  Add address to the customer by customer Id
      * </p>
-     * @param customerId id of the customer to whom we have to add address
+     * @param customerId Id of the customer to whom we have to add address
      * @param addressDto  {@link AddressDto}
      * @return savedAddressDto {@link AddressDto}
      */
@@ -31,7 +31,7 @@ public interface AddressService {
      * <p>
      * Get list of address for the particular customer by customer Id
      * </p>
-     * @param customerId : id of the customer
+     * @param customerId : Id of the customer
      * @return list of address {@link AddressDto}
      */
     List<AddressDto> getAddressesByCustomerId(long customerId);
@@ -40,7 +40,7 @@ public interface AddressService {
      * <p>
      * Update address by customer Id
      * </p>
-     * @param customerId : id of the customer
+     * @param customerId : Id of the customer
      * @param addressDto  {@link AddressDto}
      * @return updatedAddressDto {@link AddressDto}
      */
@@ -51,14 +51,18 @@ public interface AddressService {
      * <p>
      * Delete address using address Id for the particular customer
      * </p>
-     * @param customerId : id of the customer
-     * @param addressId : id of the address
+     * @param customerId : Id of the customer
+     * @param addressId : Id of the address
      */
     void deleteAddressByCustomerId(long customerId, long addressId);
 
     /**
-     * @param id : id of the address
+     * <p>
+     * Get address by Id
+     * </p>
+     * @param id : Id of the address
+     * @param customerId : Id of the customer
      * @return {@link Address}
      */
-    Address getAddressById(long id);
+    Address getAddressById(long id, long customerId);
 }

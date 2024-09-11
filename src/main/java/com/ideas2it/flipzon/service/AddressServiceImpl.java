@@ -79,19 +79,24 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void deleteAddressByCustomerId(long customerId, long addressId) {
-        if (addressDao.existsByIdAndCustomerIdAndIsDeletedFalse(addressId, customerId)) {
-            Address address = addressDao.findById(addressId).get();
-            address.setDeleted(true);
-            addressDao.save(address);
-            LOGGER.info("Address is deleted in this Id: {}", addressId);
+        if (!addressDao.existsByIdAndCustomerIdAndIsDeletedFalse(addressId, customerId)) {
+            LOGGER.warn("No Address is found for this customer in this address Id for deleting: {}", addressId);
+            throw new ResourceNotFoundException("No Address is found for this customer in this address Id for deleting: {}", addressId);
+
         }
-        LOGGER.warn("No Address is found for this customer in this address Id for deleting: {}", addressId);
-        throw new ResourceNotFoundException("No Address is found for this customer in this address Id for deleting: {}", addressId);
+        Address address = addressDao.findById(addressId).get();
+        address.setDeleted(true);
+        addressDao.save(address);
+        LOGGER.info("Address is deleted in this Id: {}", addressId);
     }
 
     @Override
-    public Address getAddressById(long id) {
-        LOGGER.info("getting the address by addressID: {}", id);
-        return addressDao.findById(id).get();
+    public Address getAddressById(long id, long customerId) {
+        if (addressDao.existsByIdAndCustomerIdAndIsDeletedFalse(id, customerId)) {
+            LOGGER.info("getting the address by addressID: {}", id);
+            return addressDao.findById(id).get();
+        }
+        LOGGER.warn("No address is found in this ID: ", id);
+        throw new ResourceNotFoundException("Address ", id);
     }
 }

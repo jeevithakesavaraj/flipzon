@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ideas2it.flipzon.dto.OrderDto;
+import com.ideas2it.flipzon.helper.JwtHelper;
+import com.ideas2it.flipzon.service.CustomerService;
 import com.ideas2it.flipzon.service.OrderService;
 
 /**
@@ -30,16 +32,21 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private CustomerService customerService;
+
     /**
      * <p>
      * Place the order
      * </p>
+     *
      * @param orderDto {@link OrderDto}
      * @return {@link OrderDto}
      */
-    @PostMapping("/{id}/orders")
-    public ResponseEntity<OrderDto> placeOrder(@Valid @PathVariable Long id, @RequestBody OrderDto orderDto) {
-        OrderDto savedOrderDto = orderService.placeOrder(id, orderDto);
+    @PostMapping("/me/orders")
+    public ResponseEntity<OrderDto> placeOrder(@Valid @RequestBody OrderDto orderDto) {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
+        OrderDto savedOrderDto = orderService.placeOrder(customerId, orderDto);
         return ResponseEntity.ok(savedOrderDto);
     }
 
@@ -47,11 +54,12 @@ public class OrderController {
      * <p>
      * Get the list of orders by customer Id
      * </p>
-     * @param customerId Id of the customer whose order history we want
+     *
      * @return list of orders {@link OrderDto}
      */
-    @GetMapping("/{customerId}/orders")
-    public ResponseEntity<List<OrderDto>> getOrdersByCustomer(@PathVariable long customerId) {
+    @GetMapping("/me/orders")
+    public ResponseEntity<List<OrderDto>> getOrdersByCustomer() {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         return ResponseEntity.ok(orderService.getOrdersByCustomerId(customerId));
     }
 
@@ -59,12 +67,13 @@ public class OrderController {
      * <p>
      * Cancel the order by customer Id and order Id
      * </p>
-     * @param customerId Id of the customer whose order we want to cancel
+     *
      * @param orderId  Id of the order which we want to cancel
      * @return orderDto {@link OrderDto}
      */
-    @DeleteMapping("/{customerId}/orders/{orderId}")
-    public ResponseEntity<OrderDto> cancelOrder(@PathVariable long customerId, @PathVariable long orderId) {
+    @DeleteMapping("/me/orders/{orderId}")
+    public ResponseEntity<OrderDto> cancelOrder(@PathVariable long orderId) {
+        long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         return ResponseEntity.ok(orderService.cancelOrder(customerId, orderId));
     }
 }

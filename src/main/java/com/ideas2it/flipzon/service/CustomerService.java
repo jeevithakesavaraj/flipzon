@@ -48,4 +48,14 @@ public interface CustomerService {
      * @return boolean If customer is present, return true or else false
      */
     boolean isCustomerPresent(long customerId);
+
+    /**
+     * <p>
+     * Get cstomer Id by username
+     * </p>
+     *
+     * @param username username of the customer
+     * @return customerId
+     */
+    long getCustomerIdByUserName(String username);
 }

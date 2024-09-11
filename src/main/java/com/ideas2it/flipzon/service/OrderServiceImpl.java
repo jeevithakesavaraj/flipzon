@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto placeOrder(Long customerId, OrderDto orderDto) {
         Cart cart = cartService.getCartByCustomerId(customerId);
-        Address address = addressService.getAddressById(orderDto.getAddressId());
+        Address address = addressService.getAddressById(orderDto.getAddressId(), customerId);
         Order order = new Order();
         order.setCustomer(cart.getCustomer());
         LocalDate currentDate = LocalDate.now();

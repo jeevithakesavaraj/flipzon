@@ -3,6 +3,7 @@ package com.ideas2it.flipzon.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ideas2it.flipzon.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,28 @@ import com.ideas2it.flipzon.model.Customer;
 public class CustomerServiceImpl implements CustomerService {
 
     private static final Logger logger = LogManager.getLogger(CustomerServiceImpl.class);
+
+    @Autowired
+    private UserService userService;
+
     @Autowired
     private CustomerDao customerDao;
 
+    @Override
     public CustomerDto addCustomer(Customer customer) {
         CustomerDto savedCustomerDto = CustomerMapper.convertEntityToDto(customerDao.save(customer));
         logger.info("{}customer is added", customer.getUser().getName());
         return savedCustomerDto;
     }
 
+    @Override
+    public long getCustomerIdByUserName(String userName) {
+        User user = userService.getByEmail(userName);
+        Customer customer = customerDao.findByUserId(user.getId());
+        return customer.getId();
+    }
+
+    @Override
     public List<CustomerDto> getAllCustomers() {
         List<Customer> customers = customerDao.findAll();
         List<CustomerDto> customerDtos = new ArrayList<>();
@@ -43,6 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDtos;
     }
 
+    @Override
     public Customer getCustomerById(long customerId) {
         Customer customer = customerDao.findByIdAndIsDeletedFalse(customerId);
         if (null ==customer) {
@@ -53,6 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customer;
     }
 
+    @Override
     public boolean isCustomerPresent(long customerId) {
         logger.info("Checking for the customer with this id: {}", customerId);
         return customerDao.existsByIdAndIsDeletedFalse(customerId);
