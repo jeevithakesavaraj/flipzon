@@ -6,14 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ideas2it.flipzon.dto.CartDto;
 import com.ideas2it.flipzon.dto.CartResponseDto;
@@ -136,5 +129,12 @@ public class CartController {
     @GetMapping("/subcategories/{subCategoryId}/products")
     public ResponseEntity<List<ProductDto>> getAllProductsBySubcategoryId(@PathVariable Long subCategoryId) {
         return new ResponseEntity<>(productService.retrieveAllProductBySubcategoryId(subCategoryId), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDto>> searchProductByFilter(@RequestParam(required = false) String categoryName,
+                                                                  @RequestParam(required = false) String subcategoryName,
+                                                                  @RequestParam(required = false) String brandName) {
+        return new ResponseEntity<>(productService.searchProductByFilter(categoryName, subcategoryName, brandName), HttpStatus.OK);
     }
 }

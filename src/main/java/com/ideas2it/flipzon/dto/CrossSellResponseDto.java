@@ -1,10 +1,13 @@
 package com.ideas2it.flipzon.dto;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
+/**
+ * Cross-sell Response Data transfer object
+ * @author Gokul
+ */
 @Builder
 @Data
 public class CrossSellResponseDto {

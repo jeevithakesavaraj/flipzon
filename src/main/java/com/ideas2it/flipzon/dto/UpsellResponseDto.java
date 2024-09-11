@@ -1,10 +1,9 @@
 package com.ideas2it.flipzon.dto;
 
+import java.util.Set;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Getter
 @Setter

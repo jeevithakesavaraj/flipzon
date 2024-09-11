@@ -16,9 +16,12 @@ public class SubcategoryDto {
 
     private Long id;
 
+    @NotNull(message = "Category ID is mandatory")
     @NotBlank(message = "Name is mandatory")
     private String name;
 
+    @NotBlank(message = "Name is mandatory")
     @NotNull(message = "Category ID is mandatory")
     private Long categoryId;
+
 }

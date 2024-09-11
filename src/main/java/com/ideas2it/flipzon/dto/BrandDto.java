@@ -8,7 +8,6 @@ import lombok.Data;
  * Data transfer object of Product Entity
  * @author Gokul
  */
-
 @Data
 @Builder
 public class BrandDto {

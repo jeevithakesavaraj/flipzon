@@ -1,6 +1,5 @@
 package com.ideas2it.flipzon.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -14,9 +13,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +22,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * <p>
  * Brand class represents the brand of the products.
@@ -51,10 +48,6 @@ public class Brand {
 
     @Column
     private boolean isDeleted;
-
-    @OneToMany(mappedBy = "brand")
-    @JsonIgnore
-    private Set<Category> categories;
 
     @OneToMany(mappedBy = "brand")
     @JsonIgnore

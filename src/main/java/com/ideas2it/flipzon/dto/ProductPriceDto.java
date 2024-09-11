@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Product price Data transfer Object
+ */
 @Builder
 @Getter
 @Setter

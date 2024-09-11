@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.util.ProductSpecification;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.ProductDao;
@@ -18,13 +20,11 @@ import com.ideas2it.flipzon.dto.CategoryDto;
 import com.ideas2it.flipzon.dto.ProductDto;
 import com.ideas2it.flipzon.dto.SubcategoryDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
-import com.ideas2it.flipzon.exception.OutOfStock;
 import com.ideas2it.flipzon.mapper.BrandMapper;
 import com.ideas2it.flipzon.mapper.CategoryMapper;
 import com.ideas2it.flipzon.mapper.ProductMapper;
 import com.ideas2it.flipzon.mapper.StockMapper;
 import com.ideas2it.flipzon.mapper.SubcategoryMapper;
-import com.ideas2it.flipzon.model.Stock;
 import com.ideas2it.flipzon.model.Product;
 
 @Service
@@ -197,5 +197,25 @@ public class ProductServiceImpl implements ProductService {
                 .filter((product) -> Objects.equals(product.getSubcategory().getId(), id))
                 .map(ProductMapper::convertEntityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductDto> searchProductByFilter(String productCategoryName, String productSubcategoryName, String productBrandName) {
+        Specification<Product> specification = Specification.where(ProductSpecification.hasProductCategoryName(productCategoryName)
+                .and(ProductSpecification.hasProductSubcategoryName(productSubcategoryName))
+                .and(ProductSpecification.hasProductBrandName(productBrandName)));
+        List<Product> products = productDao.findAll(specification);
+        if (products == null) {
+            LOGGER.warn("Products not Available");
+            throw new ResourceNotFoundException();
+        }
+        List<ProductDto> productDtos = products.stream().filter(product -> !product.isDeleted())
+                .map(ProductMapper::convertEntityToDto)
+                .toList();
+        if (products.isEmpty()) {
+            LOGGER.warn("product not found with this {} & {} & {}", productBrandName, productCategoryName, productSubcategoryName);
+            throw new ResourceNotFoundException();
+        }
+        return productDtos;
     }
 }

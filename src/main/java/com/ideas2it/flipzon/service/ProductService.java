@@ -102,4 +102,13 @@ public interface ProductService {
      * @return {@link Product}
      */
     Product retrieveProductByIdWithStock(Long id);
+
+    /**
+     * Get product using filter Brand name,category name, subcategory name.
+     * @param productCategoryName category name
+     * @param productSubcategoryName subcategory name
+     * @param productBrandName product name
+     * @return List of {@link ProductDto}
+     */
+    List<ProductDto> searchProductByFilter(String productCategoryName, String productSubcategoryName, String productBrandName);
 }

@@ -1,9 +1,12 @@
 package com.ideas2it.flipzon.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -12,5 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 public class UpsellDto {
     @NotNull
+    @NotBlank
     private long upsellProductId;
 }

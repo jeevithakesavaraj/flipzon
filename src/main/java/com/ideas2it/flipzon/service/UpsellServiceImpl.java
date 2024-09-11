@@ -36,9 +36,11 @@ public class UpsellServiceImpl implements UpsellService {
             upsell = new Upsell();
             upsell.setProduct(product);
             upsell.setProducts(Set.of(upsellProduct));
+            upsellDao.saveAndFlush(upsell);
         } else {
             if (upsell.getProducts().isEmpty()) {
                 upsell.setProducts(Set.of(upsellProduct));
+                upsellDao.saveAndFlush(upsell);
             } else {
                 Set<Product> products = upsell.getProducts();
                 if (products.contains(upsellProduct)) {
@@ -47,9 +49,9 @@ public class UpsellServiceImpl implements UpsellService {
                 }
                 products.add(upsellProduct);
                 upsell.setProducts(products);
+                upsellDao.saveAndFlush(upsell);
             }
         }
-        upsell = upsellDao.saveAndFlush(upsell);
         return UpsellResponseDto.builder()
                 .productId(productId)
                 .productName(product.getName())
@@ -75,6 +77,7 @@ public class UpsellServiceImpl implements UpsellService {
         }
         upsell = upsellDao.saveAndFlush(upsell);
         return UpsellResponseDto.builder()
+                .productId(productId)
                 .productName(upsellProduct.getName())
                 .price(upsellProduct.getPrice())
                 .productDtos(upsell.getProducts().stream()
@@ -91,6 +94,7 @@ public class UpsellServiceImpl implements UpsellService {
             throw new ResourceNotFoundException("Up-sell products not available for this product Id {}", productId);
         }
         return UpsellResponseDto.builder()
+                .productId(productId)
                 .productName(upsell.getProduct().getName())
                 .price(upsell.getProduct().getPrice())
                 .productDtos(upsell.getProducts().stream()

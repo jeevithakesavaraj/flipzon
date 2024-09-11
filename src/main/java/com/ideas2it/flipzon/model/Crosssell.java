@@ -1,7 +1,6 @@
 package com.ideas2it.flipzon.model;
 
 import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +15,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * <p>
+ *  Cross-sell represents the details of products related to product.
+ * </p>
  *
+ * @author Gokul
  */
 @Entity
 @Builder

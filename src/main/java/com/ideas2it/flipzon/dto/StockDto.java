@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class StockDto {
     private Long id;
 
     @NotNull(message = "Please enter initial quantity")
+    @NotBlank(message = "Please enter initial quantity")
     private int initialQuantity;
 
     private int currentQuantity;
