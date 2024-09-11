@@ -92,11 +92,11 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address getAddressById(long id, long customerId) {
-        if (addressDao.existsByIdAndCustomerIdAndIsDeletedFalse(id, customerId)) {
-            LOGGER.info("getting the address by addressID: {}", id);
-            return addressDao.findById(id).get();
+        if (!addressDao.existsByIdAndCustomerIdAndIsDeletedFalse(id, customerId)) {
+            LOGGER.warn("No address is found in this ID: {} ", id);
+            throw new ResourceNotFoundException("Address ", id);
         }
-        LOGGER.warn("No address is found in this ID: ", id);
-        throw new ResourceNotFoundException("Address ", id);
+        LOGGER.info("getting the address by addressID: {}", id);
+        return addressDao.findById(id).get();
     }
 }

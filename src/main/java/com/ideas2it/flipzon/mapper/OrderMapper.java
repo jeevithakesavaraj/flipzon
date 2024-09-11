@@ -32,12 +32,11 @@ public class OrderMapper {
         }
         return OrderDto.builder()
                 .id(order.getId())
-                .customerId(order.getCustomer().getId())
                 .orderItems(orderItemDtos)
                 .addressId(order.getAddress().getId())
                 .totalPrice(order.getTotalPrice())
-                .paymentStatus(order.getPaymentStatus())
-                .paymentType(order.getPaymentType())
+                .paymentStatus(order.getPaymentStatus().toString())
+                .paymentType(order.getPaymentType().toString())
                 .orderStatus(order.getOrderStatus())
                 .orderedDate(order.getOrderedDate())
                 .build();

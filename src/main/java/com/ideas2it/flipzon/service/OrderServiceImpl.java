@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ideas2it.flipzon.exception.EmptyCart;
+import com.ideas2it.flipzon.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import com.ideas2it.flipzon.dao.OrderDao;
@@ -19,13 +22,7 @@ import com.ideas2it.flipzon.dto.OrderItemDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.OrderItemMapper;
 import com.ideas2it.flipzon.mapper.OrderMapper;
-import com.ideas2it.flipzon.model.Address;
-import com.ideas2it.flipzon.model.Cart;
-import com.ideas2it.flipzon.model.CartItem;
-import com.ideas2it.flipzon.model.Order;
-import com.ideas2it.flipzon.model.OrderItem;
-import com.ideas2it.flipzon.model.OrderStatus;
-import com.ideas2it.flipzon.model.Product;
+
 /**
  * <p>
  *  This class implements methods in order service
@@ -62,8 +59,14 @@ public class OrderServiceImpl implements OrderService {
         LocalDate currentDate = LocalDate.now();
         order.setOrderedDate(Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         order.setAddress(address);
-        order.setPaymentType(orderDto.getPaymentType());
-        order.setPaymentStatus(orderDto.getPaymentStatus());
+        if (orderDto.getPaymentType().equals("UPI")) {
+            order.setPaymentType(PaymentType.UPI);
+        }
+        order.setPaymentType(PaymentType.CASH_ON);
+        if (orderDto.getPaymentStatus().equals("PAID")) {
+            order.setPaymentStatus(PaymentStatus.PAID);
+        }
+        order.setPaymentStatus(PaymentStatus.UNPAID);
         order.setTotalPrice(cart.getTotalPrice());
         order.setOrderStatus(OrderStatus.PLACED);
         LOGGER.info("Order is placed for the customer{}", order.getCustomer().getId());
@@ -104,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
             orderDtos.add(orderDto);
         }
         LOGGER.info("Getting the history of orders for the customer ID: {}", customerId);
-        return orderDtos;
+        return orderDtos.reversed();
     }
 
     @Override

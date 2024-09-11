@@ -2,6 +2,7 @@ package com.ideas2it.flipzon.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class AddressController {
      * @return savedAddressDto {@link AddressDto}
      */
     @PostMapping("/me/addresses")
-    public ResponseEntity<AddressDto> addAddress(@RequestBody AddressDto addressDto) {
+    public ResponseEntity<AddressDto> addAddress(@Valid @RequestBody AddressDto addressDto) {
         long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         AddressDto savedAddressDto = addressService.addAddress(customerId, addressDto);
         return new ResponseEntity<>(savedAddressDto, HttpStatus.CREATED);
@@ -74,7 +75,7 @@ public class AddressController {
      * @return Updated address of the customer {@link AddressDto}
      */
     @PutMapping("/me/addresses")
-    public ResponseEntity<AddressDto> updateAddressByCustomerId(@RequestBody AddressDto addressDto) {
+    public ResponseEntity<AddressDto> updateAddressByCustomerId(@Valid @RequestBody AddressDto addressDto) {
         long customerId = customerService.getCustomerIdByUserName(JwtHelper.extractUserNameFromToken());
         AddressDto updatedAddressDto = addressService.updateAddressByCustomerId(customerId, addressDto);
         return new ResponseEntity<>(updatedAddressDto, HttpStatus.OK);

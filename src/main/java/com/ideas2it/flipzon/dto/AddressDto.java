@@ -30,6 +30,6 @@ public class AddressDto {
     private String city;
 
     @NotBlank(message = "Enter your pincode")
-    @Pattern(regexp = "^\\d{6}$", message = "PinCode is 10 digits")
+    @Pattern(regexp = "^\\d{6}$", message = "PinCode is 6 digits")
     private String pinCode;
 }

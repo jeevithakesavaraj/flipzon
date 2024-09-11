@@ -163,7 +163,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = cartDao.findByCustomerId(customerId);
         if (cart.getCartItems().isEmpty()) {
             LOGGER.warn("Cart is Empty");
-            throw new EmptyCart("Cart is Empty");
+            throw new EmptyCart("Your cart is Empty");
         }
         LOGGER.info("Get customer cart by is Id : {}", customerId);
         return cart;

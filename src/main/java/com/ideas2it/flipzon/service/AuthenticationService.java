@@ -164,7 +164,7 @@ public class AuthenticationService {
         }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
+                        user.getId(),
                         loginDto.getPassword()
                 )
         );

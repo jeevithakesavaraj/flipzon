@@ -1,5 +1,6 @@
 package com.ideas2it.flipzon.configuration;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,11 @@ public class ApplicationConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
-            User user = userDao.findByEmail(username);
+            Optional<User> user = userDao.findById(Long.valueOf(username));
             return new org.springframework.security.core.userdetails.User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.getRole().stream()
+                    user.get().getId().toString(),
+                    user.get().getPassword(),
+                    user.get().getRole().stream()
                             .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                             .collect(Collectors.toList())
             );

@@ -3,7 +3,6 @@ package com.ideas2it.flipzon.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ideas2it.flipzon.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import com.ideas2it.flipzon.dto.CustomerDto;
 import com.ideas2it.flipzon.exception.ResourceNotFoundException;
 import com.ideas2it.flipzon.mapper.CustomerMapper;
 import com.ideas2it.flipzon.model.Customer;
+import com.ideas2it.flipzon.model.User;
 /**
  * <p>
  * This service is for performing CRUD operations for customer
@@ -41,8 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public long getCustomerIdByUserName(String userName) {
-        User user = userService.getByEmail(userName);
-        Customer customer = customerDao.findByUserId(user.getId());
+        Customer customer = customerDao.findByUserId(Long.valueOf(userName));
         return customer.getId();
     }
 
